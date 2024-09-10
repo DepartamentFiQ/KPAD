@@ -1,0 +1,692 @@
+<!doctype html>
+<html lang="va">
+<head>
+<link rel="stylesheet" type="text/css" href="base.css" />
+<link rel="stylesheet" type="text/css" href="exe_effects.css" />
+<link rel="stylesheet" type="text/css" href="content.css" />
+<link rel="stylesheet" type="text/css" href="nav.css" />
+<meta http-equiv="content-type" content="text/html;  charset=utf-8" />
+<title>Creacció de continguts | Kit de primer auxilis digitals </title>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+<meta name="author" content="Claustre del IES Enric Soler i Godes" />
+<link rel="license" type="text/html" href="http://creativecommons.org/licenses/by-sa/4.0/" />
+<meta name="generator" content="eXeLearning 2.8.1 - exelearning.net" />
+<!--[if lt IE 9]><script type="text/javascript" src="exe_html5.js"></script><![endif]-->
+<script type="text/javascript" src="exe_jquery.js"></script>
+<script type="text/javascript" src="exe_effects.js"></script>
+<script type="text/javascript" src="common_i18n.js"></script>
+<script type="text/javascript" src="common.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet"  type="text/css">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap" rel="stylesheet" type="text/css">
+<link href="https://fonts.cdnfonts.com/css/opendyslexic" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"  type="text/css">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet"  type="text/css">
+
+
+<style>
+  
+  .z-index {
+    z-index: 999;
+  }
+
+  .select-container {
+    display: inline-block;
+    position: relative;
+    z-index: 999;
+  }
+
+  .font-button {
+    padding: 8px 16px;
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 8px;
+    text-align: center;
+    text-decoration: none;
+    background-color: white;
+    color: black;
+    z-index: 999;
+  }
+
+  .fontButtonContainer {
+     z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* establece el wrap para que los botones se distribuyan en varias líneas */
+    gap: 5px; /* ajusta el espacio entre los botones */
+    position: static; /* fija la barra de botones en la página: static para que aparezca en la parte superior, fixed para que quede flotando */
+    top: 40px; /* fija la barra de botones en la parte superior de la página */
+    left: 0; /* fija la barra de botones en el margen izquierdo */
+    right: 0; /* fija la barra de botones en el margen derecho */
+    margin: auto; /* centra la barra de botones horizontalmente */
+  }
+    
+  /* Estilo para el desplegable */
+  select {
+    padding: 8px 4px;
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 6px;
+    text-align: center;
+    text-decoration: none;
+    background-color: white;
+  }
+  
+  select option {
+  text-align: left;
+  }
+  
+</style>
+
+<script>
+
+// BatexeGo v3 Juan José de Haro 
+
+// Define los textos que se ven en pantalla. Reemplazar el texto entre comillas
+
+  // Textos del menú desplegable
+    const defaultText = 'Paràmetres per defecte:'; //Descripción de la opción por defecto
+    const standardText = 'Font estàndard'; // Fuente original del documento
+    
+    const dyslexicDesc = 'Dislèxia:'; // Descripción de la opción OpenDyslexic  
+    const dyslexicText = 'OpenDyslexic'; 
+    
+    const hyperlegibleDesc = 'Deficiències visuals:'; // Descripción de la opción Atkinson Hyperlegible
+    const hyperlegibleText = 'Atkinson Hyperlegible'; 
+    
+    const highLegibilityDesc = 'Alta llegibilitat:'; // Descripción de las opciones de alta legibilidad
+    const opensansText = 'OpenSans'; 
+    const robotoText = 'Roboto'; 
+    const latoText = 'Lato'; 
+    const montserratText = 'Montserrat'; 
+
+  // Botones aumentar y disminuir fuente
+    const increaseFontText = 'A+'; // Botón para incrementar la fuente
+    const increaseFontTitle = 'Augmenta la font'; // Texto emergente al pasar el ratón
+    
+    const decreaseFontText = 'A-'; // Botón para reducir la fuente
+    const decreaseFontTitle = 'Disminueix la font'; // Texto emergente al pasar el ratón
+
+  // Botón para traducir
+    const translateText = '🌐'; // Texto para el botón de traducción de Google
+    const translateTitle = 'Tradueix la pàgina'; // Texto emergente al pasar el ratón
+
+  // Botón para leer / detener la lectura en voz alta
+    let readText = 'Llegir'; // Botón para leer en voz alta el contenido de la página
+    const readTextTitle ='Llegeix en veu alta la selecció o la pàgina sencera'; // Texto emergente al pasar el ratón
+    
+    const stopText = 'Aturar'; // Texto del botón para detener la lectura
+    const stopTextTitle = 'Atura la lectura'; // Texto emergente al pasar el ratón
+  
+  // Botones para que los botones estén siempre visibles
+    let floatingFix = 'Fixar'; // Texto del botón flotante cuando está sobre el texto
+    let floatingFixTitle = 'Fixa la barra de botons a la part superior'; // Texto emergente al pasar el ratón
+    
+    let floatingFloat = 'Sempre visible'; //Texto del botón flotante cuando está fijo en la parte superior
+    let floatingFloatTitle = 'La barra romandrà sempre visible per poder seleccionar text i llegir en veu alta';
+  
+  
+  // Enlace +Info
+    const infoText = '+Info'; // Texto del enlace +Info
+    const infoTextLink = 'https://batexego.bilateria.org'; // Destino del enlace de +Info
+
+// Fin 
+  
+
+  readText = `${readText} (${document.documentElement.lang})`; //Se añade el idioma al botón Leer
+  
+
+  let originalFont;
+  let currentFontSize;
+  let originalFontSize;
+  let isReading = false;
+  let utterance = new SpeechSynthesisUtterance();
+  let googleTranslateWidgetVisible = localStorage.getItem('googleTranslateWidgetVisible');
+
+  function setFont(font) {
+  document.body.style.fontFamily = font;
+  localStorage.setItem('font', font);
+  }
+
+  function setFontSize(size) {
+  currentFontSize = parseInt(window.getComputedStyle(document.body).getPropertyValue('font-size'));
+  currentFontSize += size;
+  document.body.style.fontSize = currentFontSize + 'px';
+  localStorage.setItem('fontSize', currentFontSize + 'px');
+  }
+  
+  
+
+function toggleGoogleTranslateWidget() {
+  if (!googleTranslateWidgetVisible) {
+    const script = document.createElement('script');
+    script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+    script.id = 'google-translate-script';
+    document.head.appendChild(script);
+    
+    const googleTranslateElement = document.createElement('div');
+    googleTranslateElement.id = 'google_translate_element';
+    googleTranslateElement.style.position = 'fixed';
+    googleTranslateElement.style.top = '0';
+    googleTranslateElement.style.right = '0';
+    googleTranslateElement.style.zIndex = '1000';
+    document.body.appendChild(googleTranslateElement);
+
+    window.googleTranslateElementInit = function() {
+      new google.translate.TranslateElement({pageLanguage: 'auto', layout: google.translate.TranslateElement.FloatPosition.TOP_RIGHT}, 'google_translate_element');
+    };
+
+    googleTranslateWidgetVisible = true;
+    
+  } else {
+    const script = document.getElementById('google-translate-script');
+    script.remove();
+    
+    const googleTranslateElement = document.getElementById('google_translate_element');
+    googleTranslateElement.remove();
+
+    googleTranslateWidgetVisible = false;
+  }
+  localStorage.setItem('googleTranslateWidgetVisible',googleTranslateWidgetVisible);
+}
+
+
+
+
+  document.addEventListener('DOMContentLoaded', () => {
+
+    googleTranslateWidgetVisible = JSON.parse(localStorage.getItem('googleTranslateWidgetVisible'));
+  if(googleTranslateWidgetVisible) {
+    googleTranslateWidgetVisible = false;
+    toggleGoogleTranslateWidget();
+  }
+
+    
+  
+    originalFont = window.getComputedStyle(document.body).getPropertyValue('font-family');
+    localStorage.setItem('originalFont', originalFont);
+    let font = localStorage.getItem('font');
+    if (!font) {
+    font = originalFont;
+    }
+    document.body.style.fontFamily = font;
+
+    let fontSize = localStorage.getItem('fontSize');
+    originalFontSize = window.getComputedStyle(document.body).getPropertyValue('font-size');
+    localStorage.setItem('originalFontSize', originalFontSize);
+    if (!fontSize) {
+    fontSize = originalFontSize
+    localStorage.setItem('fontSize', fontSize);
+    }
+    document.body.style.fontSize = fontSize;
+
+    const fontButtonContainer = document.createElement('div');
+    fontButtonContainer.classList.add('fontButtonContainer'); 
+    
+    const selectContainer = document.createElement('div');
+    selectContainer.classList.add('select-container');
+    const select = document.createElement('select');
+    select.classList.add('z-index');
+    const standardOption = document.createElement('option');
+    standardOption.value = 'standard';
+    standardOption.text = standardText;
+
+    const defaultFontOptGroup = document.createElement('optgroup');
+    defaultFontOptGroup.label = defaultText;
+    defaultFontOptGroup.appendChild(standardOption);
+
+    select.appendChild(defaultFontOptGroup);
+
+
+    const dyslexicOption = document.createElement('option');
+    dyslexicOption.value = 'dyslexic';
+    dyslexicOption.text = dyslexicText;
+    select.add(dyslexicOption);
+
+    const dyslexicOptGroup = document.createElement('optgroup');
+    dyslexicOptGroup.label = dyslexicDesc;
+    dyslexicOptGroup.appendChild(dyslexicOption);
+    select.appendChild(dyslexicOptGroup);
+
+    const hyperlegibleOption = document.createElement('option');
+    hyperlegibleOption.value = 'hyperlegible';
+    hyperlegibleOption.text = hyperlegibleText;
+    select.add(hyperlegibleOption);
+
+    const hyperlegibleOptGroup = document.createElement('optgroup');
+    hyperlegibleOptGroup.label = hyperlegibleDesc;
+    hyperlegibleOptGroup.appendChild(hyperlegibleOption);
+    select.appendChild(hyperlegibleOptGroup);
+
+    const opensansOption = document.createElement('option');
+    opensansOption.value = 'Open Sans';
+    opensansOption.text = opensansText;
+    select.add(opensansOption);
+
+    const robotoOption = document.createElement('option');
+    robotoOption.value = 'Roboto';
+    robotoOption.text = robotoText;
+    select.add(robotoOption);
+
+    const latoOption = document.createElement('option');
+    latoOption.value = 'Lato';
+    latoOption.text = latoText;
+    select.add(latoOption);
+
+    const montserratOption = document.createElement('option');
+    montserratOption.value = 'Montserrat';
+    montserratOption.text = montserratText;
+    select.add(montserratOption);  
+    
+
+    const highLegibilityOptGroup = document.createElement('optgroup');
+    highLegibilityOptGroup.label = highLegibilityDesc;
+    highLegibilityOptGroup.appendChild(latoOption);
+    highLegibilityOptGroup.appendChild(montserratOption);
+    highLegibilityOptGroup.appendChild(opensansOption);
+    highLegibilityOptGroup.appendChild(robotoOption);
+    
+    
+    
+    select.appendChild(highLegibilityOptGroup);
+
+    // Seleccionar la opción correspondiente al cargar la página
+    if (font === originalFont) { // Nueva condición
+    select.selectedIndex = 0; // Nueva línea
+    } else if (font === 'OpenDyslexic') {
+    select.selectedIndex = 1;
+    } else if (font === 'Atkinson Hyperlegible') {
+    select.selectedIndex = 2;
+    } else if (font === 'Roboto') {
+    select.selectedIndex = 6;
+    } else if (font === 'Lato') {
+    select.selectedIndex = 3;
+    } else if (font === 'Open Sans') {
+    select.selectedIndex = 5;
+    } else if (font === 'Montserrat') {
+    select.selectedIndex = 4;
+    }
+
+    select.addEventListener('change', () => {
+    const font = select.value;
+    if (font === 'standard') {
+    setFont(originalFont);
+    fontSize = originalFontSize;
+    localStorage.setItem('fontSize', fontSize);
+    document.body.style.fontSize = localStorage.getItem('originalFontSize');
+    } else if (font === 'dyslexic') {
+    setFont('OpenDyslexic');
+    } else if (font === 'hyperlegible') {
+    setFont('Atkinson Hyperlegible');
+    } else if (font === 'Open Sans') {
+    setFont('Open Sans');
+    } else if (font === 'Roboto') {
+    setFont('Roboto');
+    } else if (font === 'Lato') {
+    setFont('Lato');
+    }  else if (font === 'Montserrat') {
+    setFont('Montserrat');
+    }
+    });
+
+    selectContainer.appendChild(select);
+    fontButtonContainer.appendChild(selectContainer);
+    
+
+    const increaseFontButton = document.createElement('button');
+    increaseFontButton.classList.add('font-button');
+    increaseFontButton.textContent = increaseFontText;
+    increaseFontButton.setAttribute('title', increaseFontTitle);
+    increaseFontButton.addEventListener('click', () => setFontSize(1));
+    fontButtonContainer.appendChild(increaseFontButton);
+
+    const decreaseFontButton = document.createElement('button');
+    decreaseFontButton.classList.add('font-button');
+    decreaseFontButton.textContent = decreaseFontText;
+    decreaseFontButton.setAttribute('title', decreaseFontTitle);
+    decreaseFontButton.addEventListener('click', () => setFontSize(-1));
+    fontButtonContainer.appendChild(decreaseFontButton);
+    
+    const translateButton = document.createElement('button');
+    translateButton.classList.add('font-button');
+    translateButton.textContent = translateText;
+    translateButton.setAttribute('title', translateTitle);
+    translateButton.addEventListener('click', toggleGoogleTranslateWidget);
+    fontButtonContainer.appendChild(translateButton);
+
+  // Botón para leer en voz alta
+    const readButton = document.createElement('button');
+    readButton.classList.add('font-button');
+    readButton.textContent = readText;
+    readButton.setAttribute('title', readTextTitle);
+    
+    readButton.addEventListener('click', () => {
+    let selectedText = window.getSelection().toString();
+    let text = '';
+    let lang = document.documentElement.lang;
+    if (selectedText !== '') {
+      text = selectedText;
+      let selectedNode = window.getSelection().anchorNode;
+      while (selectedNode && selectedNode.nodeType !== Node.ELEMENT_NODE) {
+        selectedNode = selectedNode.parentNode;
+      }
+      if (selectedNode) {
+        const selectedLang = selectedNode.getAttribute('lang');
+        if (selectedLang) {
+          lang = selectedLang;
+        }
+      }
+    } else {
+      text = document.body.innerText;
+      const bodyLang = document.body.getAttribute('lang');
+      if (bodyLang) {
+        lang = bodyLang;
+      }
+    }
+
+    utterance.lang = lang;
+    utterance.text = text;
+
+    if (!isReading) {
+      isReading = true;
+      readButton.textContent = `${stopText} (${lang})`;
+      readButton.setAttribute('title', stopTextTitle);
+      speechSynthesis.speak(utterance);
+    } else {
+      isReading = false;
+      readButton.textContent = readText;
+      readButton.setAttribute('title', readTextTitle);
+      speechSynthesis.cancel();
+    }
+
+    utterance.addEventListener('end', () => {
+      isReading = false;
+      readButton.textContent = readText;
+      readButton.setAttribute('title', readTextTitle);
+    });
+  });  
+    
+    fontButtonContainer.appendChild(readButton);
+    
+  // Botón para que la barra esté siempre visible
+    const floatingButton = document.createElement('button');
+    floatingButton.classList.add('font-button');
+    floatingButton.textContent = floatingFloat;
+    floatingButton.setAttribute('title', floatingFloatTitle);
+    floatingButton.addEventListener('click', () => {
+    if (floatingButton.textContent === floatingFix) {
+      fontButtonContainer.style.position = 'static';
+      floatingButton.textContent = floatingFloat;
+      floatingButton.setAttribute('title', floatingFloatTitle);
+      localStorage.setItem('floatState', 'static');
+    } else {
+      fontButtonContainer.style.position = 'fixed';
+      floatingButton.textContent = floatingFix;
+      floatingButton.setAttribute('title', floatingFixTitle);
+      localStorage.setItem('floatState', 'fixed');
+    }
+  });
+
+    
+
+    let floatState = localStorage.getItem('floatState');
+    if (!floatState) {
+      floatState = 'static';
+      floatingButton.textContent = floatingFix;
+      floatingButton.setAttribute('title', floatingFixTitle);
+    }
+    if (floatState === 'fixed') {
+      fontButtonContainer.style.position = 'fixed';
+      floatingButton.textContent = floatingFix;
+      floatingButton.setAttribute('title', floatingFixTitle);
+    } else {
+      fontButtonContainer.style.position = 'static';
+      floatingButton.textContent = floatingFloat;
+      floatingButton.setAttribute('title', floatingFloatTitle);
+    }
+    
+    localStorage.setItem('floatState', floatState);
+    
+  fontButtonContainer.appendChild(floatingButton);
+
+
+    const infoLink = document.createElement('a');
+    infoLink.textContent = infoText;
+    infoLink.href = infoTextLink;
+    infoLink.target = '_blank';
+    infoLink.style.marginLeft = '8px';
+    infoLink.style.fontSize = '12px';
+    fontButtonContainer.appendChild(infoLink);
+
+    
+    infoLink.classList.add('z-index');
+
+    document.body.insertBefore(fontButtonContainer, document.body.firstChild);
+   
+  });
+  
+  
+
+</script>
+</head>
+<body class="exe-web-site" id="exe-node-79"><script type="text/javascript">document.body.className+=" js"</script>
+<div id="content">
+<p id="skipNav"><a href="#main" class="sr-av">Omet navegació</a></p>
+<header id="header" ><div id="headerContent">Kit de primer auxilis digitals</div></header>
+<nav id="siteNav">
+<ul>
+   <li><a href="index.html" class="daddy main-node">KIT PRIMERS AUXILIS DIGITALS</a></li>
+   <li><a href="correu_gva.html" class="no-ch">Correu GVA</a></li>
+   <li><a href="aules.html" class="no-ch">Aules</a></li>
+   <li><a href="one_drive.html" class="no-ch">One Drive</a></li>
+   <li><a href="teams.html" class="daddy">Teams</a>
+   <ul class="other-section">
+      <li><a href="netiqueta.html" class="no-ch">Netiqueta</a></li>
+   </ul>
+   </li>
+   <li><a href="navegaci_bsqueda_i_filtratge_dinformaci.html" class="daddy">Navegació, búsqueda i filtratge d'informació</a>
+   <ul class="other-section">
+      <li><a href="padlet.html" class="no-ch">Padlet</a></li>
+      <li><a href="busqueda_dimatges_en_google.html" class="no-ch">Busqueda d'imatges en Google</a></li>
+   </ul>
+   </li>
+   <li id="active"><a href="creacci_de_continguts.html" class="active daddy">Creacció de continguts</a>
+   <ul>
+      <li><a href="desenvolupament_de_continguts_digitals.html" class="no-ch">Desenvolupament de continguts digitals</a></li>
+   </ul>
+   </li>
+   <li><a href="_fitxa_tcnica_i_descarrega_.html" class="no-ch">- Fitxa tècnica i descarrega -</a></li>
+</ul>
+</nav>
+<div id='topPagination'>
+<nav class="pagination noprt">
+<a href="busqueda_dimatges_en_google.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="desenvolupament_de_continguts_digitals.html" class="next"><span>Següent<span> &raquo;</span></span></a>
+</nav>
+</div>
+<div id="main-wrapper">
+<section id="main">
+<header id="nodeDecoration"><h1 id="nodeTitle">Creacció de continguts</h1></header>
+<article class="iDevice_wrapper textIdevice em_iDevice" id="id282">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header iDevice_header_noIcon"><h1 class="iDeviceTitle">Canva: Introducció</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta282_282_2" class="block iDevice_content">
+<div class="exe-text"><p>Alguna vegada has creat presentacions, infografies o pòsters? En cas negatiu, tal vegada penses que és molt complicat, anem a descobrir que no és així amb CANVA.</p>
+<p>Què és CANVA? És una web que permet crear continguts digitals que et serviran per als treballs de classe. Anem a descobrir-la!</p>
+<p>En primer lloc visualitzem el següent vídeo per familiaritzar-nos:</p>
+<figure class="exe-figure exe-media position-center license-CC-BY" style="width: 560px;"><iframe width="560" height="314" src="https://www.youtube.com/embed/7bHrYlSSH8k" data-mce-fragment="1"></iframe>
+<figcaption class="figcaption"><a href="https://www.youtube.com/@rauldiegoobregon" target="_blank" class="author" rel="noopener">Raúl Diego</a>. <a href="https://youtu.be/7bHrYlSSH8k?si=442WQCK3pQAJL_kG" target="_blank" class="title" rel="noopener"><em>Canva</em></a> <span class="license"><span class="sep">(</span><a href="http://creativecommons.org/licenses/?lang=ca" rel="license nofollow noopener" target="_blank" title="Creative Commons BY">CC BY</a><span class="sep">)</span></span></figcaption>
+</figure>
+<p>Ara, anem a conéixer-la.</p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper textIdevice em_iDevice em_iDevice_activity" id="id283">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header" style="background-image:url(icon_activity.png)"><h1 class="iDeviceTitle">Tasca: Creem un usuari nou.</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta283_283_2" class="block iDevice_content">
+<div class="exe-text"><div class="exe-fx exe-tabs">
+<h2>PAS 1</h2>
+<p>Busquem la web a Google: Escrivim “canva” a Google i accedim a la primera pàgina “<a href="https://www.canva.com/">https://www.canva.com/</a>”.</p>
+<h2>PAS 2</h2>
+<p>Creem un nou usuari a partir del nostre correu gva.</p>
+<p>És important utilitzar aquest correu perquè et permetrà accedir a les opcions premium, no disponibles amb el gmail.com?</p>
+<ul>
+<li>A la pàgina inicial de Canva seleccionem l’opció “Iniciar sessió", “registrarse”, després seleccionem “Continuar d’una altra manera” i finalment “usar mi correo”. Després d’introduir el correu has de pujar en continuar.</li>
+</ul>
+<h2>PAS 3</h2>
+<p>Ara hauràs de posar les dades personals que et demana. En primer lloc el teu nom. i punjaràs en CREAR CUENTA. Ara t’enviaran un codi al correu de gva que has posat. ● Introdueix el codi que t’han enviat i punja acceder.</p>
+<h2>PAS 4</h2>
+<p>Ara seleccionaràs que vas a utilitzar el canva com a estudiant. Deprés punjaràs a l’opció que estudies en un “centro de educación infantil, primària o secundaria”</p>
+<p><img src="img0.6.png" width="920" height="517" alt="canva" /></p>
+<h2>PAS 5</h2>
+<p>Apareixerà una pantalla que diu “pásate gratis a canva para educación” i li has de punxar en VAMOS ALLÀ.</p>
+<h2>PAS 6</h2>
+<p>Eixirà una pantalla on “únete al resto de personas de tu centro educativo que ya usan canva” i hem de punjar en NO GRACIAS o buscar el IES Enric Soler i Godes.</p>
+<h2>PAS 7</h2>
+<p>Pantalla “danos algo más de información” Hem de posar on corresponga Nom, cognom, nom del centre educatiu, direcció del centre educatiu (Partida Ronda Sisena, Benifaió, España) i cliquem CONTINUAR.</p>
+<h2>PAS 8</h2>
+<p>A la pantalla et demanaran que verifiques que ets alumne del centre. has de pujar un document … i clicar en ENVIAR.</p>
+<h2>PAS 9:</h2>
+<p>Apareix una pantalla avisant-nos que han de verificar les dades i que en 7 dies tindrem accés a canva. Hem de clicar en LISTO.</p>
+</div>
+<p></p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_activity" id="id285">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header" style="background-image:url(icon_activity.png)"><h1 class="iDeviceTitle">Tasca: Creem un disseny</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta285_285_2" class="block iDevice_content">
+<div class="pbl-task-description"><div class="exe-fx exe-tabs">
+<h2>PAS 1</h2>
+<p>Clicar en CREAR UN CANVA. A la pantalla principal de Canva tindràs una portada amb suggeriments amb tipus de dissenys, i un cercador perquè escriguis el que vols crear i se't mostrin suggeriments. A l'esquerra, tens diverses categories també, com ara l'índex de tots els teus dissenys. Tria'n una.</p>
+<p><img src="img0.7.png" width="957" height="627" alt="" /></p>
+<h2>PAS 2</h2>
+<p>Ara has de triar una plantilla Canva del menú de l’esquerra. Vas a poder cambiar tots els elements de la mateixa. Per exemple, si feu clic sobre una foto per seleccionar-la, a la columna de l'esquerra podeu prémer sobre una foto (o pujar-la) per canviar-la per la que hi havia. El mateix passa amb els fons de color, i al text pots fer doble clic per editar-lo al teu gust.</p>
+<p><img src="img1.3.png" width="920" height="574" alt="canva" /></p>
+<h2>PAS 3</h2>
+<p>Canvia la resta d'elements de la pantalla també els podràs moure, prement sobre ells per seleccionar-los i arrossegant-los a una altra posició. També els pots canviar la mida i moure'ls, editar els textos i utilitzar les opcions que apareixeran sobre la teva composició per adaptar l'element que tinguis seleccionat.</p>
+<h2>PAS 4</h2>
+<p><img src="img2.3.png" width="98" height="806" style="float: left;" />A la columna de l'esquerra tens diferents seccions amb diversos tipus d'elements que podeu incloure en els vostres dissenys. Lúnic que has de fer és mantenir el ratolí premut sobre ells i moure'ls directament sobre la teva composició a la dreta. Pots inserir des d'elements gràfics fins a d'altres que siguin multimèdia o els teus propis. L'única cosa que necessites és paciència i pràctica.</p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+</div>
+<p></p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_activity" id="id287">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header" style="background-image:url(icon_activity.png)"><h1 class="iDeviceTitle">Tasca: Compartir el treball</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta287_287_2" class="block iDevice_content">
+<div class="pbl-task-description"><p>Una vegada hagis acabat, el que pots fer dependrà de cada tipus de disseny.</p>
+<div class="exe-fx exe-accordion">
+<h2>Descarregar en pdf</h2>
+<p style="text-align: center;"><img src="img0.8.png" width="795" height="807" alt="canva" /></p>
+<h2>Compartir per correu</h2>
+<p>Punja en compartir i baixa fins trobar el botó de correu electrònic.</p>
+<p style="text-align: center;"><img src="img1.4.png" width="810" height="806" alt="canva" /></p>
+<h2>Fer un QR</h2>
+<p>Crear un QR a partir de l’enllaç de la presentació utilitzant el programa QR Code Monkey.</p>
+</div>
+<p></p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_technology" id="id244">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header" style="background-image:url(icon_technology.png)"><h1 class="iDeviceTitle">Còdis QR</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta244_244_2" class="block iDevice_content">
+<dl class="pbl-task-info"><dt class="pbl-task-duration"><span>Duració:</span></dt><dd class="pbl-task-duration">1 sessió</dd><dt class="pbl-task-participants"><span>Agrupament:</span></dt><dd class="pbl-task-participants">Individual </dd></dl><div class="pbl-task-description"><p style="text-align: justify;"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Els codis QR són etiquetes que guarden la informació d'accés a un element a Internet. </span><span style="vertical-align: inherit;">Són molt útils per accedir a qualsevol contingut allotjat a Internet. </span></span></span></p>
+<div class="exe-fx exe-accordion">
+<h2>PAS 1</h2>
+<p>Prem a compartir (dalt a la dreta) i al desplegable veuràs que podràs crear un enllaç de la teua presentació en “Enlace de solo lectura”</p>
+<p style="text-align: center;"><img src="img0.9.png" width="920" height="607" alt="canva qr" /></p>
+<h2>PAS 2</h2>
+<p>Si prems a copiar, l’enllaç queda guardat al porta-retalls</p>
+<p style="text-align: center;"><img src="img1.5.png" width="476" height="347" alt="canva" /></p>
+<h2>PAS 3</h2>
+<p style="text-align: left;">Obri l’enllaç al QR Monkey, que és un generador de QRs gratuït.Pots canviar l’idioma desplegant la pestanya de dalt a la dreta.</p>
+<p style="text-align: center;"><a href="https://www.qrcode-monkey.com/">https://www.qrcode-monkey.com/</a></p>
+<h2>PAS 4</h2>
+<p>A l'apartat “Introduce tu contenido” podràs copiar l’enllaç de la teua presentació. (control+V)</p>
+<p><img src="qr4.png" alt="" width="1205" height="704" /></p>
+<h2>PAS 5</h2>
+<p>Ara ja pots modificar el teu codi QR. Podràs canviar el color, afegir una imatge, un logo i personalitzar el teu disseny.</p>
+<p><img src="qr5.png" alt="" width="1204" height="689" /></p>
+<p><img src="img3.3.png" width="920" height="177" alt="qr " /></p>
+<h2>PAS 6</h2>
+<p>Quan finalitzes el teu disseny prem a “Crear código QR”</p>
+<p><img src="qr6.png" alt="" width="1265" height="638" /></p>
+<h2>PAS 7</h2>
+<p>Veuràs que es genera el teu codi i pots descarregar-ho com una imatge per inserir-la a qualsevol document.</p>
+</div>
+<p style="text-align: left;">També pots veure el següent vídeo si encara tens dubtes.</p>
+<p style="text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/sqjLbLFoECs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen"></iframe><br /><span style="font-size: 10pt;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Autor del vídeo Raúl Diego, publicat amb Llicència CC BY.</span></span></span></p>
+<p style="text-align: center;"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Recurs digital: </span></span><a href="https://www.qrcode-monkey.com/es/" target="_blank" title="QR Monkey" rel="noopener"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">QR Monkey</span></span></a><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"> .</span></span></span></p>
+<div class="exe-fx exe-tabs">
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Objectius</span></span></h2>
+<ul>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Conéixer què és un codi QR.</span></span></li>
+<li dir="ltr" aria-level="1" style="list-style-type: none;"></li>
+</ul>
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Continguts</span></span></h2>
+<ul>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Codis QR.</span></span></li>
+<li dir="ltr" aria-level="1" style="list-style-type: none;"></li>
+</ul>
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Repte</span></span></h2>
+<ul>
+<li dir="ltr" role="presentation"><span style="font-size: 16.72px;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Crea un codi QR d'una de les presentacions que hagis realitzat, inserint el codi QR a la darrera diapositiva. </span></span></span><span style="font-size: 0.95em;"> </span></li>
+</ul>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<div id="packageLicense" class="cc cc-by-sa">
+<p><span>Llicenciat sota la </span> <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Llicència Creative Commons Reconeixement CompartirIgual 4.0</a></p>
+</div>
+</section>
+</div>
+<div id='bottomPagination'>
+<nav class="pagination noprt">
+<a href="busqueda_dimatges_en_google.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="desenvolupament_de_continguts_digitals.html" class="next"><span>Següent<span> &raquo;</span></span></a>
+</nav>
+</div>
+</div>
+<p id="made-with-eXe"><a href="https://exelearning.net/" target="_blank" rel="noopener"><span>Creat amb eXeLearning<span> (Finestra nova)</span></span></a></p><script type="text/javascript" src="_cedec_js.js"></script></body></html>

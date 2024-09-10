@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="va">
+<head>
+<link rel="stylesheet" type="text/css" href="base.css" />
+<link rel="stylesheet" type="text/css" href="exe_effects.css" />
+<link rel="stylesheet" type="text/css" href="content.css" />
+<link rel="stylesheet" type="text/css" href="nav.css" />
+<meta http-equiv="content-type" content="text/html;  charset=utf-8" />
+<title>Aules | Kit de primer auxilis digitals </title>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+<meta name="author" content="Claustre del IES Enric Soler i Godes" />
+<link rel="license" type="text/html" href="http://creativecommons.org/licenses/by-sa/4.0/" />
+<meta name="generator" content="eXeLearning 2.8.1 - exelearning.net" />
+<!--[if lt IE 9]><script type="text/javascript" src="exe_html5.js"></script><![endif]-->
+<script type="text/javascript" src="exe_jquery.js"></script>
+<script type="text/javascript" src="exe_effects.js"></script>
+<script type="text/javascript" src="common_i18n.js"></script>
+<script type="text/javascript" src="common.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet"  type="text/css">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap" rel="stylesheet" type="text/css">
+<link href="https://fonts.cdnfonts.com/css/opendyslexic" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"  type="text/css">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet"  type="text/css">
+
+
+<style>
+  
+  .z-index {
+    z-index: 999;
+  }
+
+  .select-container {
+    display: inline-block;
+    position: relative;
+    z-index: 999;
+  }
+
+  .font-button {
+    padding: 8px 16px;
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 8px;
+    text-align: center;
+    text-decoration: none;
+    background-color: white;
+    color: black;
+    z-index: 999;
+  }
+
+  .fontButtonContainer {
+     z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* establece el wrap para que los botones se distribuyan en varias líneas */
+    gap: 5px; /* ajusta el espacio entre los botones */
+    position: static; /* fija la barra de botones en la página: static para que aparezca en la parte superior, fixed para que quede flotando */
+    top: 40px; /* fija la barra de botones en la parte superior de la página */
+    left: 0; /* fija la barra de botones en el margen izquierdo */
+    right: 0; /* fija la barra de botones en el margen derecho */
+    margin: auto; /* centra la barra de botones horizontalmente */
+  }
+    
+  /* Estilo para el desplegable */
+  select {
+    padding: 8px 4px;
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 6px;
+    text-align: center;
+    text-decoration: none;
+    background-color: white;
+  }
+  
+  select option {
+  text-align: left;
+  }
+  
+</style>
+
+<script>
+
+// BatexeGo v3 Juan José de Haro 
+
+// Define los textos que se ven en pantalla. Reemplazar el texto entre comillas
+
+  // Textos del menú desplegable
+    const defaultText = 'Paràmetres per defecte:'; //Descripción de la opción por defecto
+    const standardText = 'Font estàndard'; // Fuente original del documento
+    
+    const dyslexicDesc = 'Dislèxia:'; // Descripción de la opción OpenDyslexic  
+    const dyslexicText = 'OpenDyslexic'; 
+    
+    const hyperlegibleDesc = 'Deficiències visuals:'; // Descripción de la opción Atkinson Hyperlegible
+    const hyperlegibleText = 'Atkinson Hyperlegible'; 
+    
+    const highLegibilityDesc = 'Alta llegibilitat:'; // Descripción de las opciones de alta legibilidad
+    const opensansText = 'OpenSans'; 
+    const robotoText = 'Roboto'; 
+    const latoText = 'Lato'; 
+    const montserratText = 'Montserrat'; 
+
+  // Botones aumentar y disminuir fuente
+    const increaseFontText = 'A+'; // Botón para incrementar la fuente
+    const increaseFontTitle = 'Augmenta la font'; // Texto emergente al pasar el ratón
+    
+    const decreaseFontText = 'A-'; // Botón para reducir la fuente
+    const decreaseFontTitle = 'Disminueix la font'; // Texto emergente al pasar el ratón
+
+  // Botón para traducir
+    const translateText = '🌐'; // Texto para el botón de traducción de Google
+    const translateTitle = 'Tradueix la pàgina'; // Texto emergente al pasar el ratón
+
+  // Botón para leer / detener la lectura en voz alta
+    let readText = 'Llegir'; // Botón para leer en voz alta el contenido de la página
+    const readTextTitle ='Llegeix en veu alta la selecció o la pàgina sencera'; // Texto emergente al pasar el ratón
+    
+    const stopText = 'Aturar'; // Texto del botón para detener la lectura
+    const stopTextTitle = 'Atura la lectura'; // Texto emergente al pasar el ratón
+  
+  // Botones para que los botones estén siempre visibles
+    let floatingFix = 'Fixar'; // Texto del botón flotante cuando está sobre el texto
+    let floatingFixTitle = 'Fixa la barra de botons a la part superior'; // Texto emergente al pasar el ratón
+    
+    let floatingFloat = 'Sempre visible'; //Texto del botón flotante cuando está fijo en la parte superior
+    let floatingFloatTitle = 'La barra romandrà sempre visible per poder seleccionar text i llegir en veu alta';
+  
+  
+  // Enlace +Info
+    const infoText = '+Info'; // Texto del enlace +Info
+    const infoTextLink = 'https://batexego.bilateria.org'; // Destino del enlace de +Info
+
+// Fin 
+  
+
+  readText = `${readText} (${document.documentElement.lang})`; //Se añade el idioma al botón Leer
+  
+
+  let originalFont;
+  let currentFontSize;
+  let originalFontSize;
+  let isReading = false;
+  let utterance = new SpeechSynthesisUtterance();
+  let googleTranslateWidgetVisible = localStorage.getItem('googleTranslateWidgetVisible');
+
+  function setFont(font) {
+  document.body.style.fontFamily = font;
+  localStorage.setItem('font', font);
+  }
+
+  function setFontSize(size) {
+  currentFontSize = parseInt(window.getComputedStyle(document.body).getPropertyValue('font-size'));
+  currentFontSize += size;
+  document.body.style.fontSize = currentFontSize + 'px';
+  localStorage.setItem('fontSize', currentFontSize + 'px');
+  }
+  
+  
+
+function toggleGoogleTranslateWidget() {
+  if (!googleTranslateWidgetVisible) {
+    const script = document.createElement('script');
+    script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+    script.id = 'google-translate-script';
+    document.head.appendChild(script);
+    
+    const googleTranslateElement = document.createElement('div');
+    googleTranslateElement.id = 'google_translate_element';
+    googleTranslateElement.style.position = 'fixed';
+    googleTranslateElement.style.top = '0';
+    googleTranslateElement.style.right = '0';
+    googleTranslateElement.style.zIndex = '1000';
+    document.body.appendChild(googleTranslateElement);
+
+    window.googleTranslateElementInit = function() {
+      new google.translate.TranslateElement({pageLanguage: 'auto', layout: google.translate.TranslateElement.FloatPosition.TOP_RIGHT}, 'google_translate_element');
+    };
+
+    googleTranslateWidgetVisible = true;
+    
+  } else {
+    const script = document.getElementById('google-translate-script');
+    script.remove();
+    
+    const googleTranslateElement = document.getElementById('google_translate_element');
+    googleTranslateElement.remove();
+
+    googleTranslateWidgetVisible = false;
+  }
+  localStorage.setItem('googleTranslateWidgetVisible',googleTranslateWidgetVisible);
+}
+
+
+
+
+  document.addEventListener('DOMContentLoaded', () => {
+
+    googleTranslateWidgetVisible = JSON.parse(localStorage.getItem('googleTranslateWidgetVisible'));
+  if(googleTranslateWidgetVisible) {
+    googleTranslateWidgetVisible = false;
+    toggleGoogleTranslateWidget();
+  }
+
+    
+  
+    originalFont = window.getComputedStyle(document.body).getPropertyValue('font-family');
+    localStorage.setItem('originalFont', originalFont);
+    let font = localStorage.getItem('font');
+    if (!font) {
+    font = originalFont;
+    }
+    document.body.style.fontFamily = font;
+
+    let fontSize = localStorage.getItem('fontSize');
+    originalFontSize = window.getComputedStyle(document.body).getPropertyValue('font-size');
+    localStorage.setItem('originalFontSize', originalFontSize);
+    if (!fontSize) {
+    fontSize = originalFontSize
+    localStorage.setItem('fontSize', fontSize);
+    }
+    document.body.style.fontSize = fontSize;
+
+    const fontButtonContainer = document.createElement('div');
+    fontButtonContainer.classList.add('fontButtonContainer'); 
+    
+    const selectContainer = document.createElement('div');
+    selectContainer.classList.add('select-container');
+    const select = document.createElement('select');
+    select.classList.add('z-index');
+    const standardOption = document.createElement('option');
+    standardOption.value = 'standard';
+    standardOption.text = standardText;
+
+    const defaultFontOptGroup = document.createElement('optgroup');
+    defaultFontOptGroup.label = defaultText;
+    defaultFontOptGroup.appendChild(standardOption);
+
+    select.appendChild(defaultFontOptGroup);
+
+
+    const dyslexicOption = document.createElement('option');
+    dyslexicOption.value = 'dyslexic';
+    dyslexicOption.text = dyslexicText;
+    select.add(dyslexicOption);
+
+    const dyslexicOptGroup = document.createElement('optgroup');
+    dyslexicOptGroup.label = dyslexicDesc;
+    dyslexicOptGroup.appendChild(dyslexicOption);
+    select.appendChild(dyslexicOptGroup);
+
+    const hyperlegibleOption = document.createElement('option');
+    hyperlegibleOption.value = 'hyperlegible';
+    hyperlegibleOption.text = hyperlegibleText;
+    select.add(hyperlegibleOption);
+
+    const hyperlegibleOptGroup = document.createElement('optgroup');
+    hyperlegibleOptGroup.label = hyperlegibleDesc;
+    hyperlegibleOptGroup.appendChild(hyperlegibleOption);
+    select.appendChild(hyperlegibleOptGroup);
+
+    const opensansOption = document.createElement('option');
+    opensansOption.value = 'Open Sans';
+    opensansOption.text = opensansText;
+    select.add(opensansOption);
+
+    const robotoOption = document.createElement('option');
+    robotoOption.value = 'Roboto';
+    robotoOption.text = robotoText;
+    select.add(robotoOption);
+
+    const latoOption = document.createElement('option');
+    latoOption.value = 'Lato';
+    latoOption.text = latoText;
+    select.add(latoOption);
+
+    const montserratOption = document.createElement('option');
+    montserratOption.value = 'Montserrat';
+    montserratOption.text = montserratText;
+    select.add(montserratOption);  
+    
+
+    const highLegibilityOptGroup = document.createElement('optgroup');
+    highLegibilityOptGroup.label = highLegibilityDesc;
+    highLegibilityOptGroup.appendChild(latoOption);
+    highLegibilityOptGroup.appendChild(montserratOption);
+    highLegibilityOptGroup.appendChild(opensansOption);
+    highLegibilityOptGroup.appendChild(robotoOption);
+    
+    
+    
+    select.appendChild(highLegibilityOptGroup);
+
+    // Seleccionar la opción correspondiente al cargar la página
+    if (font === originalFont) { // Nueva condición
+    select.selectedIndex = 0; // Nueva línea
+    } else if (font === 'OpenDyslexic') {
+    select.selectedIndex = 1;
+    } else if (font === 'Atkinson Hyperlegible') {
+    select.selectedIndex = 2;
+    } else if (font === 'Roboto') {
+    select.selectedIndex = 6;
+    } else if (font === 'Lato') {
+    select.selectedIndex = 3;
+    } else if (font === 'Open Sans') {
+    select.selectedIndex = 5;
+    } else if (font === 'Montserrat') {
+    select.selectedIndex = 4;
+    }
+
+    select.addEventListener('change', () => {
+    const font = select.value;
+    if (font === 'standard') {
+    setFont(originalFont);
+    fontSize = originalFontSize;
+    localStorage.setItem('fontSize', fontSize);
+    document.body.style.fontSize = localStorage.getItem('originalFontSize');
+    } else if (font === 'dyslexic') {
+    setFont('OpenDyslexic');
+    } else if (font === 'hyperlegible') {
+    setFont('Atkinson Hyperlegible');
+    } else if (font === 'Open Sans') {
+    setFont('Open Sans');
+    } else if (font === 'Roboto') {
+    setFont('Roboto');
+    } else if (font === 'Lato') {
+    setFont('Lato');
+    }  else if (font === 'Montserrat') {
+    setFont('Montserrat');
+    }
+    });
+
+    selectContainer.appendChild(select);
+    fontButtonContainer.appendChild(selectContainer);
+    
+
+    const increaseFontButton = document.createElement('button');
+    increaseFontButton.classList.add('font-button');
+    increaseFontButton.textContent = increaseFontText;
+    increaseFontButton.setAttribute('title', increaseFontTitle);
+    increaseFontButton.addEventListener('click', () => setFontSize(1));
+    fontButtonContainer.appendChild(increaseFontButton);
+
+    const decreaseFontButton = document.createElement('button');
+    decreaseFontButton.classList.add('font-button');
+    decreaseFontButton.textContent = decreaseFontText;
+    decreaseFontButton.setAttribute('title', decreaseFontTitle);
+    decreaseFontButton.addEventListener('click', () => setFontSize(-1));
+    fontButtonContainer.appendChild(decreaseFontButton);
+    
+    const translateButton = document.createElement('button');
+    translateButton.classList.add('font-button');
+    translateButton.textContent = translateText;
+    translateButton.setAttribute('title', translateTitle);
+    translateButton.addEventListener('click', toggleGoogleTranslateWidget);
+    fontButtonContainer.appendChild(translateButton);
+
+  // Botón para leer en voz alta
+    const readButton = document.createElement('button');
+    readButton.classList.add('font-button');
+    readButton.textContent = readText;
+    readButton.setAttribute('title', readTextTitle);
+    
+    readButton.addEventListener('click', () => {
+    let selectedText = window.getSelection().toString();
+    let text = '';
+    let lang = document.documentElement.lang;
+    if (selectedText !== '') {
+      text = selectedText;
+      let selectedNode = window.getSelection().anchorNode;
+      while (selectedNode && selectedNode.nodeType !== Node.ELEMENT_NODE) {
+        selectedNode = selectedNode.parentNode;
+      }
+      if (selectedNode) {
+        const selectedLang = selectedNode.getAttribute('lang');
+        if (selectedLang) {
+          lang = selectedLang;
+        }
+      }
+    } else {
+      text = document.body.innerText;
+      const bodyLang = document.body.getAttribute('lang');
+      if (bodyLang) {
+        lang = bodyLang;
+      }
+    }
+
+    utterance.lang = lang;
+    utterance.text = text;
+
+    if (!isReading) {
+      isReading = true;
+      readButton.textContent = `${stopText} (${lang})`;
+      readButton.setAttribute('title', stopTextTitle);
+      speechSynthesis.speak(utterance);
+    } else {
+      isReading = false;
+      readButton.textContent = readText;
+      readButton.setAttribute('title', readTextTitle);
+      speechSynthesis.cancel();
+    }
+
+    utterance.addEventListener('end', () => {
+      isReading = false;
+      readButton.textContent = readText;
+      readButton.setAttribute('title', readTextTitle);
+    });
+  });  
+    
+    fontButtonContainer.appendChild(readButton);
+    
+  // Botón para que la barra esté siempre visible
+    const floatingButton = document.createElement('button');
+    floatingButton.classList.add('font-button');
+    floatingButton.textContent = floatingFloat;
+    floatingButton.setAttribute('title', floatingFloatTitle);
+    floatingButton.addEventListener('click', () => {
+    if (floatingButton.textContent === floatingFix) {
+      fontButtonContainer.style.position = 'static';
+      floatingButton.textContent = floatingFloat;
+      floatingButton.setAttribute('title', floatingFloatTitle);
+      localStorage.setItem('floatState', 'static');
+    } else {
+      fontButtonContainer.style.position = 'fixed';
+      floatingButton.textContent = floatingFix;
+      floatingButton.setAttribute('title', floatingFixTitle);
+      localStorage.setItem('floatState', 'fixed');
+    }
+  });
+
+    
+
+    let floatState = localStorage.getItem('floatState');
+    if (!floatState) {
+      floatState = 'static';
+      floatingButton.textContent = floatingFix;
+      floatingButton.setAttribute('title', floatingFixTitle);
+    }
+    if (floatState === 'fixed') {
+      fontButtonContainer.style.position = 'fixed';
+      floatingButton.textContent = floatingFix;
+      floatingButton.setAttribute('title', floatingFixTitle);
+    } else {
+      fontButtonContainer.style.position = 'static';
+      floatingButton.textContent = floatingFloat;
+      floatingButton.setAttribute('title', floatingFloatTitle);
+    }
+    
+    localStorage.setItem('floatState', floatState);
+    
+  fontButtonContainer.appendChild(floatingButton);
+
+
+    const infoLink = document.createElement('a');
+    infoLink.textContent = infoText;
+    infoLink.href = infoTextLink;
+    infoLink.target = '_blank';
+    infoLink.style.marginLeft = '8px';
+    infoLink.style.fontSize = '12px';
+    fontButtonContainer.appendChild(infoLink);
+
+    
+    infoLink.classList.add('z-index');
+
+    document.body.insertBefore(fontButtonContainer, document.body.firstChild);
+   
+  });
+  
+  
+
+</script>
+</head>
+<body class="exe-web-site" id="exe-node-74"><script type="text/javascript">document.body.className+=" js"</script>
+<div id="content">
+<p id="skipNav"><a href="#main" class="sr-av">Omet navegació</a></p>
+<header id="header" ><div id="headerContent">Kit de primer auxilis digitals</div></header>
+<nav id="siteNav">
+<ul>
+   <li><a href="index.html" class="daddy main-node">KIT PRIMERS AUXILIS DIGITALS</a></li>
+   <li><a href="correu_gva.html" class="no-ch">Correu GVA</a></li>
+   <li id="active"><a href="aules.html" class="active no-ch">Aules</a></li>
+   <li><a href="one_drive.html" class="no-ch">One Drive</a></li>
+   <li><a href="teams.html" class="daddy">Teams</a>
+   <ul class="other-section">
+      <li><a href="netiqueta.html" class="no-ch">Netiqueta</a></li>
+   </ul>
+   </li>
+   <li><a href="navegaci_bsqueda_i_filtratge_dinformaci.html" class="daddy">Navegació, búsqueda i filtratge d'informació</a>
+   <ul class="other-section">
+      <li><a href="padlet.html" class="no-ch">Padlet</a></li>
+      <li><a href="busqueda_dimatges_en_google.html" class="no-ch">Busqueda d'imatges en Google</a></li>
+   </ul>
+   </li>
+   <li><a href="creacci_de_continguts.html" class="daddy">Creacció de continguts</a>
+   <ul class="other-section">
+      <li><a href="desenvolupament_de_continguts_digitals.html" class="no-ch">Desenvolupament de continguts digitals</a></li>
+   </ul>
+   </li>
+   <li><a href="_fitxa_tcnica_i_descarrega_.html" class="no-ch">- Fitxa tècnica i descarrega -</a></li>
+</ul>
+</nav>
+<div id='topPagination'>
+<nav class="pagination noprt">
+<a href="correu_gva.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="one_drive.html" class="next"><span>Següent<span> &raquo;</span></span></a>
+</nav>
+</div>
+<div id="main-wrapper">
+<section id="main">
+<header id="nodeDecoration"><h1 id="nodeTitle">Aules</h1></header>
+<article class="iDevice_wrapper textIdevice" id="id267">
+<div class="iDevice emphasis0" >
+<div id="ta267_267_2" class="block iDevice_content">
+<div class="exe-text"><p style="text-align: center;"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW129257729 BCX9" role="presentation"><img class="WACImage SCXW129257729 BCX9" unselectable="on" src="img0.3.png" width="215" height="86" /><span class="WACImageBorder SCXW129257729 BCX9"></span></span><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun EmptyTextRun SCXW129257729 BCX9"></span></p>
+<div class="exe-fx exe-tabs" style="text-align: center;">
+<h2><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun MacChromeBold SCXW162182041 BCX9"><span class="NormalTextRun SCXW162182041 BCX9">Accés a Aules</span></span><span class="EOP SCXW162182041 BCX9" data-ccp-props="{&quot;201341983&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:257}"> </span></h2>
+<table border="0" style="width: 100%;">
+<tbody>
+<tr>
+<td style="width: 50%;">
+<p style="text-align: left;"><span data-contrast="auto">L'accés es realitza mitjançant l'adreça </span><a href="http://aules.edu.gva.es/"><span data-contrast="none">http://aules.edu.gva.es</span></a><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:257}"> </span></p>
+<p style="text-align: left;"><span data-contrast="auto">Elegeix el teu nivell i la província.</span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:257}"> </span></p>
+<p style="text-align: left;"><span data-contrast="auto">Indicar el nom d'usuari i la contrasenya.</span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:257}"> </span></p>
+<p style="text-align: left;"><span data-contrast="auto">NOTA: la contrasenya són les 3 primeres lletres del nom de l’alumne + la data de naixement en format DDMMAA</span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:257}"> </span></p>
+</td>
+<td style="width: 50%;"><span data-contrast="auto"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW57736112 BCX9" role="presentation"><img class="WACImage SCXW57736112 BCX9" unselectable="on" src="img1.1.png" width="567" height="257" style="float: right;" /></span></span></td>
+</tr>
+</tbody>
+</table>
+<p></p>
+<h2>Editar el perfil </h2>
+<table border="0" style="width: 100%; height: 10px;">
+<tbody>
+<tr style="height: 10px;">
+<td style="width: 36.0489%; height: 10px;">
+<p style="text-align: left;"><span data-contrast="auto">Sobre el teu nom punxa en el botó esquerre del ratolí i selecciona </span><b><span data-contrast="auto">editar el perfil</span></b><span data-contrast="auto">.</span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:257}"> </span></p>
+<p style="text-align: left;"><span data-contrast="auto">A l’apartat <strong>adreça electrònica</strong> escriu el teu correu</span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:257}"> <strong>edu.gva.es</strong></span></p>
+</td>
+<td style="width: 63.9511%; height: 10px;"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW131190335 BCX9" role="presentation"><img src="Screenshot_2023-09-19_at_08.22.39.png" width="619" height="236" alt="" style="float: right;" /><br /><br /></span><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun EmptyTextRun SCXW131190335 BCX9"></span></td>
+</tr>
+<tr>
+<td style="width: 36.0489%;">
+<p style="text-align: left;"><span data-contrast="auto">Una vegada l’hages canviat pren el botó: </span><strong>Actualitza el teu perfil. </strong></p>
+<p style="text-align: left;"><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:257}">Després d'açò, rebràs un correu a la nova adreça, en el que hi haurà un enllaç que hauràs de visitar per a confirmar que la adreça és correcta.</span><span data-contrast="auto"> </span></p>
+</td>
+<td style="width: 63.9511%;"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW131190335 BCX9" role="presentation"><img class="WACImage SCXW131190335 BCX9" unselectable="on" src="img2.1.png" width="287" height="125" alt="" style="float: right;" /></span></td>
+</tr>
+</tbody>
+</table>
+<p></p>
+</div></div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_activity" id="id274">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header" style="background-image:url(icon_activity.png)"><h1 class="iDeviceTitle">Tasques</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta274_273_2" class="block iDevice_content">
+<div class="pbl-task-description"><p>Clica en el curs KIT DE PRIMERS AIXILIS DIGITALS, veuràs tres títols:</p>
+<p><img src="Screenshot_2023-09-19_at_08.27.42.png" width="479" height="237" style="display: block; margin-left: auto; margin-right: auto;" title="fig1" /></p>
+<div class="exe-fx exe-tabs" style="text-align: center;">
+<h2><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun MacChromeBold SCXW46604597 BCX9"><span class="NormalTextRun SCXW46604597 BCX9">Fòrum del curs</span></span><span class="EOP SCXW46604597 BCX9" data-ccp-props="{&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:259}"> </span></h2>
+<p style="text-align: left;"><span data-contrast="auto">El </span><b><span data-contrast="auto">Fòrum</span></b><span data-contrast="auto"> és una ferramenta que et permet estar en comunicació amb tots els membres de l’aula virtual on estàs matriculat. </span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559685&quot;:360,&quot;335559739&quot;:160,&quot;335559740&quot;:259}"> </span></p>
+<p style="text-align: left;"><span data-contrast="auto">Polsa</span><b><span data-contrast="auto"> Fòrum del curs </span></b><span data-contrast="auto">i després </span><b><span data-contrast="auto">Afig un tema de debat nou.</span></b><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335559685&quot;:360,&quot;335559739&quot;:160,&quot;335559740&quot;:259}"> </span></p>
+<p style="text-align: left;"><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335559685&quot;:360,&quot;335559739&quot;:160,&quot;335559740&quot;:259}">Polsa <strong>Fòrum del curs</strong> i després entra al tema de debat que porta per títol Presentació dels alumnes de... (busca el teu curs i grup). </span></p>
+<img src="Screenshot_2023-09-19_at_08.29.49.png" width="508" height="144" alt="" /><br />
+<p style="text-align: left;"><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun SCXW39767336 BCX9"><span class="NormalTextRun SCXW39767336 BCX9">Emplena les caselles </span></span><strong><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun MacChromeBold SCXW39767336 BCX9"><span class="NormalTextRun SCXW39767336 BCX9">Assumpte</span></span><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun SCXW39767336 BCX9"><span class="NormalTextRun SCXW39767336 BCX9"> i </span></span></strong><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun MacChromeBold SCXW39767336 BCX9"><strong><span class="NormalTextRun SCXW39767336 BCX9">Missatge</span></strong><span class="NormalTextRun SCXW39767336 BCX9"> </span></span><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun SCXW39767336 BCX9"><span class="NormalTextRun SCXW39767336 BCX9">que són camps obligatoris per poder enviar allò que desitges al fòrum. </span></span><span class="EOP SCXW39767336 BCX9" data-ccp-props="{&quot;201341983&quot;:0,&quot;335559685&quot;:360,&quot;335559739&quot;:160,&quot;335559740&quot;:259}"> </span></p>
+<p style="text-align: left;"><img src="Screenshot_2023-09-19_at_09.47.26.png" width="508" height="305" alt="" /></p>
+<p style="text-align: left;"><span class="EOP SCXW39767336 BCX9" data-ccp-props="{&quot;201341983&quot;:0,&quot;335559685&quot;:360,&quot;335559739&quot;:160,&quot;335559740&quot;:259}"><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun SCXW42218700 BCX9"><span class="NormalTextRun SCXW42218700 BCX9">A l'Assumpte has de posar un títol molt breu que resumisca el contingut del missatge. Al Missatge has d’escriure una xicoteta presentació personal en la que inclogues la següent informació: <br /></span></span></span></p>
+<ul>
+<li style="text-align: left;"><span class="EOP SCXW39767336 BCX9" data-ccp-props="{&quot;201341983&quot;:0,&quot;335559685&quot;:360,&quot;335559739&quot;:160,&quot;335559740&quot;:259}"><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun SCXW42218700 BCX9"><span class="NormalTextRun SCXW42218700 BCX9">Nom i cognoms <br /></span></span></span></li>
+<li style="text-align: left;"><span class="EOP SCXW39767336 BCX9" data-ccp-props="{&quot;201341983&quot;:0,&quot;335559685&quot;:360,&quot;335559739&quot;:160,&quot;335559740&quot;:259}"><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun SCXW42218700 BCX9"><span class="NormalTextRun SCXW42218700 BCX9">Edat <br /></span></span></span></li>
+<li style="text-align: left;"><span class="EOP SCXW39767336 BCX9" data-ccp-props="{&quot;201341983&quot;:0,&quot;335559685&quot;:360,&quot;335559739&quot;:160,&quot;335559740&quot;:259}"><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun SCXW42218700 BCX9"><span class="NormalTextRun SCXW42218700 BCX9">Lloc on vas nàixer <br /></span></span></span></li>
+<li style="text-align: left;"><span class="EOP SCXW39767336 BCX9" data-ccp-props="{&quot;201341983&quot;:0,&quot;335559685&quot;:360,&quot;335559739&quot;:160,&quot;335559740&quot;:259}"><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun SCXW42218700 BCX9"><span class="NormalTextRun SCXW42218700 BCX9">Data de naixement <br /></span></span></span></li>
+<li style="text-align: left;"><span class="EOP SCXW39767336 BCX9" data-ccp-props="{&quot;201341983&quot;:0,&quot;335559685&quot;:360,&quot;335559739&quot;:160,&quot;335559740&quot;:259}"><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun SCXW42218700 BCX9"><span class="NormalTextRun SCXW42218700 BCX9">Lloc on vius ara <br /></span></span></span></li>
+<li style="text-align: left;"><span class="EOP SCXW39767336 BCX9" data-ccp-props="{&quot;201341983&quot;:0,&quot;335559685&quot;:360,&quot;335559739&quot;:160,&quot;335559740&quot;:259}"><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun SCXW42218700 BCX9"><span class="NormalTextRun SCXW42218700 BCX9">Persones amb les que convius </span></span></span></li>
+</ul>
+<p style="text-align: left;"><span class="EOP SCXW39767336 BCX9" data-ccp-props="{&quot;201341983&quot;:0,&quot;335559685&quot;:360,&quot;335559739&quot;:160,&quot;335559740&quot;:259}"><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun SCXW42218700 BCX9"><span class="NormalTextRun SCXW42218700 BCX9">Finalment polsa </span></span><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun MacChromeBold SCXW42218700 BCX9"><span class="NormalTextRun SCXW42218700 BCX9">Envia al fòrum. </span></span><span class="EOP SCXW42218700 BCX9" data-ccp-props="{&quot;201341983&quot;:0,&quot;335559685&quot;:360,&quot;335559739&quot;:160,&quot;335559740&quot;:259}">També pots provar a respondre als debats iniciats pels teus companys.</span></span></p>
+<h2 style="text-align: left;">Tasca</h2>
+<table border="0" style="width: 100%; height: 10px;">
+<tbody>
+<tr style="height: 10px;">
+<td style="width: 50%; height: 10px;">
+<ul>
+<li style="text-align: left;"><span style="font-size: 12pt;"><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun SCXW183824372 BCX9"><span class="NormalTextRun SCXW183824372 BCX9"><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun SCXW31529199 BCX9"><span class="NormalTextRun SCXW31529199 BCX9">Polsa sobre</span><span class="NormalTextRun SCXW31529199 BCX9"> la tasca i </span><span class="NormalTextRun SpellingErrorV2Themed SCXW31529199 BCX9">llig</span><span class="NormalTextRun SCXW31529199 BCX9"> les instruccions.</span></span><span class="EOP SCXW31529199 BCX9" data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559685&quot;:360,&quot;335559739&quot;:160,&quot;335559740&quot;:259}"> </span></span></span><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun SCXW183824372 BCX9"><span class="NormalTextRun SCXW183824372 BCX9"> </span></span><span class="EOP SCXW183824372 BCX9" data-ccp-props="{&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:257}"> </span></span></li>
+<li style="text-align: left;">
+<p><span style="font-size: 12pt;">Has de realitzar un llistat dels companys de classe organitzat de major a menor segons la seua data de naixement.  </span></p>
+</li>
+<li style="text-align: left;">
+<p><span style="font-size: 12pt;">Per fer-ho, comença per obrir un document de text a l’ordinador i escriu un llistat amb els noms i cognoms de tots els teus companys de classe junt a la seua data de naixement. Has d’organitzar-los per data de naixement de major a menor, és a dir, dalt del tot ha d’estar l’alumne mes major i baix el més menut.  </span></p>
+</li>
+<li style="text-align: left;">
+<p><span style="font-size: 12pt;">Guarda en format .pdf el document de text que has creat. Posa-li un nom que reconegues per tal de trobar-lo després. </span></p>
+</li>
+<li>
+<p style="text-align: left;"><span style="font-size: 12pt;">Torna a <strong>Aules</strong> i polsa <strong>Afig la tramesa</strong> que està al final de l’activitat. </span></p>
+</li>
+</ul>
+</td>
+<td style="width: 50%; height: 10px;"><img src="Screenshot_2023-09-19_at_09.49.53.png" width="483" height="249" alt="" /></td>
+</tr>
+<tr>
+<td style="width: 50%;">
+<ul>
+<li style="text-align: left;"><span style="font-size: 12pt;"><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun SCXW79458 BCX9"><span class="NormalTextRun SCXW79458 BCX9">Per entregar la tasca p</span><span class="NormalTextRun SCXW79458 BCX9">ots arrossegar el fitxer al requadre puntejat, o polsar la icona de la fletxa per buscar el fitxer i afegir-lo.</span><span class="NormalTextRun SCXW79458 BCX9"> Per finalitzar, polsa el botó </span></span><strong><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun MacChromeBold SCXW79458 BCX9"><span class="NormalTextRun SCXW79458 BCX9">Guarda els canvis</span></span></strong><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun SCXW79458 BCX9"><span class="NormalTextRun SCXW79458 BCX9">.</span></span><span class="EOP SCXW79458 BCX9" data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559685&quot;:360,&quot;335559739&quot;:160,&quot;335559740&quot;:259}"> </span></span></li>
+</ul>
+</td>
+<td style="width: 50%; text-align: right;"><img src="Screenshot_2023-09-19_at_09.51.21.png" width="246" height="129" alt="" /><br /><span data-contrast="auto" xml:lang="ES-ES" lang="ES-ES" class="TextRun EmptyTextRun SCXW208444910 BCX9"></span></td>
+</tr>
+</tbody>
+</table>
+<h2>Qüestinari</h2>
+<p style="text-align: left;">Polsa sobre el Qüestionari KPAD i contesta a les preguntes que es plantegen. <br />Una vegada has contestat a la pregunta pots polsar Pàgina següent o punxar sobre el número de les preguntes per poder passar a una nova pregunta.</p>
+<p style="text-align: center;"><img src="questionari_1.png" alt="" width="790" height="486" /></p>
+<table border="0" style="width: 100%;">
+<tbody>
+<tr>
+<td style="width: 50%; text-align: left;">Per finalitzar el qüestionari hauràs de polsar en Acabar l’intent.</td>
+<td style="width: 50%;"><img src="questionari_2.png" alt="" width="378" height="162" /><br /><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun EmptyTextRun SCXW242913415 BCX9"></span></td>
+</tr>
+<tr>
+<td style="width: 50%; text-align: left;"><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun SCXW263506456 BCX9"><span class="NormalTextRun SCXW263506456 BCX9">En esta pantalla podràs </span><span class="NormalTextRun SpellingErrorV2Themed SCXW263506456 BCX9">vore</span><span class="NormalTextRun SCXW263506456 BCX9"> si et falta alguna pregunta per contestar, sí és així polsa </span></span><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun MacChromeBold SCXW263506456 BCX9"><span class="NormalTextRun SCXW263506456 BCX9">Torna a l’intent</span></span><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun SCXW263506456 BCX9"><span class="NormalTextRun SCXW263506456 BCX9"> i completa el qüestionari, </span><span class="NormalTextRun SpellingErrorV2Themed SCXW263506456 BCX9">sino</span><span class="NormalTextRun SCXW263506456 BCX9"> polsa </span></span><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun MacChromeBold SCXW263506456 BCX9"><span class="NormalTextRun SCXW263506456 BCX9">Enviar-ho tot i acaba</span></span><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun SCXW263506456 BCX9"><span class="NormalTextRun SCXW263506456 BCX9">.</span></span><span class="EOP SCXW263506456 BCX9" data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559685&quot;:360,&quot;335559739&quot;:160,&quot;335559740&quot;:259}"> </span></td>
+<td style="width: 50%;"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW257229043 BCX9" role="presentation"><img src="questionari_3.png" alt="" width="1692" height="1216" /> </span></td>
+</tr>
+<tr>
+<td style="width: 50%; text-align: left;"><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun SCXW181859663 BCX9"><span class="NormalTextRun SCXW181859663 BCX9">Finalment podràs </span><span class="NormalTextRun SpellingErrorV2Themed SCXW181859663 BCX9">vore</span><span class="NormalTextRun SCXW181859663 BCX9"> el resultat del qüestionari: estat, qualificació, etc.</span></span><span class="EOP SCXW181859663 BCX9" data-ccp-props="{&quot;201341983&quot;:0,&quot;335559685&quot;:360,&quot;335559739&quot;:160,&quot;335559740&quot;:259}"> </span></td>
+<td style="width: 50%; text-align: right;"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW257229043 BCX9" role="presentation"><img src="questionari_4.png" alt="" width="872" height="484" /><br /></span></td>
+</tr>
+<tr>
+<td style="width: 50%; text-align: left;"><span class="EOP SCXW181859663 BCX9" data-ccp-props="{&quot;201341983&quot;:0,&quot;335559685&quot;:360,&quot;335559739&quot;:160,&quot;335559740&quot;:259}"><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun SCXW89097652 BCX9"><span class="NormalTextRun SCXW89097652 BCX9">Polsant sobre el número de cada pregunta podràs revisar la teua resposta.</span></span><span class="EOP SCXW89097652 BCX9" data-ccp-props="{&quot;201341983&quot;:0,&quot;335559685&quot;:360,&quot;335559739&quot;:160,&quot;335559740&quot;:259}"> </span></span></td>
+<td style="width: 50%; text-align: right;"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW257229043 BCX9" role="presentation"><span class="WACImageContainer NoPadding AttachedToBeginning DragDrop SCXW89097652 BCX9" role="presentation"><img src="questionari_5.png" alt="" width="1032" height="582" /></span><br /></span></td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: left;"></p>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<div id="packageLicense" class="cc cc-by-sa">
+<p><span>Llicenciat sota la </span> <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Llicència Creative Commons Reconeixement CompartirIgual 4.0</a></p>
+</div>
+</section>
+</div>
+<div id='bottomPagination'>
+<nav class="pagination noprt">
+<a href="correu_gva.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="one_drive.html" class="next"><span>Següent<span> &raquo;</span></span></a>
+</nav>
+</div>
+</div>
+<p id="made-with-eXe"><a href="https://exelearning.net/" target="_blank" rel="noopener"><span>Creat amb eXeLearning<span> (Finestra nova)</span></span></a></p><script type="text/javascript" src="_cedec_js.js"></script></body></html>

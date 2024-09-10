@@ -1,0 +1,1126 @@
+<!doctype html>
+<html lang="va">
+<head>
+<link rel="stylesheet" type="text/css" href="base.css" />
+<link rel="stylesheet" type="text/css" href="exe_effects.css" />
+<link rel="stylesheet" type="text/css" href="content.css" />
+<link rel="stylesheet" type="text/css" href="nav.css" />
+<meta http-equiv="content-type" content="text/html;  charset=utf-8" />
+<title>Desenvolupament de continguts digitals | Kit de primer auxilis digitals </title>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+<meta name="author" content="Claustre del IES Enric Soler i Godes" />
+<link rel="license" type="text/html" href="http://creativecommons.org/licenses/by-sa/4.0/" />
+<meta name="generator" content="eXeLearning 2.8.1 - exelearning.net" />
+<!--[if lt IE 9]><script type="text/javascript" src="exe_html5.js"></script><![endif]-->
+<script type="text/javascript" src="exe_jquery.js"></script>
+<script type="text/javascript" src="exe_effects.js"></script>
+<script type="text/javascript" src="common_i18n.js"></script>
+<script type="text/javascript" src="common.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet"  type="text/css">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap" rel="stylesheet" type="text/css">
+<link href="https://fonts.cdnfonts.com/css/opendyslexic" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"  type="text/css">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet"  type="text/css">
+
+
+<style>
+  
+  .z-index {
+    z-index: 999;
+  }
+
+  .select-container {
+    display: inline-block;
+    position: relative;
+    z-index: 999;
+  }
+
+  .font-button {
+    padding: 8px 16px;
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 8px;
+    text-align: center;
+    text-decoration: none;
+    background-color: white;
+    color: black;
+    z-index: 999;
+  }
+
+  .fontButtonContainer {
+     z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* establece el wrap para que los botones se distribuyan en varias líneas */
+    gap: 5px; /* ajusta el espacio entre los botones */
+    position: static; /* fija la barra de botones en la página: static para que aparezca en la parte superior, fixed para que quede flotando */
+    top: 40px; /* fija la barra de botones en la parte superior de la página */
+    left: 0; /* fija la barra de botones en el margen izquierdo */
+    right: 0; /* fija la barra de botones en el margen derecho */
+    margin: auto; /* centra la barra de botones horizontalmente */
+  }
+    
+  /* Estilo para el desplegable */
+  select {
+    padding: 8px 4px;
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 6px;
+    text-align: center;
+    text-decoration: none;
+    background-color: white;
+  }
+  
+  select option {
+  text-align: left;
+  }
+  
+</style>
+
+<script>
+
+// BatexeGo v3 Juan José de Haro 
+
+// Define los textos que se ven en pantalla. Reemplazar el texto entre comillas
+
+  // Textos del menú desplegable
+    const defaultText = 'Paràmetres per defecte:'; //Descripción de la opción por defecto
+    const standardText = 'Font estàndard'; // Fuente original del documento
+    
+    const dyslexicDesc = 'Dislèxia:'; // Descripción de la opción OpenDyslexic  
+    const dyslexicText = 'OpenDyslexic'; 
+    
+    const hyperlegibleDesc = 'Deficiències visuals:'; // Descripción de la opción Atkinson Hyperlegible
+    const hyperlegibleText = 'Atkinson Hyperlegible'; 
+    
+    const highLegibilityDesc = 'Alta llegibilitat:'; // Descripción de las opciones de alta legibilidad
+    const opensansText = 'OpenSans'; 
+    const robotoText = 'Roboto'; 
+    const latoText = 'Lato'; 
+    const montserratText = 'Montserrat'; 
+
+  // Botones aumentar y disminuir fuente
+    const increaseFontText = 'A+'; // Botón para incrementar la fuente
+    const increaseFontTitle = 'Augmenta la font'; // Texto emergente al pasar el ratón
+    
+    const decreaseFontText = 'A-'; // Botón para reducir la fuente
+    const decreaseFontTitle = 'Disminueix la font'; // Texto emergente al pasar el ratón
+
+  // Botón para traducir
+    const translateText = '🌐'; // Texto para el botón de traducción de Google
+    const translateTitle = 'Tradueix la pàgina'; // Texto emergente al pasar el ratón
+
+  // Botón para leer / detener la lectura en voz alta
+    let readText = 'Llegir'; // Botón para leer en voz alta el contenido de la página
+    const readTextTitle ='Llegeix en veu alta la selecció o la pàgina sencera'; // Texto emergente al pasar el ratón
+    
+    const stopText = 'Aturar'; // Texto del botón para detener la lectura
+    const stopTextTitle = 'Atura la lectura'; // Texto emergente al pasar el ratón
+  
+  // Botones para que los botones estén siempre visibles
+    let floatingFix = 'Fixar'; // Texto del botón flotante cuando está sobre el texto
+    let floatingFixTitle = 'Fixa la barra de botons a la part superior'; // Texto emergente al pasar el ratón
+    
+    let floatingFloat = 'Sempre visible'; //Texto del botón flotante cuando está fijo en la parte superior
+    let floatingFloatTitle = 'La barra romandrà sempre visible per poder seleccionar text i llegir en veu alta';
+  
+  
+  // Enlace +Info
+    const infoText = '+Info'; // Texto del enlace +Info
+    const infoTextLink = 'https://batexego.bilateria.org'; // Destino del enlace de +Info
+
+// Fin 
+  
+
+  readText = `${readText} (${document.documentElement.lang})`; //Se añade el idioma al botón Leer
+  
+
+  let originalFont;
+  let currentFontSize;
+  let originalFontSize;
+  let isReading = false;
+  let utterance = new SpeechSynthesisUtterance();
+  let googleTranslateWidgetVisible = localStorage.getItem('googleTranslateWidgetVisible');
+
+  function setFont(font) {
+  document.body.style.fontFamily = font;
+  localStorage.setItem('font', font);
+  }
+
+  function setFontSize(size) {
+  currentFontSize = parseInt(window.getComputedStyle(document.body).getPropertyValue('font-size'));
+  currentFontSize += size;
+  document.body.style.fontSize = currentFontSize + 'px';
+  localStorage.setItem('fontSize', currentFontSize + 'px');
+  }
+  
+  
+
+function toggleGoogleTranslateWidget() {
+  if (!googleTranslateWidgetVisible) {
+    const script = document.createElement('script');
+    script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+    script.id = 'google-translate-script';
+    document.head.appendChild(script);
+    
+    const googleTranslateElement = document.createElement('div');
+    googleTranslateElement.id = 'google_translate_element';
+    googleTranslateElement.style.position = 'fixed';
+    googleTranslateElement.style.top = '0';
+    googleTranslateElement.style.right = '0';
+    googleTranslateElement.style.zIndex = '1000';
+    document.body.appendChild(googleTranslateElement);
+
+    window.googleTranslateElementInit = function() {
+      new google.translate.TranslateElement({pageLanguage: 'auto', layout: google.translate.TranslateElement.FloatPosition.TOP_RIGHT}, 'google_translate_element');
+    };
+
+    googleTranslateWidgetVisible = true;
+    
+  } else {
+    const script = document.getElementById('google-translate-script');
+    script.remove();
+    
+    const googleTranslateElement = document.getElementById('google_translate_element');
+    googleTranslateElement.remove();
+
+    googleTranslateWidgetVisible = false;
+  }
+  localStorage.setItem('googleTranslateWidgetVisible',googleTranslateWidgetVisible);
+}
+
+
+
+
+  document.addEventListener('DOMContentLoaded', () => {
+
+    googleTranslateWidgetVisible = JSON.parse(localStorage.getItem('googleTranslateWidgetVisible'));
+  if(googleTranslateWidgetVisible) {
+    googleTranslateWidgetVisible = false;
+    toggleGoogleTranslateWidget();
+  }
+
+    
+  
+    originalFont = window.getComputedStyle(document.body).getPropertyValue('font-family');
+    localStorage.setItem('originalFont', originalFont);
+    let font = localStorage.getItem('font');
+    if (!font) {
+    font = originalFont;
+    }
+    document.body.style.fontFamily = font;
+
+    let fontSize = localStorage.getItem('fontSize');
+    originalFontSize = window.getComputedStyle(document.body).getPropertyValue('font-size');
+    localStorage.setItem('originalFontSize', originalFontSize);
+    if (!fontSize) {
+    fontSize = originalFontSize
+    localStorage.setItem('fontSize', fontSize);
+    }
+    document.body.style.fontSize = fontSize;
+
+    const fontButtonContainer = document.createElement('div');
+    fontButtonContainer.classList.add('fontButtonContainer'); 
+    
+    const selectContainer = document.createElement('div');
+    selectContainer.classList.add('select-container');
+    const select = document.createElement('select');
+    select.classList.add('z-index');
+    const standardOption = document.createElement('option');
+    standardOption.value = 'standard';
+    standardOption.text = standardText;
+
+    const defaultFontOptGroup = document.createElement('optgroup');
+    defaultFontOptGroup.label = defaultText;
+    defaultFontOptGroup.appendChild(standardOption);
+
+    select.appendChild(defaultFontOptGroup);
+
+
+    const dyslexicOption = document.createElement('option');
+    dyslexicOption.value = 'dyslexic';
+    dyslexicOption.text = dyslexicText;
+    select.add(dyslexicOption);
+
+    const dyslexicOptGroup = document.createElement('optgroup');
+    dyslexicOptGroup.label = dyslexicDesc;
+    dyslexicOptGroup.appendChild(dyslexicOption);
+    select.appendChild(dyslexicOptGroup);
+
+    const hyperlegibleOption = document.createElement('option');
+    hyperlegibleOption.value = 'hyperlegible';
+    hyperlegibleOption.text = hyperlegibleText;
+    select.add(hyperlegibleOption);
+
+    const hyperlegibleOptGroup = document.createElement('optgroup');
+    hyperlegibleOptGroup.label = hyperlegibleDesc;
+    hyperlegibleOptGroup.appendChild(hyperlegibleOption);
+    select.appendChild(hyperlegibleOptGroup);
+
+    const opensansOption = document.createElement('option');
+    opensansOption.value = 'Open Sans';
+    opensansOption.text = opensansText;
+    select.add(opensansOption);
+
+    const robotoOption = document.createElement('option');
+    robotoOption.value = 'Roboto';
+    robotoOption.text = robotoText;
+    select.add(robotoOption);
+
+    const latoOption = document.createElement('option');
+    latoOption.value = 'Lato';
+    latoOption.text = latoText;
+    select.add(latoOption);
+
+    const montserratOption = document.createElement('option');
+    montserratOption.value = 'Montserrat';
+    montserratOption.text = montserratText;
+    select.add(montserratOption);  
+    
+
+    const highLegibilityOptGroup = document.createElement('optgroup');
+    highLegibilityOptGroup.label = highLegibilityDesc;
+    highLegibilityOptGroup.appendChild(latoOption);
+    highLegibilityOptGroup.appendChild(montserratOption);
+    highLegibilityOptGroup.appendChild(opensansOption);
+    highLegibilityOptGroup.appendChild(robotoOption);
+    
+    
+    
+    select.appendChild(highLegibilityOptGroup);
+
+    // Seleccionar la opción correspondiente al cargar la página
+    if (font === originalFont) { // Nueva condición
+    select.selectedIndex = 0; // Nueva línea
+    } else if (font === 'OpenDyslexic') {
+    select.selectedIndex = 1;
+    } else if (font === 'Atkinson Hyperlegible') {
+    select.selectedIndex = 2;
+    } else if (font === 'Roboto') {
+    select.selectedIndex = 6;
+    } else if (font === 'Lato') {
+    select.selectedIndex = 3;
+    } else if (font === 'Open Sans') {
+    select.selectedIndex = 5;
+    } else if (font === 'Montserrat') {
+    select.selectedIndex = 4;
+    }
+
+    select.addEventListener('change', () => {
+    const font = select.value;
+    if (font === 'standard') {
+    setFont(originalFont);
+    fontSize = originalFontSize;
+    localStorage.setItem('fontSize', fontSize);
+    document.body.style.fontSize = localStorage.getItem('originalFontSize');
+    } else if (font === 'dyslexic') {
+    setFont('OpenDyslexic');
+    } else if (font === 'hyperlegible') {
+    setFont('Atkinson Hyperlegible');
+    } else if (font === 'Open Sans') {
+    setFont('Open Sans');
+    } else if (font === 'Roboto') {
+    setFont('Roboto');
+    } else if (font === 'Lato') {
+    setFont('Lato');
+    }  else if (font === 'Montserrat') {
+    setFont('Montserrat');
+    }
+    });
+
+    selectContainer.appendChild(select);
+    fontButtonContainer.appendChild(selectContainer);
+    
+
+    const increaseFontButton = document.createElement('button');
+    increaseFontButton.classList.add('font-button');
+    increaseFontButton.textContent = increaseFontText;
+    increaseFontButton.setAttribute('title', increaseFontTitle);
+    increaseFontButton.addEventListener('click', () => setFontSize(1));
+    fontButtonContainer.appendChild(increaseFontButton);
+
+    const decreaseFontButton = document.createElement('button');
+    decreaseFontButton.classList.add('font-button');
+    decreaseFontButton.textContent = decreaseFontText;
+    decreaseFontButton.setAttribute('title', decreaseFontTitle);
+    decreaseFontButton.addEventListener('click', () => setFontSize(-1));
+    fontButtonContainer.appendChild(decreaseFontButton);
+    
+    const translateButton = document.createElement('button');
+    translateButton.classList.add('font-button');
+    translateButton.textContent = translateText;
+    translateButton.setAttribute('title', translateTitle);
+    translateButton.addEventListener('click', toggleGoogleTranslateWidget);
+    fontButtonContainer.appendChild(translateButton);
+
+  // Botón para leer en voz alta
+    const readButton = document.createElement('button');
+    readButton.classList.add('font-button');
+    readButton.textContent = readText;
+    readButton.setAttribute('title', readTextTitle);
+    
+    readButton.addEventListener('click', () => {
+    let selectedText = window.getSelection().toString();
+    let text = '';
+    let lang = document.documentElement.lang;
+    if (selectedText !== '') {
+      text = selectedText;
+      let selectedNode = window.getSelection().anchorNode;
+      while (selectedNode && selectedNode.nodeType !== Node.ELEMENT_NODE) {
+        selectedNode = selectedNode.parentNode;
+      }
+      if (selectedNode) {
+        const selectedLang = selectedNode.getAttribute('lang');
+        if (selectedLang) {
+          lang = selectedLang;
+        }
+      }
+    } else {
+      text = document.body.innerText;
+      const bodyLang = document.body.getAttribute('lang');
+      if (bodyLang) {
+        lang = bodyLang;
+      }
+    }
+
+    utterance.lang = lang;
+    utterance.text = text;
+
+    if (!isReading) {
+      isReading = true;
+      readButton.textContent = `${stopText} (${lang})`;
+      readButton.setAttribute('title', stopTextTitle);
+      speechSynthesis.speak(utterance);
+    } else {
+      isReading = false;
+      readButton.textContent = readText;
+      readButton.setAttribute('title', readTextTitle);
+      speechSynthesis.cancel();
+    }
+
+    utterance.addEventListener('end', () => {
+      isReading = false;
+      readButton.textContent = readText;
+      readButton.setAttribute('title', readTextTitle);
+    });
+  });  
+    
+    fontButtonContainer.appendChild(readButton);
+    
+  // Botón para que la barra esté siempre visible
+    const floatingButton = document.createElement('button');
+    floatingButton.classList.add('font-button');
+    floatingButton.textContent = floatingFloat;
+    floatingButton.setAttribute('title', floatingFloatTitle);
+    floatingButton.addEventListener('click', () => {
+    if (floatingButton.textContent === floatingFix) {
+      fontButtonContainer.style.position = 'static';
+      floatingButton.textContent = floatingFloat;
+      floatingButton.setAttribute('title', floatingFloatTitle);
+      localStorage.setItem('floatState', 'static');
+    } else {
+      fontButtonContainer.style.position = 'fixed';
+      floatingButton.textContent = floatingFix;
+      floatingButton.setAttribute('title', floatingFixTitle);
+      localStorage.setItem('floatState', 'fixed');
+    }
+  });
+
+    
+
+    let floatState = localStorage.getItem('floatState');
+    if (!floatState) {
+      floatState = 'static';
+      floatingButton.textContent = floatingFix;
+      floatingButton.setAttribute('title', floatingFixTitle);
+    }
+    if (floatState === 'fixed') {
+      fontButtonContainer.style.position = 'fixed';
+      floatingButton.textContent = floatingFix;
+      floatingButton.setAttribute('title', floatingFixTitle);
+    } else {
+      fontButtonContainer.style.position = 'static';
+      floatingButton.textContent = floatingFloat;
+      floatingButton.setAttribute('title', floatingFloatTitle);
+    }
+    
+    localStorage.setItem('floatState', floatState);
+    
+  fontButtonContainer.appendChild(floatingButton);
+
+
+    const infoLink = document.createElement('a');
+    infoLink.textContent = infoText;
+    infoLink.href = infoTextLink;
+    infoLink.target = '_blank';
+    infoLink.style.marginLeft = '8px';
+    infoLink.style.fontSize = '12px';
+    fontButtonContainer.appendChild(infoLink);
+
+    
+    infoLink.classList.add('z-index');
+
+    document.body.insertBefore(fontButtonContainer, document.body.firstChild);
+   
+  });
+  
+  
+
+</script>
+</head>
+<body class="exe-web-site" id="exe-node-45"><script type="text/javascript">document.body.className+=" js"</script>
+<div id="content">
+<p id="skipNav"><a href="#main" class="sr-av">Omet navegació</a></p>
+<header id="header" ><div id="headerContent">Kit de primer auxilis digitals</div></header>
+<nav id="siteNav">
+<ul>
+   <li><a href="index.html" class="daddy main-node">KIT PRIMERS AUXILIS DIGITALS</a></li>
+   <li><a href="correu_gva.html" class="no-ch">Correu GVA</a></li>
+   <li><a href="aules.html" class="no-ch">Aules</a></li>
+   <li><a href="one_drive.html" class="no-ch">One Drive</a></li>
+   <li><a href="teams.html" class="daddy">Teams</a>
+   <ul class="other-section">
+      <li><a href="netiqueta.html" class="no-ch">Netiqueta</a></li>
+   </ul>
+   </li>
+   <li><a href="navegaci_bsqueda_i_filtratge_dinformaci.html" class="daddy">Navegació, búsqueda i filtratge d'informació</a>
+   <ul class="other-section">
+      <li><a href="padlet.html" class="no-ch">Padlet</a></li>
+      <li><a href="busqueda_dimatges_en_google.html" class="no-ch">Busqueda d'imatges en Google</a></li>
+   </ul>
+   </li>
+   <li class="current-page-parent"><a href="creacci_de_continguts.html" class="current-page-parent daddy">Creacció de continguts</a>
+   <ul>
+      <li id="active"><a href="desenvolupament_de_continguts_digitals.html" class="active no-ch">Desenvolupament de continguts digitals</a></li>
+   </ul>
+   </li>
+   <li><a href="_fitxa_tcnica_i_descarrega_.html" class="no-ch">- Fitxa tècnica i descarrega -</a></li>
+</ul>
+</nav>
+<div id='topPagination'>
+<nav class="pagination noprt">
+<a href="creacci_de_continguts.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="_fitxa_tcnica_i_descarrega_.html" class="next"><span>Següent<span> &raquo;</span></span></a>
+</nav>
+</div>
+<div id="main-wrapper">
+<section id="main">
+<header id="nodeDecoration"><h1 id="nodeTitle">Desenvolupament de continguts digitals</h1></header>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_present" id="id236">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header" style="background-image:url(icon_present.png)"><h1 class="iDeviceTitle">Presentacions</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta236_236_2" class="block iDevice_content">
+<dl class="pbl-task-info"><dt class="pbl-task-duration"><span>Duración:</span></dt><dd class="pbl-task-duration">4 sesiones</dd><dt class="pbl-task-participants"><span>Agrupamiento:</span></dt><dd class="pbl-task-participants">Individual </dd></dl><div class="pbl-task-description"><p style="text-align: justify;"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Saps presentar contingut en format presentació de diapositives? </span><span style="vertical-align: inherit;">T'atreveixes a crear una presentació en format </span></span><a href="https://es.wikipedia.org/wiki/PechaKucha" target="_blank" rel="noopener"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Pecha Kucha</span></span></a><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"> (20x20)?</span></span></span></p>
+<p style="text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/C17wNsutO18" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen"></iframe><br /><span style="font-size: 10pt;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Autor del vídeo Raúl Diego, publicat amb Llicència CC BY.</span></span></span></p>
+<p style="text-align: center;"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Recurs digital: </span></span></span></span><a href="https://docs.google.com/presentation/u/0/" target="_blank" title="Google Slide" rel="noopener"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Google Slide</span></span></span></span></a><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"> .</span></span></span></span></span></p>
+<p style="text-align: center;"><span><iframe width="560" height="315" src="https://www.youtube.com/embed/VueU7E68VkQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen"></iframe><br /><span style="font-size: 10pt;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Autor del vídeo Raúl Diego, publicat amb Llicència CC BY.</span></span></span></span></span><br /></span></p>
+<p style="text-align: center;"><span>Recurso digital: <a href="https://genial.ly/" target="_blank" title="Genialment" rel="noopener">Genially</a>.</span></p>
+<p style="text-align: center;"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Material d'ampliació:  </span></span></span><a href="https://sites.google.com/view/rauldiegogenially01062431/genially" target="_blank" rel="noopener"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Coneix Genially </span></span></a><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">. </span></span><br /><span style="font-size: 10pt;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Recurs creat per Raúl Diego, publicat amb Llicència CC BY/SA.</span></span></span><br /></span></p>
+<div class="exe-fx exe-tabs">
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Objectius</span></span></h2>
+<ul>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Saber compartir informació de manera àgil i fluida amb presentacions de diapositives.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Poder afegir diferents tipus de recursos: text, imatges, vídeos...</span></span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Compartir les presentacions per treballar de manera col·laborativa, en línia i en temps real.</span></span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Conèixer la manera de revisar les modificacions realitzades a la presentació.</span></span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Saber fer transicions i efectes. </span></span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Publicar presentacions.</span></span></span></li>
+<li dir="ltr" aria-level="1" style="list-style-type: none;"></li>
+</ul>
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Continguts</span></span></h2>
+<ul>
+<li dir="ltr" role="presentation"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Crear presentació. </span></span></span><span></span></li>
+<li dir="ltr" role="presentation"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Selecció de temes. </span></span></span></li>
+<li dir="ltr" role="presentation"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Noves diapositives. </span></span></span></li>
+<li dir="ltr" role="presentation"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Afegir text (quadres de text). </span></span></span></li>
+<li dir="ltr" role="presentation"><span>Cambio de fuentes, tamaño, color...</span></li>
+<li dir="ltr" role="presentation"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Afegir imatges.</span></span></span></li>
+<li dir="ltr" role="presentation"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Explorador de diapositives (maquetació ràpida).</span></span></span></li>
+<li dir="ltr" role="presentation"><span>Agregar vídeo.</span></li>
+<li dir="ltr" role="presentation"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Comentaris en diapositives.</span></span></span></li>
+<li dir="ltr" role="presentation"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Assignar tasca o citar persones als comentaris.</span></span></span></li>
+<li dir="ltr" role="presentation"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Compartir presentació (amb rol d'edició, comentari o només veure).</span></span></span></li>
+<li dir="ltr" role="presentation"><span>Chat en los documentos compartidos.</span></li>
+<li dir="ltr" role="presentation"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Transicions de diapositives i objectes.</span></span></span></li>
+<li dir="ltr" role="presentation"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Historial de versions.</span></span></span></li>
+<li dir="ltr" role="presentation"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Publicar presentació.</span></span></span></li>
+<li dir="ltr" role="presentation"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Notes d'orador.</span></span></span></li>
+<li dir="ltr" aria-level="1" style="list-style-type: none;"></li>
+</ul>
+<h2><span style="vertical-align: inherit;"><span class="" style="vertical-align: inherit;">Repte</span></span></h2>
+<ul>
+<li dir="ltr" role="presentation"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Editar una presentació compartida, afegint-hi una diapositiva més.</span></span></li>
+<li dir="ltr" role="presentation"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Crear una presentació (almenys amb 10 diapositives) on presentis alguna de les teves aficions o passions.</span></span></li>
+</ul>
+<h2>Rúbrica</h2>
+<ul>
+<li dir="ltr" role="presentation"><a href="https://drive.google.com/file/d/1YYD9VLs9ftuxwJI-GFxTsUp7pW1R2UQa/view?usp=sharing" target="_blank" rel="noopener"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Rúbrica per a l'avaluació de presentacions</span></span></a><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"> . </span></span></li>
+</ul>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_piece" id="id237">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header" style="background-image:url(icon_piece.png)"><h1 class="iDeviceTitle">Mapes conceptuals</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta237_237_2" class="block iDevice_content">
+<dl class="pbl-task-info"><dt class="pbl-task-duration"><span>Duración:</span></dt><dd class="pbl-task-duration">2 sesiones</dd><dt class="pbl-task-participants"><span>Agrupamiento:</span></dt><dd class="pbl-task-participants">Individual </dd></dl><div class="pbl-task-description"><p style="text-align: justify;"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">T'imagines, per un instant, que et fas addicte dels mapes conceptuals i esquemes? </span><span style="vertical-align: inherit;">Doncs si t'acostes a una d'aquestes aplicacions, no ho descartis. </span><span style="vertical-align: inherit;">;-)</span></span></span></p>
+<p style="text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/TN3Q_aKQ-ok" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen"></iframe><br /><span style="font-size: 10pt;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Autor del vídeo Raúl Diego, publicat amb Llicència CC BY.</span></span></span></p>
+<p style="text-align: center;"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Recurs digital: </span></span><a href="https://www.popplet.com/" target="_blank" title="Popplet" rel="noopener"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Popplet</span></span></a><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"> .</span></span></span></p>
+<p style="text-align: center;"><span><iframe width="560" height="315" src="https://www.youtube.com/embed/gw2yz6vC2Yg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen"></iframe><br /><span style="font-size: 10pt;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Autor del vídeo Raúl Diego, publicat amb Llicència CC BY.</span></span></span></span></span></span></span></span></span><br /></span></p>
+<p style="text-align: center;"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Recurs digital: </span></span><a href="https://www.goconqr.com/es" target="_blank" title="GoConqr" rel="noopener"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">GoConqr</span></span></a><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"> .</span></span></span></p>
+<div class="exe-fx exe-tabs">
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Objectius</span></span></h2>
+<ul>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Saber sintetitzar la informació. </span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q">Organizar esa información esencial en un mapa conceptual o esquema. </li>
+<li dir="ltr" aria-level="1" style="list-style-type: none;"></li>
+</ul>
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Continguts</span></span></h2>
+<ul>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Registre a l'aplicació.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Creació de nodes o marcs amb contingut.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q">Compartir mapa mental.</li>
+<li dir="ltr" class="CDt4Ke zfr3Q">Descarga del mapa mental. </li>
+<li dir="ltr" aria-level="1" style="list-style-type: none;"></li>
+</ul>
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Repte</span></span></h2>
+<ul>
+<li dir="ltr" role="presentation"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Crear un mapa mental organitzant la informació clau d'un dels projectes de treball. </span></span></li>
+</ul>
+<h2>Rúbrica</h2>
+<ul>
+<li><a href="https://drive.google.com/file/d/1YMH9zGud_AYi_Ysw7pTYZXYRWcFJbinn/view?usp=sharing" target="_blank" rel="noopener"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Rúbrica per a l'avaluació de mapes conceptuals</span></span></a><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"> . </span></span></li>
+</ul>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_history" id="id238">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header" style="background-image:url(icon_history.png)"><h1 class="iDeviceTitle">Eixos cronològics</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta238_238_2" class="block iDevice_content">
+<dl class="pbl-task-info"><dt class="pbl-task-duration"><span>Duración:</span></dt><dd class="pbl-task-duration">2 sesiones</dd><dt class="pbl-task-participants"><span>Agrupamiento:</span></dt><dd class="pbl-task-participants">Individual </dd></dl><div class="pbl-task-description"><p style="text-align: justify;"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Com els anomenes “eix cronològic” o “línia del temps”? </span><span style="vertical-align: inherit;">En crea un sense importar el nom que facis servir. </span><span style="vertical-align: inherit;">;-)</span></span></span></p>
+<p style="text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/6OBxyrQe3TA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen"></iframe><br /><span style="font-size: 10pt;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Autor del vídeo Raúl Diego, publicat amb Llicència CC BY.</span></span></span></p>
+<p style="text-align: center;"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Recurs digital: </span></span></span></span></span></span><a href="https://timeline.knightlab.com/" target="_blank" title="Cronologia JS" rel="noopener"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Timeline JS</span></span></span></span></span></span></a><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"> .</span></span></span></span></span></span></span></p>
+<div class="exe-fx exe-tabs">
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Objectius</span></span></h2>
+<ul>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Saber seleccionar els moments més importants de la història. </span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q">Saber crear una línea del tiempo multimedia. </li>
+<li dir="ltr" aria-level="1" style="list-style-type: none;"></li>
+</ul>
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Continguts</span></span></h2>
+<ul>
+<li dir="ltr" class="CDt4Ke zfr3Q">Creación de la base de datos, a partir de la plantilla. </li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Com afegir esdeveniments i períodes. </span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Afegir imatges i vídeos.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q">Publicación de la base de datos.</li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Obtenir enllaç públic.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Compartir o inserir la línia del temps. </span></span></li>
+<li dir="ltr" aria-level="1" style="list-style-type: none;"></li>
+</ul>
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Rep</span></span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">te</span></span></h2>
+<ul>
+<li dir="ltr" role="presentation"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Crea un eix cronològic de la teva vida, marcant els esdeveniments més importants de la teva vida.</span></span></li>
+</ul>
+<h2>Rúbrica</h2>
+<ul>
+<li dir="ltr" role="presentation"><a href="https://drive.google.com/file/d/1pPUC9cGDK57K3lkbyaOhgbzX5RcvMHPE/view?usp=sharing" target="_blank" rel="noopener"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Rúbrica per a l'avaluació d'eixos cronològics</span></span></a><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"> . </span></span></li>
+</ul>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_arts" id="id239">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header" style="background-image:url(icon_arts.png)"><h1 class="iDeviceTitle">Infografies</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta239_239_2" class="block iDevice_content">
+<dl class="pbl-task-info"><dt class="pbl-task-duration"><span>Duració:</span></dt><dd class="pbl-task-duration">2 sessions</dd><dt class="pbl-task-participants"><span>Agrupament:</span></dt><dd class="pbl-task-participants">Individual </dd></dl><div class="pbl-task-description"><p style="text-align: justify;"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Un dels recursos més visuals que hi ha per treballar les tècniques d'estudi són les infografies. </span><span style="vertical-align: inherit;">T'atreveixes a fer-ne una?</span></span></span></p>
+<p style="text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/7bHrYlSSH8k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen"></iframe><br /><span style="font-size: 10pt;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Autor del vídeo Raúl Diego, publicat amb Llicència CC BY.</span></span></span></p>
+<p style="text-align: center;"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Recurs digital: </span></span><a href="https://www.canva.com/" target="_blank" title="Canva" rel="noopener"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Canva</span></span></a></span><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"> .</span></span></span></p>
+<p style="text-align: center;"><span><iframe width="560" height="315" src="https://www.youtube.com/embed/VueU7E68VkQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen" data-mce-fragment="1"></iframe><br /><span style="font-size: 10pt;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Autor del vídeo Raúl Diego, publicat amb Llicència CC BY.</span></span></span></span></span><br /></span></p>
+<p style="text-align: center;"><span>Recurso digital: <a href="https://genial.ly/" target="_blank" title="Genialment" rel="noopener">Genially</a>.</span></p>
+<p style="text-align: center;"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Material d'ampliació:  </span></span></span><a href="https://sites.google.com/view/rauldiegogenially01062431/genially" target="_blank" rel="noopener"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Coneix Genially </span></span></a><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">. </span></span><br /><span style="font-size: 10pt;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Recurs creat per Raúl Diego, publicat amb Llicència CC BY/SA.</span></span></span><br /></span></p>
+<div class="exe-fx exe-tabs">
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Objectius</span></span></h2>
+<ul>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Conèixer què són les infografies. </span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Saber fer una bona síntesi o selecció de les idees clau.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Realitzar una infografies amb les idees essencials, vinculades a imatges clau. </span></span></li>
+<li dir="ltr" aria-level="1" style="list-style-type: none;"></li>
+</ul>
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Continguts</span></span></h2>
+<ul>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Elements clau de la infografia.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Conèixer les infografies de Canva i Genial.ly.</span></span></li>
+<li dir="ltr" aria-level="1" style="list-style-type: none;"></li>
+</ul>
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Repte</span></span></h2>
+<ul>
+<li dir="ltr" role="presentation"><span style="font-size: 16.72px;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Feu una infografia de les idees clau d'un dels vostres projectes de treball. </span></span></span><span style="font-size: 0.95em;"> </span></li>
+</ul>
+<h2>Rúbrica</h2>
+<ul>
+<li><a href="https://drive.google.com/file/d/1fx15CH0b3k-IIdRJqQSsLf2W6J71g0OK/view?usp=sharing" target="_blank" rel="noopener"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Rúbrica per a l'avaluació d'infografies</span></span></a><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"> . </span></span></li>
+</ul>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_listen" id="id240">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header" style="background-image:url(icon_listen.png)"><h1 class="iDeviceTitle">Podcast</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta240_240_2" class="block iDevice_content">
+<dl class="pbl-task-info"><dt class="pbl-task-duration"><span>Duració:</span></dt><dd class="pbl-task-duration">1 sessió</dd><dt class="pbl-task-participants"><span>Agrupament:</span></dt><dd class="pbl-task-participants">Individual </dd></dl><div class="pbl-task-description"><p style="text-align: justify;"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Un podcast és un àudio que es pot descarregar i escoltar en qualsevol moment. </span><span style="vertical-align: inherit;">Saber expressar-se és una gran competència que hem d'aprendre a desenvolupar com més aviat millor. </span></span></span></p>
+<p style="text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/mdFTnS3xRPM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen"></iframe><br /><span style="font-size: 10pt;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Autor del vídeo Raúl Diego, publicat amb Llicència CC BY.</span></span></span></p>
+<p style="text-align: center;"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Recurs digital: </span></span><a href="https://vocaroo.com/" target="_blank" title="Vocaroo" rel="noopener"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Vocaroo</span></span></a><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"> .</span></span></span></p>
+<div class="exe-fx exe-tabs">
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Objectius</span></span></h2>
+<ul>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Saber enregistrar un podcast, expressant-nos amb claredat i bona pronunciació.</span></span></li>
+<li dir="ltr" aria-level="1" style="list-style-type: none;"></li>
+</ul>
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Continguts</span></span></h2>
+<ul>
+<li dir="ltr" class="CDt4Ke zfr3Q">Elementos del podcast.</li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Eines Vocaroo. </span></span></span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><a href="https://anchor.fm/" target="_blank" rel="noopener"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Anchor</span></span></a><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"> , com a eina d'emmagatzematge dels nostres podcast.</span></span></li>
+<li dir="ltr" aria-level="1" style="list-style-type: none;"></li>
+</ul>
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Repte</span></span></h2>
+<ul>
+<li dir="ltr" role="presentation"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Gravar un podcast explicant un dels continguts gramaticals de la llengua castellana que estiguem treballant. </span></span></li>
+</ul>
+<h2>Rúbrica</h2>
+<ul>
+<li><a href="https://drive.google.com/file/d/1sQo8wG-1nqB9N78PL4H8a9xCT-njIXbR/view?usp=sharing" target="_blank" rel="noopener"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Rúbrica per a l'avaluació de podcast</span></span></a><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"> . </span></span></li>
+</ul>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_draw" id="id241">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header" style="background-image:url(icon_draw.png)"><h1 class="iDeviceTitle">Còmic</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta241_241_2" class="block iDevice_content">
+<dl class="pbl-task-info"><dt class="pbl-task-duration"><span>Duración:</span></dt><dd class="pbl-task-duration">2 sesiones</dd><dt class="pbl-task-participants"><span>Agrupamiento:</span></dt><dd class="pbl-task-participants">Individual </dd></dl><div class="pbl-task-description"><p style="text-align: justify;"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">A tothom ens agrada els còmics. </span><span style="vertical-align: inherit;">Si el còmic és un recurs en què es pot explicar un contingut de forma més amena, què esperes a dissenyar el teu?</span></span></span></p>
+<p style="text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/chR8mrp1-Q4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen"></iframe><br /><span style="font-size: 10pt;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Autor del vídeo Raúl Diego, publicat amb Llicència CC BY.</span></span></span></p>
+<p style="text-align: center;"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Recurs digital: </span></span></span></span><a href="https://www.storyboardthat.com/es" target="_blank" title="StoryBoardThat" rel="noopener"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">StoryBoardThat</span></span></span></span></a><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"> .</span></span></span></span></span></p>
+<p style="text-align: center;"><span><iframe width="560" height="315" src="https://www.youtube.com/embed/kmInAYiU-Ug" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen"></iframe><br /><span style="font-size: 10pt;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Autor del vídeo Raúl Diego, publicat amb Llicència CC BY.</span></span></span></span></span><br /></span></p>
+<p style="text-align: center;"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Recurs digital: </span></span><a href="https://www-es.pixton.com/" target="_blank" title="Pixton" rel="noopener"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Pixton</span></span></a><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"> .</span></span></span></p>
+<div class="exe-fx exe-tabs">
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Objectius</span></span></h2>
+<ul>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Conéixer els elements fonamentals del còmic.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Saber crear un storytelling del que es vol narrar.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Convinar bé els elements del còmic a la nostra pròpia creació. </span></span></li>
+<li dir="ltr" aria-level="1" style="list-style-type: none;"></li>
+</ul>
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Continguts</span></span></h2>
+<ul>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Elements del còmic.</span></span>
+<ul>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Homomatopeies. </span></span></span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Vinyetes. </span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Bocadillos.</span></span></span></span></li>
+</ul>
+</li>
+<li><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Eina StoryBoardThat. </span></span></span></span></li>
+<li><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Eina Pixton.</span></span></span></span></li>
+<li dir="ltr" aria-level="1" style="list-style-type: none;"></li>
+</ul>
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Repte</span></span></h2>
+<ul>
+<li dir="ltr" role="presentation">Crear un cómic, de seis viñetas, a partir de un chiste que conozcas.</li>
+</ul>
+<h2>Rúbrica</h2>
+<ul>
+<li><a href="https://drive.google.com/file/d/1pSO5Q93s4DOAA596Z-4bMKMQTGGKBWUW/view?usp=sharing" target="_blank" rel="noopener"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Rúbrica per a l'avaluació de còmics</span></span></a><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"> . </span></span></li>
+</ul>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_case" id="id242">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header" style="background-image:url(icon_case.png)"><h1 class="iDeviceTitle">Mapes interactius</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta242_242_2" class="block iDevice_content">
+<dl class="pbl-task-info"><dt class="pbl-task-duration"><span>Duració:</span></dt><dd class="pbl-task-duration">2 sessions</dd><dt class="pbl-task-participants"><span>Agrupamento:</span></dt><dd class="pbl-task-participants">Individual </dd></dl><div class="pbl-task-description"><p style="text-align: justify;"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">A l'ésser humà li agrada viatjar, però avui dia podem viatjar sense sortir de casa, gràcies a Google Maps. </span><span style="vertical-align: inherit;">A més de viatger pel planeta, hi organitzarem el contingut que vulguem. </span></span></span></p>
+<p style="text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/ego39eHYaGQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen"></iframe><br /><span style="font-size: 10pt;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Autor del vídeo Raúl Diego, publicat amb Llicència CC BY.</span></span></span></p>
+<p style="text-align: center;"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Recurs digital: </span></span></span></span><a href="https://www.google.com/intl/es_ES/maps/about/mymaps/" target="_blank" title="Google My Maps" rel="noopener"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Google My Maps</span></span></span></span></a><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"> .</span></span></span></span></span></p>
+<div class="exe-fx exe-tabs">
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Objectius</span></span></h2>
+<ul>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Saber cercar informació sobre un mapa interactiu.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Conèixer la manera com creem els nostres mapes personalitzats.</span></span></li>
+<li dir="ltr" aria-level="1" style="list-style-type: none;"></li>
+</ul>
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Continguts</span></span></h2>
+<ul>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Capes.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Marcadadors.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Agredar imatges. </span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Inserir descripció.</span></span></li>
+<li dir="ltr" aria-level="1" style="list-style-type: none;"></li>
+</ul>
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Repte</span></span></h2>
+<ul>
+<li dir="ltr" role="presentation"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Crea un mapa de Google Maps, amb la funció My Maps, on geolocalitzis les ciutats del món que t'agradaria visitar. </span><span style="vertical-align: inherit;">Afegeix una imatge i una descripció de la raó per la qual viatjaries. </span></span></li>
+</ul>
+<h2>Rúbrica</h2>
+<ul>
+<li><a href="https://drive.google.com/file/d/1pSO5Q93s4DOAA596Z-4bMKMQTGGKBWUW/view?usp=sharing" target="_blank" rel="noopener"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Rúbrica per a l'avaluació de mapes interactius</span></span></a><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"> .</span></span></li>
+</ul>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_book" id="id243">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header" style="background-image:url(icon_book.png)"><h1 class="iDeviceTitle">Cartells i tríptics</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta243_243_2" class="block iDevice_content">
+<dl class="pbl-task-info"><dt class="pbl-task-duration"><span>Duració:</span></dt><dd class="pbl-task-duration">2 sessions</dd><dt class="pbl-task-participants"><span>Agrupament:</span></dt><dd class="pbl-task-participants">Individual </dd></dl><div class="pbl-task-description"><p style="text-align: justify;"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Saps crear una presentació, un mapa conceptual, un podcast... doncs ara és el moment de fer un pas més i conèixer la manera de crear pòsters i tríptics d'informació?</span></span></span></p>
+<p style="text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/7bHrYlSSH8k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen" class="external-iframe" data-mce-fragment="1"></iframe><br /><span style="font-size: 10pt;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Autor del vídeo Raúl Diego, publicat amb Llicència CC BY.</span></span></span></p>
+<p style="text-align: center;"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Recurs digital:  </span></span><a href="https://www.canva.com/" target="_blank" title="Canva" rel="noopener"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Canva</span></span></a></span><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"> .</span></span></span></p>
+<div class="exe-fx exe-tabs">
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Objectius</span></span></h2>
+<ul>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Conèixer la manera de crear un pòster.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Conèixer la manera de crear un tríptic.</span></span></li>
+<li dir="ltr" aria-level="1" style="list-style-type: none;"></li>
+</ul>
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Continguts</span></span></h2>
+<ul>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Tipus de fonts. </span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Inserció d'imatges.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Eina Canva.</span></span></li>
+<li dir="ltr" aria-level="1" style="list-style-type: none;"></li>
+</ul>
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Repte</span></span></h2>
+<ul>
+<li dir="ltr" role="presentation"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Crear un pòster, sensibilitzant el bon ús de les tecnologies. </span></span></li>
+<li dir="ltr" role="presentation"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Crear un tríptic informant sobre determinats perills d'estar a les xarxes socials, sense l'edat necessària.</span></span></li>
+</ul>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_interactive" id="id245">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header" style="background-image:url(icon_interactive.png)"><h1 class="iDeviceTitle">Activitats interactives</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta245_245_2" class="block iDevice_content">
+<dl class="pbl-task-info"><dt class="pbl-task-duration"><span>Duració:</span></dt><dd class="pbl-task-duration">2 sessions</dd><dt class="pbl-task-participants"><span>Agrupament:</span></dt><dd class="pbl-task-participants">Individual </dd></dl><div class="pbl-task-description"><p style="text-align: justify;"><span><span style="vertical-align: inherit;"><span class="" style="vertical-align: inherit;">T'atreveixes ara a crear activitats interactives per repassar continguts clau? </span><span style="vertical-align: inherit;">Anem a això! </span></span></span></p>
+<p style="text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/o9z01m7pcpk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen"></iframe><br /><span style="font-size: 10pt;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Autor del vídeo Raúl Diego, publicat amb Llicència CC BY.</span></span></span></p>
+<p style="text-align: center;"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Recurs digital: </span></span><a href="https://www.educaplay.com/" target="_blank" title="Educaplay" rel="noopener"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Educaplay</span></span></a><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"> .</span></span></span><span></span></p>
+<p style="text-align: center;"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Material d'ampliació:  </span></span><a href="https://sites.google.com/view/rauldiegoeducaplay01082431/educaplay" target="_blank" rel="noopener"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Coneix Educaplay</span></span></a><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"> . </span></span><br /><span style="font-size: 10pt;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Recurs creat per Raúl Diego, publicat amb Llicència CC BY/SA.</span></span></span><br /></span></p>
+<div class="exe-fx exe-tabs">
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Objectius</span></span></h2>
+<ul>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Saber crear activitats interactives i compartir-les.</span></span></li>
+<li dir="ltr" aria-level="1" style="list-style-type: none;"></li>
+</ul>
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Continguts</span></span></h2>
+<ul>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Salts de granota.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Ordenar lletres.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Ordenar paraules.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Mots encreuats.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Sopes de lletres.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Ruleta de paraules.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Relacionar mosaic.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Prova.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q">Relacionar columnas.</li>
+<li dir="ltr" class="CDt4Ke zfr3Q">Completar.</li>
+<li dir="ltr" class="CDt4Ke zfr3Q">Relacionar.</li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Endevinança.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q">Vídeo quiz.</li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Mapa interactiu.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Presentació.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Dictat.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Diàleg.</span></span></li>
+<li dir="ltr" aria-level="1" style="list-style-type: none;"></li>
+</ul>
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Repte</span></span></h2>
+<ul>
+<li dir="ltr" role="presentation"><span style="vertical-align: inherit;"><span class="" style="vertical-align: inherit;">Crea una activitat interactiva sobre un dels continguts que estiguis treballant en un dels teus projectes i comparteix-ho amb els teus companys i companyes.</span></span></li>
+</ul>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_objectives" id="id246">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header" style="background-image:url(icon_objectives.png)"><h1 class="iDeviceTitle">Formularis</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta246_246_2" class="block iDevice_content">
+<dl class="pbl-task-info"><dt class="pbl-task-duration"><span>Duració:</span></dt><dd class="pbl-task-duration">2 sessions</dd><dt class="pbl-task-participants"><span>Agrupamento:</span></dt><dd class="pbl-task-participants">Individual </dd></dl><div class="pbl-task-description"><p style="text-align: justify;"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Ara a buscar els formularis de recollida dinformació i els autocorregibles de repàs.</span></span></span></p>
+<p style="text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/Pa5PKeMqHYQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen"></iframe><br /><span style="font-size: 10pt;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Autor del vídeo Raúl Diego, publicat amb Llicència CC BY.</span></span></span></p>
+<p style="text-align: center;"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Recurs digital: </span></span></span></span></span></span><a href="https://docs.google.com/forms/u/0/" target="_blank" title="Formularis de Google" rel="noopener"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Google Forms</span></span></span></span></span></span></a><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"> .</span></span></span></span></span></span></span></p>
+<div class="exe-fx exe-tabs">
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Objectius</span></span></h2>
+<ul>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Saber crear formularis per recollir informació.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Afegir tipus de preguntes (resposta curta, paràgraf, selecció múltiples...).</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Personalitzeu l'aparença d'un formulari.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Gestionar i analitzar les respostes del formulari.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Configureu l'autoavaluació de formularis.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Editeu característiques complementàries al formulari.</span></span></li>
+<li dir="ltr" aria-level="1" style="list-style-type: none;"></li>
+</ul>
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Continguts</span></span></h2>
+<ul>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Creació dun formulari.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Editar el títol i la descripció del formulari.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Tipus de preguntes (resposta curta, paràgraf, selecció múltiples...).</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Pujar fitxer com a resposta.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Afegir text, imatges, vídeos i seccions.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Revisar respostes del formulari.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Configurar taula de respostes.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Canvi d'aparença del formulari.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Vista prèvia del formulari.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Recopilar adreces de correu.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Limitar al centre ia una sola vegada la participació al formulari.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Característiques del formulari.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Personalitzar la resposta.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Configureu l'autoavaluació del formulari.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Compartir el formulari (per correu, amb enllaç o inserint-lo).</span></span></li>
+<li dir="ltr" aria-level="1" style="list-style-type: none;"></li>
+</ul>
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Repte</span></span></h2>
+<ul>
+<li dir="ltr" role="presentation"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Crear un formulari de recollida d'informació que fa la gent de les noves tecnologies i les xarxes socials.</span></span></li>
+</ul>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_activity" id="id247">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header" style="background-image:url(icon_activity.png)"><h1 class="iDeviceTitle">Documents</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta247_247_2" class="block iDevice_content">
+<dl class="pbl-task-info"><dt class="pbl-task-duration"><span>Duració:</span></dt><dd class="pbl-task-duration">1 sessió</dd><dt class="pbl-task-participants"><span>Agrupament:</span></dt><dd class="pbl-task-participants">Individual </dd></dl><div class="pbl-task-description"><p style="text-align: justify;"><span><span style="vertical-align: inherit;"><span class="" style="vertical-align: inherit;">Crear un document és totalment necessari. </span><span style="vertical-align: inherit;">Ho coneixerem!</span></span></span></p>
+<p style="text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/W2iC1yHT2HI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen"></iframe><br /><span style="font-size: 10pt;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Autor del vídeo Raúl Diego, publicat amb Llicència CC BY.</span></span></span></p>
+<p style="text-align: center;"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Recurs digital: </span></span><a href="https://docs.google.com/document/u/0/?hl=es" target="_blank" title="Google Docs" rel="noopener"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Google Docs</span></span></a><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"> .</span></span></span></p>
+<div class="exe-fx exe-tabs">
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Objectius</span></span></h2>
+<ul>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Ser capaç de crear documents.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Poder afegir diferents tipus de recursos: text, imatges, vídeos...</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Compartir els documents per treballar de manera col·laborativa, en línia i en temps real.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Conèixer la forma de revisar les modificacions realitzades al document.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Publicar documents.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Conéixer funcions avançades.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Pujar documents i convertir-los.</span></span></li>
+<li dir="ltr" aria-level="1" style="list-style-type: none;"></li>
+</ul>
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Continguts</span></span></h2>
+<ul>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Crear documents.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Plantilles.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Afegir text.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q">Cambio de fuentes, tamaño, color...</li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Inserir hipervincles.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Afegir imatges.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Peus de pàgina.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q">Chat en los documentos compartidos.</li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Assignar tasca o citar persones als comentaris.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Compartir document (amb rol d'edició, comentari o només veure).</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Historial de versions.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Publicar documents.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Descarregar documents.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Escriptura per veu.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Traducció de documents.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;" class="">Pujar documents amb altres formats.</span></span></li>
+<li dir="ltr" aria-level="1" style="list-style-type: none;"></li>
+</ul>
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Repte</span></span></h2>
+<ul>
+<li dir="ltr" role="presentation"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Crea una carta al teu jo del futur. </span><span style="vertical-align: inherit;">Què li diries?</span></span></li>
+</ul>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_video" id="id248">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header" style="background-image:url(icon_video.png)"><h1 class="iDeviceTitle">Vídeos</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta248_248_2" class="block iDevice_content">
+<dl class="pbl-task-info"><dt class="pbl-task-duration"><span>Duració:</span></dt><dd class="pbl-task-duration">1 sessió</dd><dt class="pbl-task-participants"><span>Agrupament:</span></dt><dd class="pbl-task-participants">Individual </dd></dl><div class="pbl-task-description"><p style="text-align: justify;"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;" class="">Vols parlar en públic sense sortir de casa ni veure ningú? </span><span style="vertical-align: inherit;">Doncs aprèn a fer-ho sense passar gaire vergonya i així practicaràs quan hagis de fer-ho en públic.</span></span></span></p>
+<p style="text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/axIB1QsyXfM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen"></iframe><br /><span style="font-size: 10pt;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Autor del vídeo Raúl Diego, publicat amb Llicència CC BY.</span></span></span></p>
+<p style="text-align: center;"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Recurs digital: </span></span><a href="https://info.flip.com/" target="_blank" title="Flip" rel="noopener"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Flip</span></span></a><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"> .</span></span></span></p>
+<p style="text-align: center;"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Material d'ampliació:  </span></span><a href="https://sites.google.com/view/rauldiegoflip01072431/flip" target="_blank" rel="noopener"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Coneix Flip</span></span></a><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"> . </span></span><br /><span style="font-size: 10pt;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Recurs creat per Raúl Diego, publicat amb Llicència CC BY/SA.</span></span></span><br /></span></p>
+<div class="exe-fx exe-tabs">
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Objectius</span></span></h2>
+<ul>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Saber comunicar i parlar en públic.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Conèixer la manera de gravar un vídeo amb una durada determinada en què expressi una o diverses idees amb claredat.</span></span></li>
+<li dir="ltr" aria-level="1" style="list-style-type: none;"></li>
+</ul>
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Continguts</span></span></h2>
+<ul>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Grups.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Temes.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Temes.</span></span></span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Efectes.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Adhesius.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Títols.</span></span></li>
+<li dir="ltr" aria-level="1" style="list-style-type: none;"></li>
+</ul>
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Repte</span></span></h2>
+<ul>
+<li dir="ltr" role="presentation"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Explica'ns una recepta que en coneguis o n'inventa't una.</span></span></li>
+</ul>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_share" id="id249">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header" style="background-image:url(icon_share.png)"><h1 class="iDeviceTitle">Captures de pantalla</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta249_249_2" class="block iDevice_content">
+<dl class="pbl-task-info"><dt class="pbl-task-duration"><span>Duració:</span></dt><dd class="pbl-task-duration">1 sessió</dd><dt class="pbl-task-participants"><span>Agrupamento:</span></dt><dd class="pbl-task-participants">Individual </dd></dl><div class="pbl-task-description"><p style="text-align: justify;"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Aprèn a gravar la pantalla per fer un dubte que et sorgeixi o donar resposta a una que tu puguis resoldre.</span></span></span></p>
+<p style="text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/CIQhYkv8KNI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen"></iframe><br /><span style="font-size: 10pt;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Autor del vídeo Raúl Diego, publicat amb Llicència CC BY.</span></span></span></p>
+<p style="text-align: center;"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Recurs digital: </span></span><a href="https://www.loom.com/" target="_blank" title="Teler" rel="noopener"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Loom</span></span></a><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"> .</span></span></span></p>
+<div class="exe-fx exe-tabs">
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Objectius</span></span></h2>
+<ul>
+<li dir="ltr" class="CDt4Ke zfr3Q">Aprender a capturar la pantalla de ordenador para formular o responder dudas.</li>
+<li dir="ltr" aria-level="1" style="list-style-type: none;"></li>
+</ul>
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Continguts</span></span></h2>
+<ul>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Activar la càmera. </span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q">Comprobar el audio. </li>
+<li dir="ltr" class="CDt4Ke zfr3Q">Capturar el escritorio, el navegador o una de las pestañas.</li>
+<li dir="ltr" aria-level="1" style="list-style-type: none;"></li>
+</ul>
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Repte</span></span></h2>
+<ul>
+<li dir="ltr" role="presentation"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Realitza un enregistrament explicant una de les aplicacions que hem treballat, en format "tutorial d'aprenentatge".</span></span></li>
+</ul>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_gallery" id="id250">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header" style="background-image:url(icon_gallery.png)"><h1 class="iDeviceTitle">Imágens</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta250_250_2" class="block iDevice_content">
+<dl class="pbl-task-info"><dt class="pbl-task-duration"><span>Duració:</span></dt><dd class="pbl-task-duration">1 sessió</dd><dt class="pbl-task-participants"><span>Agrupament:</span></dt><dd class="pbl-task-participants">Individual </dd></dl><div class="pbl-task-description"><p style="text-align: justify;"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Aprèn a editar i fer composicions amb imatges i text.</span></span></span></p>
+<p style="text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/-2LeEurrn-M" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen"></iframe><br /><span style="font-size: 10pt;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Autor del vídeo Raúl Diego, publicat amb Llicència CC BY.</span></span></span></p>
+<p style="text-align: center;"><span><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Recurs digital: </span></span><a href="https://www.befunky.com/es/" target="_blank" title="Befunky" rel="noopener"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Befunky</span></span></a><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"> .</span></span></span></p>
+<div class="exe-fx exe-tabs">
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Objectius</span></span></h2>
+<ul>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Aprendre a fer composicions creatives amb imatges i text.</span></span></li>
+<li dir="ltr" aria-level="1" style="list-style-type: none;"></li>
+</ul>
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Continguts</span></span></h2>
+<ul>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Text. </span></span></span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Imatges. </span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Efectes.</span></span></li>
+<li dir="ltr" class="CDt4Ke zfr3Q"><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Descàrrega del contingut creat.</span></span></li>
+<li dir="ltr" aria-level="1" style="list-style-type: none;"></li>
+</ul>
+<h2><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Repte</span></span></h2>
+<ul>
+<li dir="ltr" role="presentation">Crea una postal para felicitar las fiestas. </li>
+</ul>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper FileAttachIdeviceInc em_iDevice em_iDevice_assignment" id="id251">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header"><h1 class="iDeviceTitle">Rúbriqus per a editar</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta251_82" class="block iDevice_content">
+
+</div>
+<ul class='exeFileList'><li><a href='' target='_blank'>Rúbrica de presentación. <span> (Finestra nova)</span></a></li>
+<li><a href='' target='_blank'>Rúbrica de mapa conceptual. <span> (Finestra nova)</span></a></li>
+<li><a href='' target='_blank'>Rúbrica de eje cronológico.<span> (Finestra nova)</span></a></li>
+<li><a href='' target='_blank'>Rúbrica de infografía. <span> (Finestra nova)</span></a></li>
+<li><a href='' target='_blank'>Rúbrica de podcast. <span> (Finestra nova)</span></a></li>
+<li><a href='' target='_blank'>Rúbrica de cómic. <span> (Finestra nova)</span></a></li>
+<li><a href='' target='_blank'>Rúbrica de mapa interactivo. <span> (Finestra nova)</span></a></li>
+</ul></div>
+</div>
+</div>
+</article>
+<div id="packageLicense" class="cc cc-by-sa">
+<p><span>Llicenciat sota la </span> <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Llicència Creative Commons Reconeixement CompartirIgual 4.0</a></p>
+</div>
+</section>
+</div>
+<div id='bottomPagination'>
+<nav class="pagination noprt">
+<a href="creacci_de_continguts.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="_fitxa_tcnica_i_descarrega_.html" class="next"><span>Següent<span> &raquo;</span></span></a>
+</nav>
+</div>
+</div>
+<p id="made-with-eXe"><a href="https://exelearning.net/" target="_blank" rel="noopener"><span>Creat amb eXeLearning<span> (Finestra nova)</span></span></a></p><script type="text/javascript" src="_cedec_js.js"></script></body></html>
