@@ -1,0 +1,876 @@
+<!doctype html>
+<html lang="va">
+<head>
+<link rel="stylesheet" type="text/css" href="base.css" />
+<link rel="stylesheet" type="text/css" href="exe_effects.css" />
+<link rel="stylesheet" type="text/css" href="content.css" />
+<link rel="stylesheet" type="text/css" href="nav.css" />
+<meta http-equiv="content-type" content="text/html;  charset=utf-8" />
+<title>Teams | Kit de primer auxilis digitals </title>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+<meta name="author" content="Claustre del IES Enric Soler i Godes" />
+<link rel="license" type="text/html" href="http://creativecommons.org/licenses/by-sa/4.0/" />
+<meta name="generator" content="eXeLearning 2.8.1 - exelearning.net" />
+<!--[if lt IE 9]><script type="text/javascript" src="exe_html5.js"></script><![endif]-->
+<script type="text/javascript" src="exe_jquery.js"></script>
+<script type="text/javascript" src="exe_effects.js"></script>
+<script type="text/javascript" src="common_i18n.js"></script>
+<script type="text/javascript" src="common.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet"  type="text/css">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap" rel="stylesheet" type="text/css">
+<link href="https://fonts.cdnfonts.com/css/opendyslexic" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"  type="text/css">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet"  type="text/css">
+
+
+<style>
+  
+  .z-index {
+    z-index: 999;
+  }
+
+  .select-container {
+    display: inline-block;
+    position: relative;
+    z-index: 999;
+  }
+
+  .font-button {
+    padding: 8px 16px;
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 8px;
+    text-align: center;
+    text-decoration: none;
+    background-color: white;
+    color: black;
+    z-index: 999;
+  }
+
+  .fontButtonContainer {
+     z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* establece el wrap para que los botones se distribuyan en varias líneas */
+    gap: 5px; /* ajusta el espacio entre los botones */
+    position: static; /* fija la barra de botones en la página: static para que aparezca en la parte superior, fixed para que quede flotando */
+    top: 40px; /* fija la barra de botones en la parte superior de la página */
+    left: 0; /* fija la barra de botones en el margen izquierdo */
+    right: 0; /* fija la barra de botones en el margen derecho */
+    margin: auto; /* centra la barra de botones horizontalmente */
+  }
+    
+  /* Estilo para el desplegable */
+  select {
+    padding: 8px 4px;
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 6px;
+    text-align: center;
+    text-decoration: none;
+    background-color: white;
+  }
+  
+  select option {
+  text-align: left;
+  }
+  
+</style>
+
+<script>
+
+// BatexeGo v3 Juan José de Haro 
+
+// Define los textos que se ven en pantalla. Reemplazar el texto entre comillas
+
+  // Textos del menú desplegable
+    const defaultText = 'Paràmetres per defecte:'; //Descripción de la opción por defecto
+    const standardText = 'Font estàndard'; // Fuente original del documento
+    
+    const dyslexicDesc = 'Dislèxia:'; // Descripción de la opción OpenDyslexic  
+    const dyslexicText = 'OpenDyslexic'; 
+    
+    const hyperlegibleDesc = 'Deficiències visuals:'; // Descripción de la opción Atkinson Hyperlegible
+    const hyperlegibleText = 'Atkinson Hyperlegible'; 
+    
+    const highLegibilityDesc = 'Alta llegibilitat:'; // Descripción de las opciones de alta legibilidad
+    const opensansText = 'OpenSans'; 
+    const robotoText = 'Roboto'; 
+    const latoText = 'Lato'; 
+    const montserratText = 'Montserrat'; 
+
+  // Botones aumentar y disminuir fuente
+    const increaseFontText = 'A+'; // Botón para incrementar la fuente
+    const increaseFontTitle = 'Augmenta la font'; // Texto emergente al pasar el ratón
+    
+    const decreaseFontText = 'A-'; // Botón para reducir la fuente
+    const decreaseFontTitle = 'Disminueix la font'; // Texto emergente al pasar el ratón
+
+  // Botón para traducir
+    const translateText = '🌐'; // Texto para el botón de traducción de Google
+    const translateTitle = 'Tradueix la pàgina'; // Texto emergente al pasar el ratón
+
+  // Botón para leer / detener la lectura en voz alta
+    let readText = 'Llegir'; // Botón para leer en voz alta el contenido de la página
+    const readTextTitle ='Llegeix en veu alta la selecció o la pàgina sencera'; // Texto emergente al pasar el ratón
+    
+    const stopText = 'Aturar'; // Texto del botón para detener la lectura
+    const stopTextTitle = 'Atura la lectura'; // Texto emergente al pasar el ratón
+  
+  // Botones para que los botones estén siempre visibles
+    let floatingFix = 'Fixar'; // Texto del botón flotante cuando está sobre el texto
+    let floatingFixTitle = 'Fixa la barra de botons a la part superior'; // Texto emergente al pasar el ratón
+    
+    let floatingFloat = 'Sempre visible'; //Texto del botón flotante cuando está fijo en la parte superior
+    let floatingFloatTitle = 'La barra romandrà sempre visible per poder seleccionar text i llegir en veu alta';
+  
+  
+  // Enlace +Info
+    const infoText = '+Info'; // Texto del enlace +Info
+    const infoTextLink = 'https://batexego.bilateria.org'; // Destino del enlace de +Info
+
+// Fin 
+  
+
+  readText = `${readText} (${document.documentElement.lang})`; //Se añade el idioma al botón Leer
+  
+
+  let originalFont;
+  let currentFontSize;
+  let originalFontSize;
+  let isReading = false;
+  let utterance = new SpeechSynthesisUtterance();
+  let googleTranslateWidgetVisible = localStorage.getItem('googleTranslateWidgetVisible');
+
+  function setFont(font) {
+  document.body.style.fontFamily = font;
+  localStorage.setItem('font', font);
+  }
+
+  function setFontSize(size) {
+  currentFontSize = parseInt(window.getComputedStyle(document.body).getPropertyValue('font-size'));
+  currentFontSize += size;
+  document.body.style.fontSize = currentFontSize + 'px';
+  localStorage.setItem('fontSize', currentFontSize + 'px');
+  }
+  
+  
+
+function toggleGoogleTranslateWidget() {
+  if (!googleTranslateWidgetVisible) {
+    const script = document.createElement('script');
+    script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+    script.id = 'google-translate-script';
+    document.head.appendChild(script);
+    
+    const googleTranslateElement = document.createElement('div');
+    googleTranslateElement.id = 'google_translate_element';
+    googleTranslateElement.style.position = 'fixed';
+    googleTranslateElement.style.top = '0';
+    googleTranslateElement.style.right = '0';
+    googleTranslateElement.style.zIndex = '1000';
+    document.body.appendChild(googleTranslateElement);
+
+    window.googleTranslateElementInit = function() {
+      new google.translate.TranslateElement({pageLanguage: 'auto', layout: google.translate.TranslateElement.FloatPosition.TOP_RIGHT}, 'google_translate_element');
+    };
+
+    googleTranslateWidgetVisible = true;
+    
+  } else {
+    const script = document.getElementById('google-translate-script');
+    script.remove();
+    
+    const googleTranslateElement = document.getElementById('google_translate_element');
+    googleTranslateElement.remove();
+
+    googleTranslateWidgetVisible = false;
+  }
+  localStorage.setItem('googleTranslateWidgetVisible',googleTranslateWidgetVisible);
+}
+
+
+
+
+  document.addEventListener('DOMContentLoaded', () => {
+
+    googleTranslateWidgetVisible = JSON.parse(localStorage.getItem('googleTranslateWidgetVisible'));
+  if(googleTranslateWidgetVisible) {
+    googleTranslateWidgetVisible = false;
+    toggleGoogleTranslateWidget();
+  }
+
+    
+  
+    originalFont = window.getComputedStyle(document.body).getPropertyValue('font-family');
+    localStorage.setItem('originalFont', originalFont);
+    let font = localStorage.getItem('font');
+    if (!font) {
+    font = originalFont;
+    }
+    document.body.style.fontFamily = font;
+
+    let fontSize = localStorage.getItem('fontSize');
+    originalFontSize = window.getComputedStyle(document.body).getPropertyValue('font-size');
+    localStorage.setItem('originalFontSize', originalFontSize);
+    if (!fontSize) {
+    fontSize = originalFontSize
+    localStorage.setItem('fontSize', fontSize);
+    }
+    document.body.style.fontSize = fontSize;
+
+    const fontButtonContainer = document.createElement('div');
+    fontButtonContainer.classList.add('fontButtonContainer'); 
+    
+    const selectContainer = document.createElement('div');
+    selectContainer.classList.add('select-container');
+    const select = document.createElement('select');
+    select.classList.add('z-index');
+    const standardOption = document.createElement('option');
+    standardOption.value = 'standard';
+    standardOption.text = standardText;
+
+    const defaultFontOptGroup = document.createElement('optgroup');
+    defaultFontOptGroup.label = defaultText;
+    defaultFontOptGroup.appendChild(standardOption);
+
+    select.appendChild(defaultFontOptGroup);
+
+
+    const dyslexicOption = document.createElement('option');
+    dyslexicOption.value = 'dyslexic';
+    dyslexicOption.text = dyslexicText;
+    select.add(dyslexicOption);
+
+    const dyslexicOptGroup = document.createElement('optgroup');
+    dyslexicOptGroup.label = dyslexicDesc;
+    dyslexicOptGroup.appendChild(dyslexicOption);
+    select.appendChild(dyslexicOptGroup);
+
+    const hyperlegibleOption = document.createElement('option');
+    hyperlegibleOption.value = 'hyperlegible';
+    hyperlegibleOption.text = hyperlegibleText;
+    select.add(hyperlegibleOption);
+
+    const hyperlegibleOptGroup = document.createElement('optgroup');
+    hyperlegibleOptGroup.label = hyperlegibleDesc;
+    hyperlegibleOptGroup.appendChild(hyperlegibleOption);
+    select.appendChild(hyperlegibleOptGroup);
+
+    const opensansOption = document.createElement('option');
+    opensansOption.value = 'Open Sans';
+    opensansOption.text = opensansText;
+    select.add(opensansOption);
+
+    const robotoOption = document.createElement('option');
+    robotoOption.value = 'Roboto';
+    robotoOption.text = robotoText;
+    select.add(robotoOption);
+
+    const latoOption = document.createElement('option');
+    latoOption.value = 'Lato';
+    latoOption.text = latoText;
+    select.add(latoOption);
+
+    const montserratOption = document.createElement('option');
+    montserratOption.value = 'Montserrat';
+    montserratOption.text = montserratText;
+    select.add(montserratOption);  
+    
+
+    const highLegibilityOptGroup = document.createElement('optgroup');
+    highLegibilityOptGroup.label = highLegibilityDesc;
+    highLegibilityOptGroup.appendChild(latoOption);
+    highLegibilityOptGroup.appendChild(montserratOption);
+    highLegibilityOptGroup.appendChild(opensansOption);
+    highLegibilityOptGroup.appendChild(robotoOption);
+    
+    
+    
+    select.appendChild(highLegibilityOptGroup);
+
+    // Seleccionar la opción correspondiente al cargar la página
+    if (font === originalFont) { // Nueva condición
+    select.selectedIndex = 0; // Nueva línea
+    } else if (font === 'OpenDyslexic') {
+    select.selectedIndex = 1;
+    } else if (font === 'Atkinson Hyperlegible') {
+    select.selectedIndex = 2;
+    } else if (font === 'Roboto') {
+    select.selectedIndex = 6;
+    } else if (font === 'Lato') {
+    select.selectedIndex = 3;
+    } else if (font === 'Open Sans') {
+    select.selectedIndex = 5;
+    } else if (font === 'Montserrat') {
+    select.selectedIndex = 4;
+    }
+
+    select.addEventListener('change', () => {
+    const font = select.value;
+    if (font === 'standard') {
+    setFont(originalFont);
+    fontSize = originalFontSize;
+    localStorage.setItem('fontSize', fontSize);
+    document.body.style.fontSize = localStorage.getItem('originalFontSize');
+    } else if (font === 'dyslexic') {
+    setFont('OpenDyslexic');
+    } else if (font === 'hyperlegible') {
+    setFont('Atkinson Hyperlegible');
+    } else if (font === 'Open Sans') {
+    setFont('Open Sans');
+    } else if (font === 'Roboto') {
+    setFont('Roboto');
+    } else if (font === 'Lato') {
+    setFont('Lato');
+    }  else if (font === 'Montserrat') {
+    setFont('Montserrat');
+    }
+    });
+
+    selectContainer.appendChild(select);
+    fontButtonContainer.appendChild(selectContainer);
+    
+
+    const increaseFontButton = document.createElement('button');
+    increaseFontButton.classList.add('font-button');
+    increaseFontButton.textContent = increaseFontText;
+    increaseFontButton.setAttribute('title', increaseFontTitle);
+    increaseFontButton.addEventListener('click', () => setFontSize(1));
+    fontButtonContainer.appendChild(increaseFontButton);
+
+    const decreaseFontButton = document.createElement('button');
+    decreaseFontButton.classList.add('font-button');
+    decreaseFontButton.textContent = decreaseFontText;
+    decreaseFontButton.setAttribute('title', decreaseFontTitle);
+    decreaseFontButton.addEventListener('click', () => setFontSize(-1));
+    fontButtonContainer.appendChild(decreaseFontButton);
+    
+    const translateButton = document.createElement('button');
+    translateButton.classList.add('font-button');
+    translateButton.textContent = translateText;
+    translateButton.setAttribute('title', translateTitle);
+    translateButton.addEventListener('click', toggleGoogleTranslateWidget);
+    fontButtonContainer.appendChild(translateButton);
+
+  // Botón para leer en voz alta
+    const readButton = document.createElement('button');
+    readButton.classList.add('font-button');
+    readButton.textContent = readText;
+    readButton.setAttribute('title', readTextTitle);
+    
+    readButton.addEventListener('click', () => {
+    let selectedText = window.getSelection().toString();
+    let text = '';
+    let lang = document.documentElement.lang;
+    if (selectedText !== '') {
+      text = selectedText;
+      let selectedNode = window.getSelection().anchorNode;
+      while (selectedNode && selectedNode.nodeType !== Node.ELEMENT_NODE) {
+        selectedNode = selectedNode.parentNode;
+      }
+      if (selectedNode) {
+        const selectedLang = selectedNode.getAttribute('lang');
+        if (selectedLang) {
+          lang = selectedLang;
+        }
+      }
+    } else {
+      text = document.body.innerText;
+      const bodyLang = document.body.getAttribute('lang');
+      if (bodyLang) {
+        lang = bodyLang;
+      }
+    }
+
+    utterance.lang = lang;
+    utterance.text = text;
+
+    if (!isReading) {
+      isReading = true;
+      readButton.textContent = `${stopText} (${lang})`;
+      readButton.setAttribute('title', stopTextTitle);
+      speechSynthesis.speak(utterance);
+    } else {
+      isReading = false;
+      readButton.textContent = readText;
+      readButton.setAttribute('title', readTextTitle);
+      speechSynthesis.cancel();
+    }
+
+    utterance.addEventListener('end', () => {
+      isReading = false;
+      readButton.textContent = readText;
+      readButton.setAttribute('title', readTextTitle);
+    });
+  });  
+    
+    fontButtonContainer.appendChild(readButton);
+    
+  // Botón para que la barra esté siempre visible
+    const floatingButton = document.createElement('button');
+    floatingButton.classList.add('font-button');
+    floatingButton.textContent = floatingFloat;
+    floatingButton.setAttribute('title', floatingFloatTitle);
+    floatingButton.addEventListener('click', () => {
+    if (floatingButton.textContent === floatingFix) {
+      fontButtonContainer.style.position = 'static';
+      floatingButton.textContent = floatingFloat;
+      floatingButton.setAttribute('title', floatingFloatTitle);
+      localStorage.setItem('floatState', 'static');
+    } else {
+      fontButtonContainer.style.position = 'fixed';
+      floatingButton.textContent = floatingFix;
+      floatingButton.setAttribute('title', floatingFixTitle);
+      localStorage.setItem('floatState', 'fixed');
+    }
+  });
+
+    
+
+    let floatState = localStorage.getItem('floatState');
+    if (!floatState) {
+      floatState = 'static';
+      floatingButton.textContent = floatingFix;
+      floatingButton.setAttribute('title', floatingFixTitle);
+    }
+    if (floatState === 'fixed') {
+      fontButtonContainer.style.position = 'fixed';
+      floatingButton.textContent = floatingFix;
+      floatingButton.setAttribute('title', floatingFixTitle);
+    } else {
+      fontButtonContainer.style.position = 'static';
+      floatingButton.textContent = floatingFloat;
+      floatingButton.setAttribute('title', floatingFloatTitle);
+    }
+    
+    localStorage.setItem('floatState', floatState);
+    
+  fontButtonContainer.appendChild(floatingButton);
+
+
+    const infoLink = document.createElement('a');
+    infoLink.textContent = infoText;
+    infoLink.href = infoTextLink;
+    infoLink.target = '_blank';
+    infoLink.style.marginLeft = '8px';
+    infoLink.style.fontSize = '12px';
+    fontButtonContainer.appendChild(infoLink);
+
+    
+    infoLink.classList.add('z-index');
+
+    document.body.insertBefore(fontButtonContainer, document.body.firstChild);
+   
+  });
+  
+  
+
+</script>
+</head>
+<body class="exe-web-site" id="exe-node-77"><script type="text/javascript">document.body.className+=" js"</script>
+<div id="content">
+<p id="skipNav"><a href="#main" class="sr-av">Omet navegació</a></p>
+<header id="header" ><div id="headerContent">Kit de primer auxilis digitals</div></header>
+<nav id="siteNav">
+<ul>
+   <li><a href="index.html" class="daddy main-node">KIT PRIMERS AUXILIS DIGITALS</a></li>
+   <li><a href="correu_gva.html" class="no-ch">Correu GVA</a></li>
+   <li><a href="aules.html" class="no-ch">Aules</a></li>
+   <li><a href="one_drive.html" class="no-ch">One Drive</a></li>
+   <li id="active"><a href="teams.html" class="active daddy">Teams</a>
+   <ul>
+      <li><a href="netiqueta.html" class="no-ch">Netiqueta</a></li>
+   </ul>
+   </li>
+   <li><a href="navegaci_bsqueda_i_filtratge_dinformaci.html" class="daddy">Navegació, búsqueda i filtratge d'informació</a>
+   <ul class="other-section">
+      <li><a href="padlet.html" class="no-ch">Padlet</a></li>
+      <li><a href="busqueda_dimatges_en_google.html" class="no-ch">Busqueda d'imatges en Google</a></li>
+   </ul>
+   </li>
+   <li><a href="creacci_de_continguts.html" class="daddy">Creacció de continguts</a>
+   <ul class="other-section">
+      <li><a href="desenvolupament_de_continguts_digitals.html" class="no-ch">Desenvolupament de continguts digitals</a></li>
+   </ul>
+   </li>
+   <li><a href="_fitxa_tcnica_i_descarrega_.html" class="no-ch">- Fitxa tècnica i descarrega -</a></li>
+</ul>
+</nav>
+<div id='topPagination'>
+<nav class="pagination noprt">
+<a href="one_drive.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="netiqueta.html" class="next"><span>Següent<span> &raquo;</span></span></a>
+</nav>
+</div>
+<div id="main-wrapper">
+<section id="main">
+<header id="nodeDecoration"><h1 id="nodeTitle">Teams</h1></header>
+<article class="iDevice_wrapper textIdevice" id="id260">
+<div class="iDevice emphasis0" >
+<div id="ta260_264_2" class="block iDevice_content">
+<div class="exe-text"><h2 style="text-align: center;"><span data-contrast="auto" style="color: #9c6ac6;">Microsoft TEAMS</span></h2>
+<table border="0" style="width: 100%;">
+<tbody>
+<tr>
+<td style="width: 20%;"><img class="WACImage SCXW225133947 BCX9" unselectable="on" src="img0.png" width="284" height="264" alt="Logo Teams" style="float: left;" /></td>
+<td style="width: 50%;">
+<p><span data-contrast="auto">És una eina que, orientada a educació, pot donar suport als estudiants, entre altres coses a:</span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559731&quot;:426,&quot;335559739&quot;:160,&quot;335559740&quot;:360}"> </span></p>
+<ul>
+<li data-leveltext="•" data-font="Nexa Light" data-listid="2" data-list-defn-props="{&quot;335551671&quot;:0,&quot;335552541&quot;:1,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Nexa Light&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;•&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="0" data-aria-level="1"><span data-contrast="auto">Participar en espais virtuals de classes mitjançant funcionalitats com el xat, vídeo trucada, arxius, entre d'altres.</span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559685&quot;:284,&quot;335559731&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:360,&quot;469777462&quot;:[3828],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></li>
+<li data-leveltext="•" data-font="Nexa Light" data-listid="2" data-list-defn-props="{&quot;335551671&quot;:0,&quot;335552541&quot;:1,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Nexa Light&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;•&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="0" data-aria-level="1"><span data-contrast="auto">Visualitzar i lliurar tasques.</span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559685&quot;:284,&quot;335559731&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:360,&quot;469777462&quot;:[3828],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></li>
+</ul>
+<ul>
+<li data-leveltext="•" data-font="Nexa Light" data-listid="2" data-list-defn-props="{&quot;335551671&quot;:0,&quot;335552541&quot;:1,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Nexa Light&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;•&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="0" data-aria-level="1"><span data-contrast="auto">Crear espais virtuals per a temàtiques diverses, com ara grups de treball o comunitats d'estudiants.</span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559685&quot;:284,&quot;335559731&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:360,&quot;469777462&quot;:[3828],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></li>
+<li data-leveltext="•" data-font="Nexa Light" data-listid="2" data-list-defn-props="{&quot;335551671&quot;:0,&quot;335552541&quot;:1,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Nexa Light&quot;,&quot;469769242&quot;:[8226],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;•&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="0" data-aria-level="1"><span data-contrast="auto">Gestionar blocs de notes.</span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559685&quot;:284,&quot;335559731&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:360,&quot;469777462&quot;:[3828],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center;"><b style="color: #9c6ac6; font-size: 1.45em; letter-spacing: 0.5px;">Comencem!</b><span style="color: #9c6ac6; font-size: 1.45em; letter-spacing: 0.5px;"> </span></p>
+<p><b><span data-contrast="none">Ja has descarregat TEAMS?</span></b><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:2,&quot;335551620&quot;:2,&quot;335559739&quot;:120,&quot;335559740&quot;:360,&quot;469777462&quot;:[567],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></p>
+<p>Tenir l'aplicació de TEAMS a l'escriptori és essencial per a l'exercici de la plataforma i per poder accedir a totes les seves funcionalitats. L'opció de descàrrega es podrà trobar a la pàgina de Microsoft o mitjançant el menú d'aplicacions del vostre correu. </p>
+<div class="exe-fx exe-paginated">
+<h2>Pas 1</h2>
+<p>Entra en el navegador internet i accedeix a: <a href="https://portal.office.com ">https://portal.office.com </a></p>
+<h2>Pas 2</h2>
+<table style="width: 100%;">
+<tbody>
+<tr>
+<td style="width: 74.5776%;">
+<p>Accedireu a la pàgina de Microsoft del Departament amb el vostre correu i contrasenya: ___@alu.edu.gva.es </p>
+</td>
+<td style="width: 25.4224%;"><img class="WACImage SCXW120077297 BCX9" unselectable="on" src="img1.png" srcset="" width="318" height="257" alt="accé al correu" style="float: right;" /></td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center;"></p>
+<h2 style="text-align: left;"><span data-contrast="auto">Pas 3</span></h2>
+<table style="width: 100%;">
+<tbody>
+<tr>
+<td style="width: 74.5776%;">
+<p><span data-contrast="auto">Selecciona l’icona TEAMS. </span><span data-ccp-props="{&quot;134233117&quot;:true,&quot;134233118&quot;:true,&quot;201341983&quot;:0,&quot;335559685&quot;:142,&quot;335559731&quot;:0,&quot;335559740&quot;:240,&quot;469777462&quot;:[426,567,751],&quot;469777927&quot;:[0,0,0],&quot;469777928&quot;:[1,1,1]}"> </span></p>
+</td>
+<td style="width: 25.4224%;"><span data-contrast="auto"><img src="Screenshot_2023-09-12_at_17.21.20.png" alt="Teams 3" width="249" height="478" style="float: right;" /></span></td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center;"></p>
+<h2 style="text-align: left;"><span data-ccp-props="{&quot;134233117&quot;:true,&quot;134233118&quot;:true,&quot;201341983&quot;:0,&quot;335559685&quot;:142,&quot;335559731&quot;:0,&quot;335559740&quot;:240,&quot;469777462&quot;:[426,567,751],&quot;469777927&quot;:[0,0,0],&quot;469777928&quot;:[1,1,1]}">Pas 4</span></h2>
+<table border="0" style="width: 100%;">
+<tbody>
+<tr>
+<td style="width: 50%;"><span data-contrast="auto">Una vegada validats correctament accedim a TEAMS Aquest és l’aspecte que presenta l’aplicació. </span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559685&quot;:142,&quot;335559731&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[426,467,567],&quot;469777927&quot;:[0,0,0],&quot;469777928&quot;:[1,1,1]}"> </span><span data-contrast="auto">Es mostra en aquest cas els equips a què pertany l'usuari que hi ha entrat.</span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559685&quot;:142,&quot;335559740&quot;:360,&quot;469777462&quot;:[426,467,567],&quot;469777927&quot;:[0,0,0],&quot;469777928&quot;:[1,1,1]}"> </span></td>
+<td style="width: 50%;"><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559685&quot;:142,&quot;335559740&quot;:360,&quot;469777462&quot;:[426,467,567],&quot;469777927&quot;:[0,0,0],&quot;469777928&quot;:[1,1,1]}"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW35321029 BCX9" role="presentation"><img class="WACImage SCXW35321029 BCX9" unselectable="on" src="img2.png" width="695" height="444" alt="teams 4" style="float: right;" /></span></span></td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center;"></p>
+<h2><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:2,&quot;335551620&quot;:2,&quot;335559685&quot;:142,&quot;335559740&quot;:360,&quot;469777462&quot;:[426,567],&quot;469777927&quot;:[0,0],&quot;469777928&quot;:[1,1]}"><span data-contrast="none" xml:lang="CA-ES" lang="CA-ES" class="TextRun SCXW78917724 BCX9"><span class="NormalTextRun SCXW78917724 BCX9">Pas 5</span></span></span></h2>
+<table border="0" style="width: 100%;">
+<tbody>
+<tr>
+<td style="width: 50%;">
+<p><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:2,&quot;335551620&quot;:2,&quot;335559685&quot;:142,&quot;335559740&quot;:360,&quot;469777462&quot;:[426,567],&quot;469777927&quot;:[0,0],&quot;469777928&quot;:[1,1]}"><span data-contrast="none" xml:lang="CA-ES" lang="CA-ES" class="TextRun SCXW78917724 BCX9"><span class="NormalTextRun SCXW78917724 BCX9">Les accions que es poden realitzar a T</span><span class="NormalTextRun SCXW78917724 BCX9">EAMS</span><span class="NormalTextRun SCXW78917724 BCX9"> es poden veure al menú esquerre i la barra superior</span></span><span data-contrast="none" xml:lang="CA-ES" lang="CA-ES" class="TextRun MacChromeBold SCXW78917724 BCX9"><span class="NormalTextRun SCXW78917724 BCX9">.</span></span><span class="EOP SCXW78917724 BCX9" data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559685&quot;:142,&quot;335559731&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[426,567],&quot;469777927&quot;:[0,0],&quot;469777928&quot;:[1,1]}"> </span> </span></p>
+<p style="text-align: center;"></p>
+</td>
+<td style="width: 50%;"><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:2,&quot;335551620&quot;:2,&quot;335559685&quot;:142,&quot;335559740&quot;:360,&quot;469777462&quot;:[426,567],&quot;469777927&quot;:[0,0],&quot;469777928&quot;:[1,1]}"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW248336084 BCX9" role="presentation"><img class="WACImage SCXW248336084 BCX9" unselectable="on" src="img3.png" width="737" height="338" alt="teams 5" /></span></span></td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center;"></p>
+<h2 style="text-align: left;"><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:2,&quot;335551620&quot;:2,&quot;335559685&quot;:142,&quot;335559740&quot;:360,&quot;469777462&quot;:[426,567],&quot;469777927&quot;:[0,0],&quot;469777928&quot;:[1,1]}"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW248336084 BCX9" role="presentation"><span class="WACImageBorder SCXW248336084 BCX9">BARRA SUPERIOR  <br /></span></span></span></h2>
+<table style="width: 100%;">
+<tbody>
+<tr>
+<td style="width: 66.129%;">
+<p><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:2,&quot;335551620&quot;:2,&quot;335559685&quot;:142,&quot;335559740&quot;:360,&quot;469777462&quot;:[426,567],&quot;469777927&quot;:[0,0],&quot;469777928&quot;:[1,1]}"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW248336084 BCX9" role="presentation"><span class="WACImageBorder SCXW248336084 BCX9">El camp de text central a la barra superior serveix per fer múltiples cerques. Les més típiques són: </span></span></span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:2,&quot;335551620&quot;:2,&quot;335559685&quot;:142,&quot;335559740&quot;:360,&quot;469777462&quot;:[426,567],&quot;469777927&quot;:[0,0],&quot;469777928&quot;:[1,1]}"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW248336084 BCX9" role="presentation"><span class="WACImageBorder SCXW248336084 BCX9"></span></span></span></p>
+<ul>
+<li style="text-align: left;"><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:2,&quot;335551620&quot;:2,&quot;335559685&quot;:142,&quot;335559740&quot;:360,&quot;469777462&quot;:[426,567],&quot;469777927&quot;:[0,0],&quot;469777928&quot;:[1,1]}"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW248336084 BCX9" role="presentation"><span class="WACImageBorder SCXW248336084 BCX9">Buscar persones. Tecleja algunes lletres del nom o cognoms i apareixeran les persones que compleixen aquest patró. <br /></span></span></span></li>
+<li style="text-align: left;"><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:2,&quot;335551620&quot;:2,&quot;335559685&quot;:142,&quot;335559740&quot;:360,&quot;469777462&quot;:[426,567],&quot;469777927&quot;:[0,0],&quot;469777928&quot;:[1,1]}"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW248336084 BCX9" role="presentation"><span class="WACImageBorder SCXW248336084 BCX9">Buscar paraules clau per localitzar alguna conversa o fitxer. Es mostren missatges, contactes o fitxers que compleixen el patró. També podeu accedir a canals o equips amb el patró especificat. </span></span></span></li>
+</ul>
+</td>
+<td style="width: 33.871%;"><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:2,&quot;335551620&quot;:2,&quot;335559685&quot;:142,&quot;335559740&quot;:360,&quot;469777462&quot;:[426,567],&quot;469777927&quot;:[0,0],&quot;469777928&quot;:[1,1]}"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW248336084 BCX9" role="presentation"><span class="WACImageBorder SCXW248336084 BCX9"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW120146118 BCX9" role="presentation"><img class="WACImage SCXW120146118 BCX9" unselectable="on" src="img5.png" width="411" height="131" alt="teams 6" style="float: right;" /></span></span></span></span></td>
+</tr>
+</tbody>
+</table>
+<p></p>
+<h2><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:2,&quot;335551620&quot;:2,&quot;335559685&quot;:142,&quot;335559740&quot;:360,&quot;469777462&quot;:[426,567],&quot;469777927&quot;:[0,0],&quot;469777928&quot;:[1,1]}"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW248336084 BCX9" role="presentation"><span class="WACImageBorder SCXW248336084 BCX9"><b>MENÚ de l’ESQUERRA</b> </span></span></span></h2>
+<table style="width: 100 %; font-weight: 400;" data-tablestyle="MsoTableGrid" data-tablelook="1184" aria-rowcount="11">
+<tbody>
+<tr aria-rowindex="4">
+<td data-celllook="4369" style="width: 100px;">
+<p><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:2,&quot;335551620&quot;:2,&quot;335559740&quot;:259,&quot;469777462&quot;:[567],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></p>
+<p><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:2,&quot;335551620&quot;:2,&quot;335559740&quot;:259,&quot;469777462&quot;:[567],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW109707668 BCX9" role="presentation"><img class="WACImage SCXW109707668 BCX9" unselectable="on" src="img6.png" width="199" height="81" alt="teams 7" /><span class="WACImageBorder SCXW109707668 BCX9"></span></span><span data-contrast="none" xml:lang="CA-ES" lang="CA-ES" class="TextRun MacChromeBold EmptyTextRun SCXW109707668 BCX9"></span></span></p>
+</td>
+<td data-celllook="4369" style="width: 1172px;">
+<p><span data-contrast="auto">Activitat: En seleccionar es poden veure els últims xats, darreres accions que has fet, qui m'ha comentat alguna cosa, converses que s'han fet o trucades perdudes.</span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559740&quot;:360,&quot;469777462&quot;:[567],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></p>
+</td>
+</tr>
+<tr aria-rowindex="5">
+<td data-celllook="4369" style="width: 100px;">
+<p><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:2,&quot;335551620&quot;:2,&quot;335559740&quot;:259,&quot;469777462&quot;:[567],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></p>
+<p><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:2,&quot;335551620&quot;:2,&quot;335559740&quot;:259,&quot;469777462&quot;:[567],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW59989059 BCX9" role="presentation"><img class="WACImage SCXW59989059 BCX9" unselectable="on" src="img7.png" width="200" height="170" alt="teams 8" /><span class="WACImageBorder SCXW59989059 BCX9"></span></span><span data-contrast="none" xml:lang="CA-ES" lang="CA-ES" class="TextRun MacChromeBold EmptyTextRun SCXW59989059 BCX9"></span></span></p>
+</td>
+<td data-celllook="4369" style="width: 1172px;">
+<p><span data-contrast="auto">Calendari: Podeu programar cites o reunions i visualitzar-les dins d'un calendari amb vistes setmanal, diària o mensual.</span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559740&quot;:360,&quot;469777462&quot;:[567],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></p>
+</td>
+</tr>
+<tr aria-rowindex="6">
+<td data-celllook="4369" style="width: 100px;">
+<p><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:2,&quot;335551620&quot;:2,&quot;335559740&quot;:259,&quot;469777462&quot;:[567],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></p>
+<p><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:2,&quot;335551620&quot;:2,&quot;335559740&quot;:259,&quot;469777462&quot;:[567],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW204966365 BCX9" role="presentation"><img class="WACImage SCXW204966365 BCX9" unselectable="on" src="img8.png" width="200" height="170" alt="teams 9" /><span class="WACImageBorder SCXW204966365 BCX9"></span></span><span data-contrast="none" xml:lang="CA-ES" lang="CA-ES" class="TextRun MacChromeBold EmptyTextRun SCXW204966365 BCX9"></span></span></p>
+</td>
+<td data-celllook="4369" style="width: 1172px;">
+<p><span data-contrast="auto">Equips: Dins dels teus TEAMS pots tenir diversos equips als quals pertanys. Cada equip té una finalitat exclusiva i per tant està format per unes persones. En seleccionar aquesta opció podràs veure en quins equips estàs, afegir-te a equips d'altres si et donen permís o crear-ne un de nou. El concepte d'equip és anàleg al concepte de grup a WhatsApp.</span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559740&quot;:360,&quot;469777462&quot;:[567],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></p>
+</td>
+</tr>
+<tr>
+<td style="width: 100px;">
+<p><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:2,&quot;335551620&quot;:2,&quot;335559740&quot;:259,&quot;469777462&quot;:[567],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW184113236 BCX9" role="presentation"><img class="WACImage SCXW184113236 BCX9" unselectable="on" src="img9.png" width="200" height="170" alt="teams 8" /><span class="WACImageBorder SCXW184113236 BCX9"></span></span><span data-contrast="none" xml:lang="CA-ES" lang="CA-ES" class="TextRun MacChromeBold EmptyTextRun SCXW184113236 BCX9"></span><br /></span></p>
+</td>
+<td data-celllook="4369" style="width: 1172px;">
+<p><span data-contrast="auto"><span>Xat: Aquesta opció permet iniciar xats nous amb la resta de l'equip o amb algun subconjunt de l'equip. Pots accedir a xats passats i cercar per paraules clau per trobar converses que t'interess</span><span>e</span><span>n.</span></span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559740&quot;:360,&quot;469777462&quot;:[567],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></p>
+</td>
+</tr>
+<tr>
+<td style="width: 100px;">
+<p><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:2,&quot;335551620&quot;:2,&quot;335559740&quot;:259,&quot;469777462&quot;:[567],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW133426447 BCX9" role="presentation"><img class="WACImage SCXW133426447 BCX9" unselectable="on" src="img10.png" width="100" height="89" alt="teams 10" /><span class="WACImageBorder SCXW133426447 BCX9"></span></span><span data-contrast="none" xml:lang="CA-ES" lang="CA-ES" class="TextRun MacChromeBold EmptyTextRun SCXW133426447 BCX9"></span><br /></span></p>
+</td>
+<td data-celllook="4369" style="width: 1172px;">
+<p><span data-contrast="auto"><span>Tasques: </span><span>Aquesta pestanya et permet</span><span> portar un seguiment més detallat de les taques guardades en esborranys, publicades, i assignades i retornades en tots els </span><span>teus </span><span>equips</span><span> a TEAMS. Es poden crear noves tasques des d’aquest menú.</span></span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559740&quot;:360,&quot;469777462&quot;:[567],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></p>
+</td>
+</tr>
+<tr>
+<td style="width: 100px;">
+<p><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:2,&quot;335551620&quot;:2,&quot;335559740&quot;:259,&quot;469777462&quot;:[567],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW18811995 BCX9" role="presentation"><img class="WACImage SCXW18811995 BCX9" unselectable="on" src="img11.png" width="200" height="179" alt="teams 11" /><span class="WACImageBorder SCXW18811995 BCX9"></span></span><span data-contrast="none" xml:lang="CA-ES" lang="CA-ES" class="TextRun MacChromeBold EmptyTextRun SCXW18811995 BCX9"></span><br /></span></p>
+</td>
+<td data-celllook="4369" style="width: 1172px;">
+<p><span data-contrast="auto"><span>Més opcions: </span><span>Pots sincronitzar altres aplicacions que enriquiran l’experiència. Des d’ací disposes d’enllaços directes a algunes aplicacions, però tens moltes </span><span>més al </span><span>botó “Aplicacions”.</span></span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559740&quot;:360,&quot;469777462&quot;:[567],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></p>
+</td>
+</tr>
+</tbody>
+</table>
+<h2><b><span data-contrast="none">GESTIONA EL TEU USUARI</span></b><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559740&quot;:360,&quot;469777462&quot;:[567],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></h2>
+<table border="0" style="width: 100%;">
+<tbody>
+<tr>
+<td style="width: 50%;" rowspan="2">
+<p><span data-contrast="auto">A la dreta de la barra central es mostra el teu ID d'usuari i el TEAMS al que estàs connectat.</span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559731&quot;:461,&quot;335559740&quot;:360,&quot;469777462&quot;:[567],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></p>
+<p><span data-contrast="auto">En fer clic al teu ID d'usuari es desplega un menú on pots:</span><span data-contrast="auto"> </span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559740&quot;:360,&quot;469777462&quot;:[567],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:2,&quot;335551620&quot;:2,&quot;335559740&quot;:360,&quot;469777462&quot;:[567],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></p>
+<ul>
+<li data-leveltext="" data-font="Wingdings" data-listid="8" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Wingdings&quot;,&quot;469769242&quot;:[9642],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="1" data-aria-level="1"><span data-contrast="auto">Canviar la imatge del teu usuari</span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559685&quot;:320,&quot;335559731&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[603],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></li>
+<li data-leveltext="" data-font="Wingdings" data-listid="8" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Wingdings&quot;,&quot;469769242&quot;:[9642],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="2" data-aria-level="1"><span data-contrast="auto">Indicar si estàs disponible, ocupat, etc.</span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559685&quot;:320,&quot;335559731&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[603],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></li>
+<li data-leveltext="" data-font="Wingdings" data-listid="8" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Wingdings&quot;,&quot;469769242&quot;:[9642],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="3" data-aria-level="1"><span data-contrast="auto">Definir un missatge per quan es vulguen comunicar amb tu (per exemple, indicant que aquestes de vacances)</span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559685&quot;:320,&quot;335559731&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[603],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></li>
+</ul>
+</td>
+<td style="width: 50%;"><span data-contrast="auto"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW143024906 BCX9" role="presentation"><img class="WACImage SCXW143024906 BCX9" unselectable="on" src="img12.png" width="724" height="336" alt="teams 12" style="float: right;" /></span></span></td>
+</tr>
+<tr>
+<td style="width: 50%;"><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559685&quot;:320,&quot;335559731&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[603],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW247464752 BCX9" role="presentation"><img class="WACImage SCXW247464752 BCX9" unselectable="on" src="img13.png" width="459" height="211" alt="teams " style="float: right;" /></span></span></td>
+</tr>
+</tbody>
+</table>
+<p></p>
+</div></div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper textIdevice em_iDevice" id="id261">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header iDevice_header_noIcon"><h1 class="iDeviceTitle">A Treballar! </h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta261_265_2" class="block iDevice_content">
+<div class="exe-text"><p style="text-align: center;"><span class="FieldRange SCXW42236708 BCX9"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW42236708 BCX9" role="presentation"><img class="WACImage SCXW42236708 BCX9" unselectable="on" alt="imatge tasca " src="img0.1.png" width="600" height="401" /></span></span></p>
+<div class="exe-fx exe-accordion">
+<h2><span data-contrast="none" xml:lang="CA-ES" lang="CA-ES" class="TextRun MacChromeBold SCXW139458965 BCX9"><span class="NormalTextRun SCXW139458965 BCX9" data-ccp-parastyle="Normal (Web)">XAT</span></span></h2>
+<p></p>
+<table border="0" style="width: 100%;">
+<tbody>
+<tr>
+<td style="width: 50%;"><span data-contrast="auto">Al menú Esquerre l'opció “CHAT”, o la icona a la barra superior permet iniciar un xat. En fer clic apareix la pantalla següent:</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559731&quot;:426,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[284],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></td>
+<td style="width: 50%;"><span data-contrast="auto"><img src="Screenshot_2023-09-12_at_17.41.24.png" width="500" height="437" alt="teams" style="display: block; margin-left: auto; margin-right: auto; float: right;" /></span></td>
+</tr>
+<tr>
+<td style="width: 50%;">
+<p><span data-contrast="auto">A la BARRA SUPERIOR s'especifica Per a: on especificaries les persones amb qui vols compartir el xat. Especificada almenys una persona o grup es mostra la següent pantalla:</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559731&quot;:426,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[284],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></p>
+<p style="text-align: center;"></p>
+</td>
+<td style="width: 50%;"><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559731&quot;:426,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[284],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"><img src="Screenshot_2023-09-12_at_17.43.22.png" width="674" height="169" alt="teams" style="float: right;" /></span></td>
+</tr>
+</tbody>
+</table>
+<p><span data-contrast="auto"></span><b><span data-contrast="none">Què pots fer en un xat?</span></b><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[284],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></p>
+<p><span data-contrast="auto">A la barra superior podem veure diverses pestanyes per a:</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[284],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></p>
+<table border="0" style="width: 100%;">
+<tbody>
+<tr>
+<td style="width: 7.91088%;"><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[284],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"><img class="WACImage SCXW221631382 BCX9" unselectable="on" src="img3.1.png" width="80" height="214" alt="teams" style="float: left;" /></span></td>
+<td style="width: 92.0891%;">
+<ul>
+<li data-leveltext="" data-font="Wingdings" data-listid="10" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559684&quot;:-2,&quot;335559685&quot;:1004,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Wingdings&quot;,&quot;469769242&quot;:[9642],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="1" data-aria-level="1"><span data-contrast="auto">Accedir a afegir fitxers per compartir en aquest xat,</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559685&quot;:284,&quot;335559731&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[567],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></li>
+<li data-leveltext="" data-font="Wingdings" data-listid="10" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559684&quot;:-2,&quot;335559685&quot;:1004,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Wingdings&quot;,&quot;469769242&quot;:[9642],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="2" data-aria-level="1"><span data-contrast="auto">Realitzar una trucada de vídeo </span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559685&quot;:284,&quot;335559731&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[567],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></li>
+<li data-leveltext="" data-font="Wingdings" data-listid="10" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559684&quot;:-2,&quot;335559685&quot;:1004,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Wingdings&quot;,&quot;469769242&quot;:[9642],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="1" data-aria-level="1"><span data-contrast="auto">Realitzar una trucada d'àudio</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559685&quot;:284,&quot;335559731&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[567],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></li>
+<li data-leveltext="" data-font="Wingdings" data-listid="10" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559684&quot;:-2,&quot;335559685&quot;:1004,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Wingdings&quot;,&quot;469769242&quot;:[9642],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="2" data-aria-level="1"><span data-contrast="auto">Compartir la teua pantalla amb els altres membres del xat</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559685&quot;:284,&quot;335559731&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[567],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></li>
+<li data-leveltext="" data-font="Wingdings" data-listid="10" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559684&quot;:-2,&quot;335559685&quot;:1004,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Wingdings&quot;,&quot;469769242&quot;:[9642],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="3" data-aria-level="1"><span data-contrast="auto">Afegir noves persones o grups en qualsevol moment.</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559685&quot;:284,&quot;335559731&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[567],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><span data-contrast="auto">En una conversa escrita, TEAMS permet fer una sèrie d'accions. </span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559731&quot;:426,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[284],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></p>
+<p style="text-align: center;"><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559731&quot;:426,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[284],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW268344083 BCX9" role="presentation"><img class="WACImage SCXW268344083 BCX9" unselectable="on" src="img4.png" width="954" height="563" alt="teams" /><span class="WACImageBorder SCXW268344083 BCX9"></span></span><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun EmptyTextRun SCXW268344083 BCX9"></span></span></p>
+<p style="text-align: left;"><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559731&quot;:426,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[284],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW268344083 BCX9" role="presentation"><span class="WACImageBorder SCXW268344083 BCX9"> Baix de la caixa de text on escrivim el contingut del missatge hi ha una sèrie d'icones on destaquem: </span></span></span></p>
+<table border="0" style="width: 100 %;">
+<tbody>
+<tr>
+<td style="width: 73.5312px;"><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559731&quot;:426,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[284],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW268344083 BCX9" role="presentation"><span class="WACImageBorder SCXW268344083 BCX9"><img class="WACImage SCXW239201939 BCX9" unselectable="on" src="img5.1.png" width="70" height="226" style="float: left;" /></span></span></span></td>
+<td style="width: 1190.45px;">
+<ul>
+<li><span data-contrast="auto">Accés a format: Negretes, vinyetes, hipervincles...</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:0,&quot;335559739&quot;:120,&quot;335559740&quot;:360,&quot;469777462&quot;:[284],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></li>
+<li><span data-contrast="auto">Prioritat del missatge: estàndard, important o urgent (envia notificacions cada 2 minuts)</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:0,&quot;335559739&quot;:120,&quot;335559740&quot;:360,&quot;469777462&quot;:[284],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></li>
+<li><span data-contrast="auto">Adjuntar fitxers al xat</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:0,&quot;335559739&quot;:120,&quot;335559740&quot;:360,&quot;469777462&quot;:[284],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></li>
+<li><span data-contrast="auto">Afegir emojis o stickers</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:0,&quot;335559739&quot;:120,&quot;335559740&quot;:360,&quot;469777462&quot;:[284],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></li>
+<li><span data-contrast="auto">Enviar el missatge. També es pot enviar amb la tecla ENTER. </span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:0,&quot;335559739&quot;:120,&quot;335559740&quot;:360,&quot;469777462&quot;:[284],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<strong><span style="color: #7b82ea;">TRUC</span></strong>: Perquè algú sàpiga que li he enviat un missatge: A la caixa de text escric @ i després el nom d'algú de l'equip, se li notifica a aquesta persona el missatge. <br />
+<h2>EQUIPS</h2>
+<p>En fer clic al menú Esquerre en aquesta opció es mostren els equips a què pertanys. Selecciona l'equip al que et vols dirigir. </p>
+<p style="text-align: center;"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW53059813 BCX9" role="presentation"><img class="WACImage SCXW53059813 BCX9" unselectable="on" src="img6.1.png" width="516" height="216" alt="teams" /><span class="WACImageBorder SCXW53059813 BCX9"></span></span><span data-contrast="auto" xml:lang="ES-ES" lang="ES-ES" class="TextRun EmptyTextRun SCXW53059813 BCX9"></span></p>
+<p><span data-contrast="none">Feu clic en un per començar a connectar amb el mestre i els companys de la teua classe.</span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335551550&quot;:2,&quot;335551620&quot;:2,&quot;335559731&quot;:426,&quot;335559739&quot;:0,&quot;335559740&quot;:240}"> </span></p>
+<p><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[426],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW210167515 BCX9" role="presentation"><img class="WACImage SCXW210167515 BCX9" unselectable="on" src="img7.1.png" width="477" height="161" alt="" style="display: block; margin-left: auto; margin-right: auto;" /><span class="WACImageBorder SCXW210167515 BCX9"></span></span><span data-contrast="none" xml:lang="CA-ES" lang="CA-ES" class="TextRun MacChromeBold EmptyTextRun SCXW210167515 BCX9"></span></p>
+<p><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW210167515 BCX9" role="presentation"><span class="WACImageBorder SCXW210167515 BCX9"><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun SCXW225575492 BCX9"><span class="NormalTextRun SCXW225575492 BCX9" data-ccp-parastyle="Normal (Web)">Tots els equips de classe tenen una àrea de discussió principal, el canal </span><span class="NormalTextRun SCXW225575492 BCX9" data-ccp-parastyle="Normal (Web)">GENERA</span><span class="NormalTextRun SCXW225575492 BCX9" data-ccp-parastyle="Normal (Web)">L.</span></span><span class="EOP SCXW225575492 BCX9" data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559731&quot;:426,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[426],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></span></span></p>
+<p style="text-align: center;"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW210167515 BCX9" role="presentation"><span class="WACImageBorder SCXW210167515 BCX9"><span class="EOP SCXW225575492 BCX9" data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559731&quot;:426,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[426],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW157684184 BCX9" role="presentation"><img class="WACImage SCXW157684184 BCX9" unselectable="on" src="img8.1.png" width="494" height="253" alt="teams" /><span class="WACImageBorder SCXW157684184 BCX9"></span></span><span data-contrast="none" xml:lang="CA-ES" lang="CA-ES" class="TextRun MacChromeBold EmptyTextRun SCXW157684184 BCX9"></span></span></span></span></p>
+<h3 style="text-align: left;"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW210167515 BCX9" role="presentation" style="color: #7b82ea;"><span class="WACImageBorder SCXW210167515 BCX9"><span class="EOP SCXW225575492 BCX9" data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559731&quot;:426,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[426],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW157684184 BCX9" role="presentation"><span class="WACImageBorder SCXW157684184 BCX9"><span data-contrast="none" xml:lang="CA-ES" lang="CA-ES" class="TextRun MacChromeBold SCXW24044710 BCX9"><span class="NormalTextRun SCXW24044710 BCX9" data-ccp-parastyle="Normal (Web)">Comença una conversa</span></span><span class="EOP SCXW24044710 BCX9" data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360}"> </span></span></span></span></span></span></h3>
+<p><span data-contrast="auto">Per compartir un missatge amb el vostre equip de classes des de GENERAL, feu clic al quadre inferior.</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559731&quot;:567,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360}"> </span></p>
+<p><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:2,&quot;335551620&quot;:2,&quot;335559731&quot;:426,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[426],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></p>
+<p><span data-contrast="auto">Podem començar a escriure. Al requadre de baix i, sota del text, hi ha diverses opcions per personalitzar el text amb emojis, format del text, adhesius, etc.</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559731&quot;:426,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[426],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></p>
+<p style="text-align: center;"><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559731&quot;:426,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[426],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"><img class="WACImage SCXW205736355 BCX9" unselectable="on" src="img9.1.png" width="252" height="38" alt="teams" /></span></p>
+<p><span data-contrast="auto">Fent clic a ENTER s'envia el missatge.</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559731&quot;:426,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[426],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></p>
+<p style="text-align: center;"><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559731&quot;:426,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[426],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"><span class="FieldRange SCXW13360140 BCX9"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW13360140 BCX9" role="presentation"><img class="WACImage SCXW13360140 BCX9" unselectable="on" alt="" src="img10.1.png" width="695" height="497" /><span class="WACImageBorder SCXW13360140 BCX9"></span></span></span><span data-contrast="auto" xml:lang="ES-ES" lang="ES-ES" class="TextRun EmptyTextRun SCXW13360140 BCX9"></span></span></p>
+<p><span style="color: #7b82ea;"><b>TRUCS: </b> </span></p>
+<ul>
+<li data-leveltext="" data-font="Wingdings" data-listid="9" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Wingdings&quot;,&quot;469769242&quot;:[9642],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="1" data-aria-level="1"><span data-contrast="auto">ESMENTAR: Per a personalitzar les comunicacions que es realitzen dins d’un equip de TEAMS pots utilitzar la “@ + nom del membre” per a citar a algú o a tot l’equip. La persona seleccionada tindrà una notificació de TEAMS, fins i tot un correu electrònic.</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559685&quot;:284,&quot;335559731&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[567],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></li>
+</ul>
+<ul>
+<li data-leveltext="" data-font="Wingdings" data-listid="9" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Wingdings&quot;,&quot;469769242&quot;:[9642],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="1" data-aria-level="1"><span data-contrast="auto">REACCIONAR: Cada publicació pot rebre reaccions a través d’emojis</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559685&quot;:284,&quot;335559731&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[567],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></li>
+<li data-leveltext="" data-font="Wingdings" data-listid="9" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Wingdings&quot;,&quot;469769242&quot;:[9642],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="2" data-aria-level="1"><span data-contrast="auto">GUARDAR: Si t’han compartit un missatge important, una informació destacada que no vols perdre entre les converses, pots utilitzar l’opció de “Guardar”</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559685&quot;:284,&quot;335559731&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[567],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></li>
+</ul>
+<p><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559685&quot;:284,&quot;335559731&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[567],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW17797821 BCX9" role="presentation"><img class="WACImage SCXW17797821 BCX9" unselectable="on" src="img11.1.png" width="1151" height="306" alt="teams" /><span class="WACImageBorder SCXW17797821 BCX9"></span></span><span data-contrast="none" xml:lang="CA-ES" lang="CA-ES" class="TextRun MacChromeBold EmptyTextRun SCXW17797821 BCX9"></span></span></p>
+<ul>
+<li data-leveltext="" data-font="Wingdings" data-listid="13" data-list-defn-props="{&quot;335552541&quot;:1,&quot;335559684&quot;:-2,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769226&quot;:&quot;Wingdings&quot;,&quot;469769242&quot;:[9642],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="3" data-aria-level="1"><span data-contrast="auto">A la part superior de la pantalla veiem les opcions:</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559685&quot;:284,&quot;335559731&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[567],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></li>
+</ul>
+<p style="text-align: center;"><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:2,&quot;335551620&quot;:2,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[567],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> <span class="WACImageContainer NoPadding DragDrop BlobObject SCXW172425838 BCX9" role="presentation"><img class="WACImage SCXW172425838 BCX9" unselectable="on" src="img12.1.png" width="500" height="62" alt="" /><span class="WACImageBorder SCXW172425838 BCX9"></span></span><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun EmptyTextRun SCXW172425838 BCX9"></span></span></p>
+<ol style="list-style-type: lower-alpha;">
+<li><span data-contrast="auto">Publicacions: Per defecte, és la que s'obre en seleccionar un canal. Ací s'indica tot el que s'ha fet al canal, converses, trucades, reunions, etc.</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559685&quot;:426,&quot;335559731&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[567],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></li>
+<li><span data-contrast="auto">Fitxers: Si vull afegir un document Word, Excel, PowerPoint, Pdf, etc. ho puc fer des d'aquesta pestanya.</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559685&quot;:426,&quot;335559731&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[567],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></li>
+</ol>
+<h2><span data-contrast="none" xml:lang="CA-ES" lang="CA-ES" class="TextRun MacChromeBold SCXW201809360 BCX9"><span class="NormalTextRun SCXW201809360 BCX9" data-ccp-parastyle="Normal (Web)">TREBALL COL·LABORATIU</span></span><span class="EOP SCXW201809360 BCX9" data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559685&quot;:0,&quot;335559731&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[284],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></h2>
+<p><span data-contrast="auto">Un fitxer, tant si l’has creat tu com un altre membre, el podràs vore a:</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559731&quot;:426,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[284],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></p>
+<table style="width: 100%; height: 110px;">
+<tbody>
+<tr style="height: 26px;">
+<td style="width: 30%; height: 26px;">
+<ul>
+<li><span data-contrast="auto">La conversa que has creat.</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559685&quot;:567,&quot;335559731&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[851],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></li>
+</ul>
+</td>
+<td style="width: 64.1321%; height: 26px;"><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:2,&quot;335551620&quot;:2,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[851],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW137597846 BCX9" role="presentation"><img class="WACImage SCXW137597846 BCX9" unselectable="on" src="img13.1.png" width="899" height="287" alt="" /></span></span></td>
+</tr>
+<tr style="height: 28px;">
+<td style="width: 30%; height: 28px;">
+<ul>
+<li><span data-contrast="auto">L'opció Fitxers del menú superior on estan tots els fitxers de l’equip.</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559685&quot;:567,&quot;335559731&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[851],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></li>
+<li style="list-style-type: none;">
+<ul></ul>
+<p><span data-contrast="auto">En entrat a la pestanya de Fitxers.es poden trobar carpetes i documents compartits amb l’equip.</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335551550&quot;:6,&quot;335551620&quot;:6,&quot;335559731&quot;:426,&quot;335559738&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:360,&quot;469777462&quot;:[851],&quot;469777927&quot;:[0],&quot;469777928&quot;:[1]}"> </span></p>
+</li>
+</ul>
+</td>
+<td style="width: 64.1321%; height: 28px; text-align: right;"><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335559739&quot;:0,&quot;335559740&quot;:240}"><img class="WACImage SCXW128341943 BCX9" unselectable="on" alt="" src="img14.png" width="638" height="220" /></span></td>
+</tr>
+<tr style="height: 28px;">
+<td style="width: 30%; height: 28px;">
+<p><span data-contrast="auto">Però tu mateix, pots crear una carpeta o un document de treball col·laboratiu on aniran guardant-se totes modificacions que cada membre de l’equip pot fer des del seu dispositiu de treball.</span></p>
+<p style="text-align: center;"></p>
+</td>
+<td style="width: 64.1321%; height: 28px; text-align: right;"><span data-contrast="auto"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW188569253 BCX9" role="presentation"><img class="WACImage SCXW188569253 BCX9" unselectable="on" src="img15.png" width="535" height="390" alt="" /></span></span></td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center;"></p>
+</div>
+<p></p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper pblIdevice em_iDevice em_iDevice_activity" id="id266">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header" style="background-image:url(icon_activity.png)"><h1 class="iDeviceTitle">Tasques</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta266_270_2" class="block iDevice_content">
+<dl class="pbl-task-info"><dt class="pbl-task-duration"><span>Duració:</span></dt><dd class="pbl-task-duration">1 sessió</dd><dt class="pbl-task-participants"><span>Agrupació:</span></dt><dd class="pbl-task-participants">Parelles</dd></dl><div class="pbl-task-description"><div class="exe-fx exe-tabs">
+<h2>Repte 1</h2>
+<ol>
+<li>ENTRA al TEAMS amb el teu usuari i contrasenya GVA</li>
+<li>Troba la forma més fàcil per a tu d'accedir a TEAMS, pot ser a través de la WEB o descarregant-te'l al teu ordinador personal, mòbil o tablet</li>
+</ol>
+<h2>Repte 2</h2>
+<ol>
+<li>Entra al XAT de TEAMS</li>
+<li>Busca algun company de classe i envia-li un XAT</li>
+<li>Obri un nou XAT amb més de dos companys</li>
+<li>Reacciona amb EMOJIS a alguna resposta d'algun d'ells.</li>
+<li>Adjunta (amb el CLIP) una foto</li>
+</ol>
+<h2>Repte 3</h2>
+<ol>
+<li>Entra en un del equips al que pertanys</li>
+<li>Inicia una conversa amb els membres de l'equip</li>
+<li>Escriu una resposta fent mendció a una o dos persones</li>
+<li>Adjunta un DOCUMENT que tingues i comprova que després apareix en artxius.</li>
+</ol>
+<h2>Repte 4</h2>
+<ol>
+<li>ENTRA en ARXIUS</li>
+<li>CREA una CARPETA</li>
+<li>Canvia-li el NOM</li>
+<li>Col·loca el DOCUMENT que acabes de compartir.</li>
+<li>Entra al document i escriu:</li>
+</ol>
+<p style="text-align: center;">FINAL TASCA TEAMS</p>
+</div>
+<p style="text-align: center;"><img class="WACImage SCXW95740361 BCX9" unselectable="on" src="img0.2.png" width="640" height="651" alt="decoració" /></p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<div id="packageLicense" class="cc cc-by-sa">
+<p><span>Llicenciat sota la </span> <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Llicència Creative Commons Reconeixement CompartirIgual 4.0</a></p>
+</div>
+</section>
+</div>
+<div id='bottomPagination'>
+<nav class="pagination noprt">
+<a href="one_drive.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="netiqueta.html" class="next"><span>Següent<span> &raquo;</span></span></a>
+</nav>
+</div>
+</div>
+<p id="made-with-eXe"><a href="https://exelearning.net/" target="_blank" rel="noopener"><span>Creat amb eXeLearning<span> (Finestra nova)</span></span></a></p><script type="text/javascript" src="_cedec_js.js"></script></body></html>

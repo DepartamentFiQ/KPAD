@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="va">
+<head>
+<link rel="stylesheet" type="text/css" href="base.css" />
+<link rel="stylesheet" type="text/css" href="exe_effects.css" />
+<link rel="stylesheet" type="text/css" href="content.css" />
+<link rel="stylesheet" type="text/css" href="nav.css" />
+<meta http-equiv="content-type" content="text/html;  charset=utf-8" />
+<title>One Drive | Kit de primer auxilis digitals </title>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+<meta name="author" content="Claustre del IES Enric Soler i Godes" />
+<link rel="license" type="text/html" href="http://creativecommons.org/licenses/by-sa/4.0/" />
+<meta name="generator" content="eXeLearning 2.8.1 - exelearning.net" />
+<!--[if lt IE 9]><script type="text/javascript" src="exe_html5.js"></script><![endif]-->
+<script type="text/javascript" src="exe_jquery.js"></script>
+<script type="text/javascript" src="exe_effects.js"></script>
+<script type="text/javascript" src="common_i18n.js"></script>
+<script type="text/javascript" src="common.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet"  type="text/css">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap" rel="stylesheet" type="text/css">
+<link href="https://fonts.cdnfonts.com/css/opendyslexic" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"  type="text/css">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet"  type="text/css">
+
+
+<style>
+  
+  .z-index {
+    z-index: 999;
+  }
+
+  .select-container {
+    display: inline-block;
+    position: relative;
+    z-index: 999;
+  }
+
+  .font-button {
+    padding: 8px 16px;
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 8px;
+    text-align: center;
+    text-decoration: none;
+    background-color: white;
+    color: black;
+    z-index: 999;
+  }
+
+  .fontButtonContainer {
+     z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* establece el wrap para que los botones se distribuyan en varias líneas */
+    gap: 5px; /* ajusta el espacio entre los botones */
+    position: static; /* fija la barra de botones en la página: static para que aparezca en la parte superior, fixed para que quede flotando */
+    top: 40px; /* fija la barra de botones en la parte superior de la página */
+    left: 0; /* fija la barra de botones en el margen izquierdo */
+    right: 0; /* fija la barra de botones en el margen derecho */
+    margin: auto; /* centra la barra de botones horizontalmente */
+  }
+    
+  /* Estilo para el desplegable */
+  select {
+    padding: 8px 4px;
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 6px;
+    text-align: center;
+    text-decoration: none;
+    background-color: white;
+  }
+  
+  select option {
+  text-align: left;
+  }
+  
+</style>
+
+<script>
+
+// BatexeGo v3 Juan José de Haro 
+
+// Define los textos que se ven en pantalla. Reemplazar el texto entre comillas
+
+  // Textos del menú desplegable
+    const defaultText = 'Paràmetres per defecte:'; //Descripción de la opción por defecto
+    const standardText = 'Font estàndard'; // Fuente original del documento
+    
+    const dyslexicDesc = 'Dislèxia:'; // Descripción de la opción OpenDyslexic  
+    const dyslexicText = 'OpenDyslexic'; 
+    
+    const hyperlegibleDesc = 'Deficiències visuals:'; // Descripción de la opción Atkinson Hyperlegible
+    const hyperlegibleText = 'Atkinson Hyperlegible'; 
+    
+    const highLegibilityDesc = 'Alta llegibilitat:'; // Descripción de las opciones de alta legibilidad
+    const opensansText = 'OpenSans'; 
+    const robotoText = 'Roboto'; 
+    const latoText = 'Lato'; 
+    const montserratText = 'Montserrat'; 
+
+  // Botones aumentar y disminuir fuente
+    const increaseFontText = 'A+'; // Botón para incrementar la fuente
+    const increaseFontTitle = 'Augmenta la font'; // Texto emergente al pasar el ratón
+    
+    const decreaseFontText = 'A-'; // Botón para reducir la fuente
+    const decreaseFontTitle = 'Disminueix la font'; // Texto emergente al pasar el ratón
+
+  // Botón para traducir
+    const translateText = '🌐'; // Texto para el botón de traducción de Google
+    const translateTitle = 'Tradueix la pàgina'; // Texto emergente al pasar el ratón
+
+  // Botón para leer / detener la lectura en voz alta
+    let readText = 'Llegir'; // Botón para leer en voz alta el contenido de la página
+    const readTextTitle ='Llegeix en veu alta la selecció o la pàgina sencera'; // Texto emergente al pasar el ratón
+    
+    const stopText = 'Aturar'; // Texto del botón para detener la lectura
+    const stopTextTitle = 'Atura la lectura'; // Texto emergente al pasar el ratón
+  
+  // Botones para que los botones estén siempre visibles
+    let floatingFix = 'Fixar'; // Texto del botón flotante cuando está sobre el texto
+    let floatingFixTitle = 'Fixa la barra de botons a la part superior'; // Texto emergente al pasar el ratón
+    
+    let floatingFloat = 'Sempre visible'; //Texto del botón flotante cuando está fijo en la parte superior
+    let floatingFloatTitle = 'La barra romandrà sempre visible per poder seleccionar text i llegir en veu alta';
+  
+  
+  // Enlace +Info
+    const infoText = '+Info'; // Texto del enlace +Info
+    const infoTextLink = 'https://batexego.bilateria.org'; // Destino del enlace de +Info
+
+// Fin 
+  
+
+  readText = `${readText} (${document.documentElement.lang})`; //Se añade el idioma al botón Leer
+  
+
+  let originalFont;
+  let currentFontSize;
+  let originalFontSize;
+  let isReading = false;
+  let utterance = new SpeechSynthesisUtterance();
+  let googleTranslateWidgetVisible = localStorage.getItem('googleTranslateWidgetVisible');
+
+  function setFont(font) {
+  document.body.style.fontFamily = font;
+  localStorage.setItem('font', font);
+  }
+
+  function setFontSize(size) {
+  currentFontSize = parseInt(window.getComputedStyle(document.body).getPropertyValue('font-size'));
+  currentFontSize += size;
+  document.body.style.fontSize = currentFontSize + 'px';
+  localStorage.setItem('fontSize', currentFontSize + 'px');
+  }
+  
+  
+
+function toggleGoogleTranslateWidget() {
+  if (!googleTranslateWidgetVisible) {
+    const script = document.createElement('script');
+    script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+    script.id = 'google-translate-script';
+    document.head.appendChild(script);
+    
+    const googleTranslateElement = document.createElement('div');
+    googleTranslateElement.id = 'google_translate_element';
+    googleTranslateElement.style.position = 'fixed';
+    googleTranslateElement.style.top = '0';
+    googleTranslateElement.style.right = '0';
+    googleTranslateElement.style.zIndex = '1000';
+    document.body.appendChild(googleTranslateElement);
+
+    window.googleTranslateElementInit = function() {
+      new google.translate.TranslateElement({pageLanguage: 'auto', layout: google.translate.TranslateElement.FloatPosition.TOP_RIGHT}, 'google_translate_element');
+    };
+
+    googleTranslateWidgetVisible = true;
+    
+  } else {
+    const script = document.getElementById('google-translate-script');
+    script.remove();
+    
+    const googleTranslateElement = document.getElementById('google_translate_element');
+    googleTranslateElement.remove();
+
+    googleTranslateWidgetVisible = false;
+  }
+  localStorage.setItem('googleTranslateWidgetVisible',googleTranslateWidgetVisible);
+}
+
+
+
+
+  document.addEventListener('DOMContentLoaded', () => {
+
+    googleTranslateWidgetVisible = JSON.parse(localStorage.getItem('googleTranslateWidgetVisible'));
+  if(googleTranslateWidgetVisible) {
+    googleTranslateWidgetVisible = false;
+    toggleGoogleTranslateWidget();
+  }
+
+    
+  
+    originalFont = window.getComputedStyle(document.body).getPropertyValue('font-family');
+    localStorage.setItem('originalFont', originalFont);
+    let font = localStorage.getItem('font');
+    if (!font) {
+    font = originalFont;
+    }
+    document.body.style.fontFamily = font;
+
+    let fontSize = localStorage.getItem('fontSize');
+    originalFontSize = window.getComputedStyle(document.body).getPropertyValue('font-size');
+    localStorage.setItem('originalFontSize', originalFontSize);
+    if (!fontSize) {
+    fontSize = originalFontSize
+    localStorage.setItem('fontSize', fontSize);
+    }
+    document.body.style.fontSize = fontSize;
+
+    const fontButtonContainer = document.createElement('div');
+    fontButtonContainer.classList.add('fontButtonContainer'); 
+    
+    const selectContainer = document.createElement('div');
+    selectContainer.classList.add('select-container');
+    const select = document.createElement('select');
+    select.classList.add('z-index');
+    const standardOption = document.createElement('option');
+    standardOption.value = 'standard';
+    standardOption.text = standardText;
+
+    const defaultFontOptGroup = document.createElement('optgroup');
+    defaultFontOptGroup.label = defaultText;
+    defaultFontOptGroup.appendChild(standardOption);
+
+    select.appendChild(defaultFontOptGroup);
+
+
+    const dyslexicOption = document.createElement('option');
+    dyslexicOption.value = 'dyslexic';
+    dyslexicOption.text = dyslexicText;
+    select.add(dyslexicOption);
+
+    const dyslexicOptGroup = document.createElement('optgroup');
+    dyslexicOptGroup.label = dyslexicDesc;
+    dyslexicOptGroup.appendChild(dyslexicOption);
+    select.appendChild(dyslexicOptGroup);
+
+    const hyperlegibleOption = document.createElement('option');
+    hyperlegibleOption.value = 'hyperlegible';
+    hyperlegibleOption.text = hyperlegibleText;
+    select.add(hyperlegibleOption);
+
+    const hyperlegibleOptGroup = document.createElement('optgroup');
+    hyperlegibleOptGroup.label = hyperlegibleDesc;
+    hyperlegibleOptGroup.appendChild(hyperlegibleOption);
+    select.appendChild(hyperlegibleOptGroup);
+
+    const opensansOption = document.createElement('option');
+    opensansOption.value = 'Open Sans';
+    opensansOption.text = opensansText;
+    select.add(opensansOption);
+
+    const robotoOption = document.createElement('option');
+    robotoOption.value = 'Roboto';
+    robotoOption.text = robotoText;
+    select.add(robotoOption);
+
+    const latoOption = document.createElement('option');
+    latoOption.value = 'Lato';
+    latoOption.text = latoText;
+    select.add(latoOption);
+
+    const montserratOption = document.createElement('option');
+    montserratOption.value = 'Montserrat';
+    montserratOption.text = montserratText;
+    select.add(montserratOption);  
+    
+
+    const highLegibilityOptGroup = document.createElement('optgroup');
+    highLegibilityOptGroup.label = highLegibilityDesc;
+    highLegibilityOptGroup.appendChild(latoOption);
+    highLegibilityOptGroup.appendChild(montserratOption);
+    highLegibilityOptGroup.appendChild(opensansOption);
+    highLegibilityOptGroup.appendChild(robotoOption);
+    
+    
+    
+    select.appendChild(highLegibilityOptGroup);
+
+    // Seleccionar la opción correspondiente al cargar la página
+    if (font === originalFont) { // Nueva condición
+    select.selectedIndex = 0; // Nueva línea
+    } else if (font === 'OpenDyslexic') {
+    select.selectedIndex = 1;
+    } else if (font === 'Atkinson Hyperlegible') {
+    select.selectedIndex = 2;
+    } else if (font === 'Roboto') {
+    select.selectedIndex = 6;
+    } else if (font === 'Lato') {
+    select.selectedIndex = 3;
+    } else if (font === 'Open Sans') {
+    select.selectedIndex = 5;
+    } else if (font === 'Montserrat') {
+    select.selectedIndex = 4;
+    }
+
+    select.addEventListener('change', () => {
+    const font = select.value;
+    if (font === 'standard') {
+    setFont(originalFont);
+    fontSize = originalFontSize;
+    localStorage.setItem('fontSize', fontSize);
+    document.body.style.fontSize = localStorage.getItem('originalFontSize');
+    } else if (font === 'dyslexic') {
+    setFont('OpenDyslexic');
+    } else if (font === 'hyperlegible') {
+    setFont('Atkinson Hyperlegible');
+    } else if (font === 'Open Sans') {
+    setFont('Open Sans');
+    } else if (font === 'Roboto') {
+    setFont('Roboto');
+    } else if (font === 'Lato') {
+    setFont('Lato');
+    }  else if (font === 'Montserrat') {
+    setFont('Montserrat');
+    }
+    });
+
+    selectContainer.appendChild(select);
+    fontButtonContainer.appendChild(selectContainer);
+    
+
+    const increaseFontButton = document.createElement('button');
+    increaseFontButton.classList.add('font-button');
+    increaseFontButton.textContent = increaseFontText;
+    increaseFontButton.setAttribute('title', increaseFontTitle);
+    increaseFontButton.addEventListener('click', () => setFontSize(1));
+    fontButtonContainer.appendChild(increaseFontButton);
+
+    const decreaseFontButton = document.createElement('button');
+    decreaseFontButton.classList.add('font-button');
+    decreaseFontButton.textContent = decreaseFontText;
+    decreaseFontButton.setAttribute('title', decreaseFontTitle);
+    decreaseFontButton.addEventListener('click', () => setFontSize(-1));
+    fontButtonContainer.appendChild(decreaseFontButton);
+    
+    const translateButton = document.createElement('button');
+    translateButton.classList.add('font-button');
+    translateButton.textContent = translateText;
+    translateButton.setAttribute('title', translateTitle);
+    translateButton.addEventListener('click', toggleGoogleTranslateWidget);
+    fontButtonContainer.appendChild(translateButton);
+
+  // Botón para leer en voz alta
+    const readButton = document.createElement('button');
+    readButton.classList.add('font-button');
+    readButton.textContent = readText;
+    readButton.setAttribute('title', readTextTitle);
+    
+    readButton.addEventListener('click', () => {
+    let selectedText = window.getSelection().toString();
+    let text = '';
+    let lang = document.documentElement.lang;
+    if (selectedText !== '') {
+      text = selectedText;
+      let selectedNode = window.getSelection().anchorNode;
+      while (selectedNode && selectedNode.nodeType !== Node.ELEMENT_NODE) {
+        selectedNode = selectedNode.parentNode;
+      }
+      if (selectedNode) {
+        const selectedLang = selectedNode.getAttribute('lang');
+        if (selectedLang) {
+          lang = selectedLang;
+        }
+      }
+    } else {
+      text = document.body.innerText;
+      const bodyLang = document.body.getAttribute('lang');
+      if (bodyLang) {
+        lang = bodyLang;
+      }
+    }
+
+    utterance.lang = lang;
+    utterance.text = text;
+
+    if (!isReading) {
+      isReading = true;
+      readButton.textContent = `${stopText} (${lang})`;
+      readButton.setAttribute('title', stopTextTitle);
+      speechSynthesis.speak(utterance);
+    } else {
+      isReading = false;
+      readButton.textContent = readText;
+      readButton.setAttribute('title', readTextTitle);
+      speechSynthesis.cancel();
+    }
+
+    utterance.addEventListener('end', () => {
+      isReading = false;
+      readButton.textContent = readText;
+      readButton.setAttribute('title', readTextTitle);
+    });
+  });  
+    
+    fontButtonContainer.appendChild(readButton);
+    
+  // Botón para que la barra esté siempre visible
+    const floatingButton = document.createElement('button');
+    floatingButton.classList.add('font-button');
+    floatingButton.textContent = floatingFloat;
+    floatingButton.setAttribute('title', floatingFloatTitle);
+    floatingButton.addEventListener('click', () => {
+    if (floatingButton.textContent === floatingFix) {
+      fontButtonContainer.style.position = 'static';
+      floatingButton.textContent = floatingFloat;
+      floatingButton.setAttribute('title', floatingFloatTitle);
+      localStorage.setItem('floatState', 'static');
+    } else {
+      fontButtonContainer.style.position = 'fixed';
+      floatingButton.textContent = floatingFix;
+      floatingButton.setAttribute('title', floatingFixTitle);
+      localStorage.setItem('floatState', 'fixed');
+    }
+  });
+
+    
+
+    let floatState = localStorage.getItem('floatState');
+    if (!floatState) {
+      floatState = 'static';
+      floatingButton.textContent = floatingFix;
+      floatingButton.setAttribute('title', floatingFixTitle);
+    }
+    if (floatState === 'fixed') {
+      fontButtonContainer.style.position = 'fixed';
+      floatingButton.textContent = floatingFix;
+      floatingButton.setAttribute('title', floatingFixTitle);
+    } else {
+      fontButtonContainer.style.position = 'static';
+      floatingButton.textContent = floatingFloat;
+      floatingButton.setAttribute('title', floatingFloatTitle);
+    }
+    
+    localStorage.setItem('floatState', floatState);
+    
+  fontButtonContainer.appendChild(floatingButton);
+
+
+    const infoLink = document.createElement('a');
+    infoLink.textContent = infoText;
+    infoLink.href = infoTextLink;
+    infoLink.target = '_blank';
+    infoLink.style.marginLeft = '8px';
+    infoLink.style.fontSize = '12px';
+    fontButtonContainer.appendChild(infoLink);
+
+    
+    infoLink.classList.add('z-index');
+
+    document.body.insertBefore(fontButtonContainer, document.body.firstChild);
+   
+  });
+  
+  
+
+</script>
+</head>
+<body class="exe-web-site" id="exe-node-76"><script type="text/javascript">document.body.className+=" js"</script>
+<div id="content">
+<p id="skipNav"><a href="#main" class="sr-av">Omet navegació</a></p>
+<header id="header" ><div id="headerContent">Kit de primer auxilis digitals</div></header>
+<nav id="siteNav">
+<ul>
+   <li><a href="index.html" class="daddy main-node">KIT PRIMERS AUXILIS DIGITALS</a></li>
+   <li><a href="correu_gva.html" class="no-ch">Correu GVA</a></li>
+   <li><a href="aules.html" class="no-ch">Aules</a></li>
+   <li id="active"><a href="one_drive.html" class="active no-ch">One Drive</a></li>
+   <li><a href="teams.html" class="daddy">Teams</a>
+   <ul class="other-section">
+      <li><a href="netiqueta.html" class="no-ch">Netiqueta</a></li>
+   </ul>
+   </li>
+   <li><a href="navegaci_bsqueda_i_filtratge_dinformaci.html" class="daddy">Navegació, búsqueda i filtratge d'informació</a>
+   <ul class="other-section">
+      <li><a href="padlet.html" class="no-ch">Padlet</a></li>
+      <li><a href="busqueda_dimatges_en_google.html" class="no-ch">Busqueda d'imatges en Google</a></li>
+   </ul>
+   </li>
+   <li><a href="creacci_de_continguts.html" class="daddy">Creacció de continguts</a>
+   <ul class="other-section">
+      <li><a href="desenvolupament_de_continguts_digitals.html" class="no-ch">Desenvolupament de continguts digitals</a></li>
+   </ul>
+   </li>
+   <li><a href="_fitxa_tcnica_i_descarrega_.html" class="no-ch">- Fitxa tècnica i descarrega -</a></li>
+</ul>
+</nav>
+<div id='topPagination'>
+<nav class="pagination noprt">
+<a href="aules.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="teams.html" class="next"><span>Següent<span> &raquo;</span></span></a>
+</nav>
+</div>
+<div id="main-wrapper">
+<section id="main">
+<header id="nodeDecoration"><h1 id="nodeTitle">One Drive</h1></header>
+<article class="iDevice_wrapper textIdevice em_iDevice" id="id279">
+<div class="iDevice emphasis1" >
+<header class="iDevice_header iDevice_header_noIcon"><h1 class="iDeviceTitle">Instruccions bàsiques d'us</h1></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta279_279_2" class="block iDevice_content">
+<div class="exe-text"><table border="0" style="width: 100%; height: 22px;">
+<tbody>
+<tr style="height: 22px;">
+<td style="width: 29.0145%; height: 22px;"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW59049509 BCX0" role="presentation"><img class="WACImage SCXW59049509 BCX0" unselectable="on" src="img0.5.png" width="633" height="356" style="float: left;" /></span></td>
+<td style="width: 70.9855%; height: 22px;">
+<p><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW59049509 BCX0" role="presentation">OneDrive guarda automàticament el document que estem creant i les modificacions posteriors que s’hi fan (per tant, no hem de guardar-lo quan estem creant-lo ni quan li fem canvis). </span><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW59049509 BCX0" role="presentation"></span></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: left;"></p>
+<p style="text-align: left;"><span data-contrast="auto" xml:lang="CA-ES" lang="CA-ES" class="TextRun MacChromeBold SCXW59049509 BCX0"></span></p>
+<div class="exe-fx exe-tabs">
+<h2>REAR UN DOCUMENT WORD I COMPARTIR-LO SOLS EN MODE VISUALITZACIÓ </h2>
+<p>El destinatari no podrà editar-lo.  </p>
+<ol>
+<li>En un navegador (Lliurex, Chrome, Firefox...) escriure “office 365 edu” <a href="https://www.office.com/">https://www.office.com/</a> i triar OneDrive (icona del núvol). Si no hi apareix, punxar el quadrat amb punts de la part superior esquerra del outlook i buscar-lo (ahí ens apareixen totes les aplicacions de Microsoft per a educació). </li>
+<li>Ja dins de OneDrive, triar “afegeix-ne un de nou” i “carpeta”; posar-li de nom a la carpeta “ONEDRIVE_PROJECTE_DIGITAL”    </li>
+<li>Dins de la carpeta, punxar en “afegeix-ne un de nou” i triar “document del Word”. Per a posar-li nom al doc. hi ha diverses opcions:  <br />
+<ol style="list-style-type: lower-alpha;">
+<li>Des de “fitxer”, “anomena i desa”, </li>
+<li>La primera línia escrita és normalment agafada com a nom del doc.; si volem canviar el nom dins del doc., en la barra blava de dalt podem modificar-lo. </li>
+</ol>
+</li>
+<li>Afegir capçalera i número de pàgina: en “inserció”, “capçalera i peu de pàgina”, escriure el text “OneDrive_Doc.1”, triar en opcions “per a tot el doc.” i dins dels requadres el lloc de la pàg. on volem que aparega (esquerra, mig o dreta). Per a vore la capçalera s’ha d’anar a “visualització”, “visualització de lectura” (des del doc. no es pot vore la capçalera ni el núm de pàgina però si hi estaran). Per a tornar al doc i seguir escrivint, punxar de nou sobre “capçalera i peu de pàgina”. </li>
+<li>Redactar el text, el qual serà una mena de presentació curta o descripció d’un mateix (nom, edat, aficions, menjar preferit...), què han fet a l’estiu, el que més els ha agradat, on han estat, etc. Posar el títol (el nom d’un mateix) en negreta (millor si primer escrivim el títol, se selecciona amb el botó esquerre del ratolí i després es tria la icona de negreta ) i per a centrar-lo, cal triar l’opció des del menú d’alineació de les barres horitzontals de la barra superior del text    </li>
+<li>Es pot enriquir el text i posar curseta en algunes paraules o expressions importants; justificació a l’esquerra o central -com més agrade; ressaltar text amb diferents colors o mides... </li>
+<li>Afegir una imatge adient al text (un dibuix que se semble a l’alumne, una afició, un lloc visitat...) del Creative Commons (sense drets d’autor): des de la pestanya “inserció”, “imatge”, “cerca al web” i posar el text “imatge Creative Commons” imatges_creative_commons </li>
+<li>Es pot inserir un enllaç a alguna pàgina que els agrade relacionada amb el text; per a això anar a “inserció” i triar “enllaç” (si no hi apareix l’opció, punxar en els tres puntets del final de la barra i triar “franja clàssica” per a què hi apareguen totes les opcions). </li>
+<li>Compartir el document amb un company/a. Hi ha diferents opcions per a fer-ho. <br />
+<ol style="list-style-type: lower-alpha;">
+<li>Des de dins del doc., anar a “fitxer”, “compartir” i posar l’adreça de qui rebrà el doc. </li>
+<li>Des de fora d’ell, seleccionar la icona d’una fletxa cap a la dreta   <br />En ambdós casos, seleccionar els permisos que volem donar-li a la persona que el rebrà: editar, visualitzar o revisar. En aquest primer document triem que sols puguen visualitzar-lo.  <br />
+<table border="0" style="width: 100%; height: 20px;">
+<tbody>
+<tr style="height: 20px;">
+<td style="width: 22.4026%; height: 20px;"><span class="WACImageContainer NoPadding DragDrop BlobObject SCXW191225965 BCX0" role="presentation"><img class="WACImage SCXW191225965 BCX0" unselectable="on" src="img1.2.png" width="438" height="268" alt="" /><span class="WACImageBorder SCXW191225965 BCX0"></span></span><span data-contrast="none" xml:lang="ES-ES" lang="ES-ES" class="TextRun EmptyTextRun SCXW191225965 BCX0"></span></td>
+<td style="width: 77.5974%; height: 20px;">
+<ul>
+<li><span style="font-size: 12pt;">Posar el correu del destinatari . </span></li>
+<li><span style="font-size: 12pt;">Podem escriure un text que acompanyarà el correu que rebrà; també es pot copiar l’enllaç del document i incrustar-lo en un correu Outlook o en el propi quadre que ens apareix per a escriure el text que acompanyarà el correu i el doc. </span></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<span style="font-size: 0.95em;"> </span></li>
+</ol>
+</li>
+</ol>
+<h2><span data-contrast="none" xml:lang="CA-ES" lang="CA-ES" class="TextRun Highlight SCXW66895121 BCX0"><span class="NormalTextRun SCXW66895121 BCX0"> CREAR UN DOC WORD, COMPARTIR-LO I </span></span><span data-contrast="none" xml:lang="CA-ES" lang="CA-ES" class="TextRun Highlight MacChromeBold SCXW66895121 BCX0"><span class="NormalTextRun SCXW66895121 BCX0">PODER EDITAR-LO</span></span><span data-contrast="none" xml:lang="CA-ES" lang="CA-ES" class="TextRun Highlight SCXW66895121 BCX0"><span class="NormalTextRun SCXW66895121 BCX0"> TOTS ELS PROPIETARIS</span></span><span class="EOP SCXW66895121 BCX0" data-ccp-props="{&quot;201341983&quot;:0,&quot;335559685&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:259}"> </span></h2>
+<ol>
+<li data-leveltext="%1." data-font="Calibri" data-listid="4" data-list-defn-props="{&quot;335552541&quot;:0,&quot;335559684&quot;:-1,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769242&quot;:[65533,0],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;%1.&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="1" data-aria-level="1"><span data-contrast="auto">En </span><b><span data-contrast="auto">“afegeix-ne un de nou”</span></b><span data-contrast="auto">, triar un doc. </span><b><i><span data-contrast="auto">Word</span></i></b> <span data-contrast="auto">i copiar el text del doc. 1 que es considere. Per a això, seleccionar el que es vol i amb el cursor damunt d’eixa selecció, prémer el botó de la dreta del ratolí i “copiar”, o les tecles Ctrl i C; després anar a aquest doc. 2 i amb el botó de la dreta del ratolí “enganxar” o amb les tecles Ctrl i V.</span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:259}"> </span></li>
+<li data-leveltext="%1." data-font="Calibri" data-listid="4" data-list-defn-props="{&quot;335552541&quot;:0,&quot;335559684&quot;:-1,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769242&quot;:[65533,0],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;%1.&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="1" data-aria-level="1">Es pot posar en la <b style="color: #333333; font-size: 1.1em;"><span data-contrast="auto">capçalera</span></b><span data-contrast="auto" style="color: #333333; font-size: 1.1em;"> “OneDrive_Doc.2”, </span><b style="color: #333333; font-size: 1.1em;"><span data-contrast="auto">números de pàgina ...</span></b><span data-contrast="auto" style="color: #333333; font-size: 1.1em;"> (per tornar a practicar diferents ferramentes d'enriquiment del document).</span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:259}" style="color: #333333; font-size: 1.1em;"> </span></li>
+<li data-leveltext="%1." data-font="Calibri" data-listid="4" data-list-defn-props="{&quot;335552541&quot;:0,&quot;335559684&quot;:-1,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769242&quot;:[65533,0],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;%1.&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="1" data-aria-level="1">Seguir els passos per a <b style="color: #333333; font-size: 1.1em;"><span data-contrast="auto">compartir-lo</span></b><span data-contrast="auto" style="color: #333333; font-size: 1.1em;">, amb la </span><span data-contrast="auto" style="color: #333333; font-size: 1.1em;">selecció del permís d’edició</span><span data-contrast="auto" style="color: #333333; font-size: 1.1em;"> dins el menú de compartir.</span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:259}" style="color: #333333; font-size: 1.1em;"> </span></li>
+<li data-leveltext="%1." data-font="Calibri" data-listid="4" data-list-defn-props="{&quot;335552541&quot;:0,&quot;335559684&quot;:-1,&quot;335559685&quot;:720,&quot;335559991&quot;:360,&quot;469769242&quot;:[65533,0],&quot;469777803&quot;:&quot;left&quot;,&quot;469777804&quot;:&quot;%1.&quot;,&quot;469777815&quot;:&quot;hybridMultilevel&quot;}" aria-setsize="-1" data-aria-posinset="1" data-aria-level="1">El <b style="color: #333333; font-size: 1.1em;"><span data-contrast="auto">destinatari afegeix el text</span></b><span data-contrast="auto" style="color: #333333; font-size: 1.1em;"> que vulga del seu doc 1 i tots dos practiquen el treballar simultàniament al mateix document des de diferents dispositius (fins i tot des d’aparells mòbils).</span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:259}" style="color: #333333; font-size: 1.1em;"> </span></li>
+</ol>
+</div>
+<p style="text-align: left;"></p></div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<div id="packageLicense" class="cc cc-by-sa">
+<p><span>Llicenciat sota la </span> <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Llicència Creative Commons Reconeixement CompartirIgual 4.0</a></p>
+</div>
+</section>
+</div>
+<div id='bottomPagination'>
+<nav class="pagination noprt">
+<a href="aules.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="teams.html" class="next"><span>Següent<span> &raquo;</span></span></a>
+</nav>
+</div>
+</div>
+<p id="made-with-eXe"><a href="https://exelearning.net/" target="_blank" rel="noopener"><span>Creat amb eXeLearning<span> (Finestra nova)</span></span></a></p><script type="text/javascript" src="_cedec_js.js"></script></body></html>
